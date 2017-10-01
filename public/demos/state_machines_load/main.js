@@ -1,4 +1,18 @@
 
+// the actual App state once everything is loaded
+var App = {
+
+    create : function () {
+
+        game.add.sprite(0, 0, 'phaser');
+
+    },
+
+    update : function () {}
+
+};
+
+// the load state
 var Load = {
 
     preload : function () {
@@ -16,6 +30,8 @@ var Load = {
 
         }, this);
         game.load.onLoadComplete.add(function () {}, this);
+
+        game.load.image('phaser', '/img/phaser.png');
 
         /*
         app.load.spritesheet('button', 'img/button.png', 160, 45);
@@ -38,14 +54,20 @@ var Load = {
 
         //app.state.start('title');
 
+        game.state.add('app', App);
+        game.state.start('app');
+
         console.log('we be good man');
 
     }
 
 };
 
+// the main game variable
 var game = (function () {
 
+    // the main or boot state
+    // this is where it all starts
     return new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
         preload : function () {
