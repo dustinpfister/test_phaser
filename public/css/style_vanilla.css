@@ -1,0 +1,19 @@
+.logo_phaser{
+/*
+native
+    width : 635px;
+    height : 545px;
+*/
+
+    width : 317px;
+    height : 272px;
+    display: block;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.title {
+
+    text-align:center;
+
+}
