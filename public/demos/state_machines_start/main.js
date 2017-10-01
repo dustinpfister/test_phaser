@@ -1,10 +1,14 @@
-console.log('main.js');
-var bx, i = 0, maxI = 100;
-var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
+var game = (function () {
+
+    var bx, // ref to graphics object
+    i = 0,
+    maxI = 100;
+
+    return new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
+
+        // create method
         create : function () {
-
-            console.log(game.add);
 
             bx = game.add.graphics(0, 0);
 
@@ -14,6 +18,7 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
         },
 
+        // the update method will be called on each tick
         update : function () {
 
             var r = Math.PI * 2 / maxI * i;
@@ -32,3 +37,6 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
         }
 
     });
+
+}
+    ());
