@@ -1,6 +1,8 @@
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+game.transparent = true;
+
 game.state.add('circles',
 
     // so I want to place some stuff in a closure
