@@ -141,48 +141,121 @@ console.log(game.state.states.func);
 //game.state.start('default');
  */
 
+/*
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('setup',
 
-    (function () {
+(function () {
 
-        var box = {};
+var box = {},
+cr;
 
-        // return the state object
-        return {
+// return the state object
+return {
 
-            // an init method with a param object
-            init : function (param) {
+// an init method with a param object
+init : function (param) {
 
-                console.log(param);
+console.log(param);
 
-                box = {
+box = {
 
-                    x : param.x || 0,
-                    y : param.y || 0,
-                    dx : param.dx || 1,
-                    dy : param.dy || 0
+sx : param.x === undefined ? 0 : param.x,
+sy : param.y === undefined ? 0 : param.y,
+dx : param.dx === undefined ? 1 : param.dx,
+dy : param.dy === undefined ? 0 : param.dy
 
-                }
+};
 
-            },
+box.x = box.sx;
+box.y = box.sy;
 
-            // a core update method
-            update : function () {
+},
 
-                box.x += box.dx;
-                box.y += box.dy;
+create : function () {
 
-            }
+cr = game.add.graphics(box.x, box.y);
 
-        };
+cr.beginFill(0x00ff00);
+cr.drawCircle(50, 50, 100);
+cr.endFill();
 
-    }
-        ()));
+},
 
+// a core update method
+update : function () {
+
+// move box x, by its delta
+box.x += box.dx;
+box.y += box.dy;
+
+cr.x = box.x;
+cr.y = box.y;
+
+// set some conditions for the circle to come back home
+if (box.x > 1000 || box.x < -1000 || box.y > 1000 || box.y < -1000) {
+
+box.x = box.sx;
+box.y = box.sy;
+
+}
+
+}
+
+};
+
+}
+()));
+
+// staring moveCircle with  a param object
 game.state.start('setup', true, false, {
 
-    foo : 'bar'
+x : 100,
+y : 60,
+dx : 5,
+dy : -1
 
-})
+});
+ */
+
+/*
+var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+
+game.state.add('default',{
+
+        create : function () {
+
+            console.log('hello world!');
+
+        }
+
+    },true);
+*/
+
+var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+
+game.state.add('foo',{
+
+        create : function () {
+
+            console.log('foo!');
+
+            // starting foo
+            game.state.start('bar');
+
+        }
+
+    });
+
+game.state.add('bar',{
+
+        create : function () {
+
+            console.log('bar!');
+
+        }
+
+    });
+
+game.state.start('foo'); // foo! bar!
