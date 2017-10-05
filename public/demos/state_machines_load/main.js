@@ -1,16 +1,23 @@
 
-// the actual App state once everything is loaded
-var App = {
+// th Boot State
+var Boot = {
 
-    create : function () {
+    preload : function () {
 
-        game.add.sprite(0, 0, 'phaser');
+        game.load.image('loadingbar', '/img/loadingbar.png');
 
     },
 
-    update : function () {}
+    // create method
+    create : function () {
+
+        game.state.add('load', Load);
+        game.state.start('load');
+
+    }
 
 };
+
 
 // the load state
 var Load = {
@@ -31,63 +38,36 @@ var Load = {
         }, this);
         game.load.onLoadComplete.add(function () {}, this);
 
+        // start loading the asset files
         game.load.image('phaser', '/img/phaser.png');
-
-        /*
-        app.load.spritesheet('button', 'img/button.png', 160, 45);
-        app.load.spritesheet('icons', 'img/icons.png', 32, 32);
-        app.load.image('tiles', 'img/tiles2.png');
-        app.load.spritesheet('tiles_split', 'img/tiles2.png', 16, 16);
-        app.load.bitmapFont('desyrel', 'img/desyrel.png', 'img/font1.xml');
-        app.load.image('logo', 'img/logo.png');
-
-         */
 
     },
 
+    // when done create will be called
     create : function () {
 
-        //app.state.add('title', Title);
-        //app.state.add('dig_run', DIG.run);
-        //app.state.add('dig_over', DIG.over);
-        //app.state.add('dig_options', DIG.options);
-
-        //app.state.start('title');
-
-        game.state.add('app', App);
-        game.state.start('app');
-
-        console.log('we be good man');
+        console.log('ready to rock!');
+        game.state.add('game', Game);
+        game.state.start('game');
 
     }
 
 };
 
+
+// the actual Game state once everything is loaded
+var Game = {
+
+    create : function () {
+
+        game.add.sprite(0, 0, 'phaser');
+
+    },
+
+    update : function () {}
+
+};
+
 // the main game variable
-var game = (function () {
+var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', Boot);
 
-    // the main or boot state
-    // this is where it all starts
-    return new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
-
-        preload : function () {
-
-            game.load.image('loadingbar', '/img/loadingbar.png');
-
-        },
-
-        // create method
-        create : function () {
-
-            game.state.add('load', Load);
-            game.state.start('load');
-
-        },
-
-        // the update method will be called on each tick
-        update : function () {}
-
-    });
-
-}
-    ());
