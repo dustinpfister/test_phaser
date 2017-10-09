@@ -29,14 +29,12 @@ var Load = {
         loadSprite.x = game.world.centerX - loadSprite.width / 2;
         loadSprite.y = game.world.centerY - 16;
 
-        game.load.onLoadStart.add(function () {}, this);
         game.load.onFileComplete.add(function (progress) {
 
             loadSprite.width = game.width * (progress / 100);
             loadSprite.x = game.world.centerX - loadSprite.width / 2;
 
         }, this);
-        game.load.onLoadComplete.add(function () {}, this);
 
         // start loading the asset files
         game.load.image('phaser', '/img/phaser.png');
