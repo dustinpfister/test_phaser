@@ -75,6 +75,11 @@ var game = new Phaser.Game(640, 480, Phaser.AUTO, 'gamearea', {
             bx.endFill();
             //game.add.text(20, 40, 'tx1', st);
 
+            bx.inputEnabled = true;
+
+            console.log(game.input);
+            console.log(bx.input);
+
         },
 
         update : function () {
