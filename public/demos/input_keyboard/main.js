@@ -16,6 +16,21 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
             sprite.width = 80;
             sprite.height = 80;
 
+            console.log('keyboard');
+            console.log(Phaser.Keyboard.LEFT);
+
+            /*
+            game.input.keyboard.onPressCallback = function(key,e){
+
+            if(key === 'a'){
+
+            sprite.x -= 1;
+
+            }
+
+            };
+             */
+
         },
 
         update : (function () {
@@ -24,12 +39,8 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
             lt = new Date(),
             rate = 1000 / 12,
 
-            walk = function (sprite, pt) {
-
-                var r = Math.atan2(pt.y - sprite.y, pt.x - sprite.x);
-
-                sprite.x += Math.cos(r);
-                sprite.y += Math.sin(r);
+            // walk animation
+            walk = function (sprite) {
 
                 sprite.frame = f + 2;
 
@@ -48,19 +59,52 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
             };
 
+            console.log('yeah');
+            console.log('S'.charCodeAt(0));
+
             return function () {
 
                 var sprite = game.world.children[0],
-                pt = game.input.activePointer;
+                k = game.input.keyboard,
+                w = false;
+                //pt = game.input.activePointer;
 
-                if (pt.isDown) {
+                // A
+                if (k.isDown(65)) {
 
-                    walk(sprite, pt);
+                    sprite.x -= 1;
+                    w = true;
 
-                } else {
+                }
 
-                    // chicken is at rest state
-                    sprite.frame = 0;
+                // D
+                if (k.isDown(68)) {
+
+                    sprite.x += 1;
+                    w = true;
+                }
+
+                // W
+                if (k.isDown(87)) {
+
+                    sprite.y -= 1;
+                    w = true;
+                }
+
+                // S
+                if (k.isDown(83)) {
+
+                    sprite.y += 1;
+                    w = true;
+
+                }
+
+                // default sprite to frame 0
+                sprite.frame = 0;
+
+                if (w) {
+
+                    walk(sprite);
 
                 }
 
