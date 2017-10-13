@@ -22,7 +22,31 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
             var f = 0,
             lt = new Date(),
-            rate = 1000 / 12;
+            rate = 1000 / 12,
+
+            walk = function (sprite, pt) {
+
+                var r = Math.atan2(pt.y - sprite.y, pt.x - sprite.x);
+
+                sprite.x += Math.cos(r);
+                sprite.y += Math.sin(r);
+
+                sprite.frame = f + 2;
+
+                if (new Date() - lt > rate) {
+
+                    f += 1;
+                    if (f == 2) {
+
+                        f = 0;
+
+                    }
+
+                    lt = new Date();
+
+                }
+
+            };
 
             return function () {
 
@@ -31,25 +55,7 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
                 if (pt.isDown) {
 
-                    var r = Math.atan2(pt.y - sprite.y, pt.x - sprite.x);
-
-                    sprite.x += Math.cos(r);
-                    sprite.y += Math.sin(r);
-
-                    sprite.frame = f + 2;
-
-                    if (new Date() - lt > rate) {
-
-                        f += 1;
-                        if (f == 2) {
-
-                            f = 0;
-
-                        }
-
-                        lt = new Date();
-
-                    }
+                    walk(sprite, pt);
 
                 } else {
 
