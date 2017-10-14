@@ -1,22 +1,26 @@
 
 var game = (function () {
 
-    var tx;
+    var tx,
+    foos = 0;
 
     return new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
         // create method
         create : function () {
 
-		    var style = {fill:'#ffffff'};
-            bx = game.add.text(20,20,'foo', style);
+            tx = game.add.text(20, 20, '', {
+                    fill : '#ffffff'
+                });
 
         },
 
         // the update method will be called on each tick
         update : function () {
 
+            tx.text = 'foos: ' + foos;
 
+            foos += 1;
         }
 
     });
