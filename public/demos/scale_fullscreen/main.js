@@ -12,6 +12,8 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
             game.stage.backgroundColor = '#2a2a2a';
 
+
+
             game.input.onDown.add(function () {
 
                 // Stretch to fill
