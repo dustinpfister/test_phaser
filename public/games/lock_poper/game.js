@@ -3,7 +3,7 @@ var Game = (function () {
 
     // STATE VARIABLES
     var point, // point display object
-    maxI = 30, // max index for a point
+    maxI = 200, // max index for a point
     i = 0, // point index
     di = 1, // delta index
 
@@ -19,9 +19,9 @@ var Game = (function () {
     win = false, // win is false by default
     // tolerance is the number of index positions before and after the
     // current index where the player has a chance to act
-    tolerence = 3,
+    tolerence = 5,
 
-    tickRate = 100, // tick rate
+    tickRate = 24, // tick rate
     lastTick = new Date(), //the last game tick
 
     // text disp objects
@@ -99,7 +99,7 @@ var Game = (function () {
                     win = true;
                     gameOver = true;
 
-                    //tarMaxCount += 1;
+                    tarMaxCount += 1;
 
                 } else {
 
