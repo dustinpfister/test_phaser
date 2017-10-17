@@ -135,6 +135,8 @@ var Game = (function () {
             };
 
             // text disp objects
+			
+            text_count = game.add.text(game.world.centerX, game.world.centerY, '', style);
             text_index = game.add.text(5, 5, '', style);
             text_dist = game.add.text(5, 20, '', style);
             text_status = game.add.text(5, 35, '', style);
@@ -189,6 +191,7 @@ var Game = (function () {
             setPoint(target, tarI);
 
             // update text disp objects
+			text_count.text = tarCount;
             text_index.text = 'index: ' + i + '/' + maxI;
             text_dist.text = 'dist: ' + d;
             text_status.text = 'CD: ' + canDie + ', GO: ' + gameOver + ',W: ' + win;
