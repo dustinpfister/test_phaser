@@ -169,7 +169,7 @@ var Game = (function () {
             // update text disp objects
             text_index.text = 'index: ' + i + '/' + maxI;
             text_dist.text = 'dist: ' + d;
-            text_status.text = 'canDie: ' + canDie + ', gameOver: ' + gameOver;
+            text_status.text = 'CD: ' + canDie + ', GO: ' + gameOver + ',W: ' + win;
 
             if (!gameOver) {
 
