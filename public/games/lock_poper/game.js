@@ -1,16 +1,21 @@
 // the actual Game state once everything is loaded
 var Game = (function () {
 
-    // State variables
+    // STATE VARIABLES
     var point, // point display object
     maxI = 70, // max index for a point
     i = 0, // point index
     di = 1, // delta index
 
+    // target point
     target,
     tarI = 0,
 
-    tickRate = 12, // tick rate
+    // game status
+    gameOver = false,
+    canDie = false,
+
+    tickRate = 100, // tick rate
     lastTick = new Date(), //the last game tick
 
     // text disp objects
@@ -26,9 +31,26 @@ var Game = (function () {
 
     },
 
+    // get a new index that is a safe distance from the given point
     newIndex = function (i) {
 
         return normPTI(i + maxI / 2);
+
+    },
+
+    // distance between two points on a circle
+    dist = function (a, b) {
+
+        var h = maxI / 2,
+        diff = normPTI(a - b);
+
+        if (diff > h) {
+
+            diff -= maxI;
+
+        }
+
+        return Math.abs(diff);
 
     };
 
@@ -44,6 +66,7 @@ var Game = (function () {
 
             // text disp objects
             text_index = game.add.text(5, 5, '', style);
+            text_dist = game.add.text(5, 20, '', style);
 
             // point disp object
             target = game.add.graphics(0, 0);
@@ -57,6 +80,8 @@ var Game = (function () {
             point.drawCircle(0, 0, game.world.width / 16);
             point.endFill();
 
+            console.log(dist(5, 99));
+
             // input
             game.input.onDown.add(function (pt, b) {
 
@@ -65,7 +90,7 @@ var Game = (function () {
             });
 
             // set a starting target index
-            tarI = newIndex(i);
+            tarI = 69; //newIndex(i);
 
         },
 
@@ -79,10 +104,11 @@ var Game = (function () {
             point.y = game.world.centerY + Math.sin(r) * (game.world.width / 4);
 
             r = Math.PI * 2 / maxI * tarI
-            target.x = game.world.centerX + Math.cos(r) * (game.world.width / 4);
+                target.x = game.world.centerX + Math.cos(r) * (game.world.width / 4);
             target.y = game.world.centerY + Math.sin(r) * (game.world.width / 4);
 
             text_index.text = 'index: ' + i + '/' + maxI;
+            text_dist.text = 'dist: ' + dist(i, tarI);
 
             if (now - lastTick >= tickRate) {
                 i += di;
