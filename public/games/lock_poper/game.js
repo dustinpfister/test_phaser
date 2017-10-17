@@ -55,6 +55,13 @@ var Game = (function () {
 
         return Math.abs(diff);
 
+    },
+
+    // set a point disp object with the given index
+    setPoint = function (dispObj, i) {
+        var r = Math.PI * 2 / maxI * i;
+        dispObj.x = game.world.centerX + Math.cos(r) * (game.world.width / 4);
+        dispObj.y = game.world.centerY + Math.sin(r) * (game.world.width / 4);
     };
 
     // return a phaser State object to the global
@@ -100,15 +107,10 @@ var Game = (function () {
         // what to do on each tick
         update : function () {
 
-            var r = Math.PI * 2 / maxI * i,
-            now = new Date();
+            var now = new Date();
 
-            point.x = game.world.centerX + Math.cos(r) * (game.world.width / 4);
-            point.y = game.world.centerY + Math.sin(r) * (game.world.width / 4);
-
-            r = Math.PI * 2 / maxI * tarI;
-            target.x = game.world.centerX + Math.cos(r) * (game.world.width / 4);
-            target.y = game.world.centerY + Math.sin(r) * (game.world.width / 4);
+            setPoint(point, i);
+            setPoint(target, tarI);
 
             text_index.text = 'index: ' + i + '/' + maxI;
             text_dist.text = 'dist: ' + dist(i, tarI);
