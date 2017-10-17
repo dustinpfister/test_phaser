@@ -3,10 +3,13 @@ var Game = (function () {
 
     // State variables
     var pt, // point display object
-    i = 0,  // point index
+    i = 0, // point index
     maxI = 70, // max index for a point
-    tickRate = 12,  // tick rate
+    tickRate = 12, // tick rate
     lastTick = new Date(), //the last game tick
+
+    // text disp objects
+    text_index,
 
     // HELPERS
     // normalize the given point index on a circle
@@ -21,8 +24,15 @@ var Game = (function () {
 
         create : function () {
 
-            //game.add.sprite(0, 0, 'phaser');
+            var style = {
+                fill : 'white',
+                font : '15px courier'
+            };
 
+            // text disp objects
+            text_index = game.add.text(5, 5, '', style);
+
+            // point disp object
             pt = game.add.graphics(0, 0);
             pt.beginFill(0x00ff00);
             pt.drawCircle(0, 0, game.world.width / 16);
@@ -38,6 +48,8 @@ var Game = (function () {
 
             pt.x = game.world.centerX + Math.cos(r) * (game.world.width / 4);
             pt.y = game.world.centerY + Math.sin(r) * (game.world.width / 4);
+
+            text_index.text = 'index: ' + i + '/' + maxI;
 
             if (now - lastTick >= tickRate) {
                 i += 1;
