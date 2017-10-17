@@ -77,6 +77,7 @@ var Game = (function () {
             // text disp objects
             text_index = game.add.text(5, 5, '', style);
             text_dist = game.add.text(5, 20, '', style);
+            text_status = game.add.text(5, 35, '', style);
 
             // point disp object
             target = game.add.graphics(0, 0);
@@ -95,8 +96,9 @@ var Game = (function () {
             // input
             game.input.onDown.add(function (pt, b) {
 
-                di = di === 1 ? -1 : 1;
+                //onAction();
 
+                di = di === 1 ? -1 : 1;
             });
 
             // set a starting target index
@@ -107,18 +109,43 @@ var Game = (function () {
         // what to do on each tick
         update : function () {
 
-            var now = new Date();
+            var now = new Date(),
+            d = dist(i, tarI);
 
+            // can the player die
+
+            // the canDie flag is set true
+            // if it is below tolerance
+            if (d <= tolerence) {
+
+                canDie = true;
+
+            }
+
+            if (canDie && d > tolerence) {
+
+                gameOver = true;
+
+            }
+
+            // update pointer disp objects
             setPoint(point, i);
             setPoint(target, tarI);
 
+            // update text disp objects
             text_index.text = 'index: ' + i + '/' + maxI;
-            text_dist.text = 'dist: ' + dist(i, tarI);
+            text_dist.text = 'dist: ' + d;
+            text_status.text = 'canDie: ' + canDie + ', gameOver: ' + gameOver;
 
-            if (now - lastTick >= tickRate) {
-                i += di;
-                i = normPTI(i);
-                lastTick = now;
+            if (!gameOver) {
+
+                // step index
+                if (now - lastTick >= tickRate) {
+                    i += di;
+                    i = normPTI(i);
+                    lastTick = now;
+                }
+
             }
 
         }
