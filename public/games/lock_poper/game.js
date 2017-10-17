@@ -10,7 +10,8 @@ var Game = (function () {
     // target point
     target,
     tarI = 0,
-    tarCount = 3, // number of targets
+    tarMaxCount = 3,
+    tarCount = tarMaxCount, // number of targets
 
     // game status
     gameOver = false,
@@ -66,33 +67,58 @@ var Game = (function () {
         dispObj.y = game.world.centerY + Math.sin(r) * (game.world.width / 4);
     },
 
+    // start a new game
+    newGame = function () {
+
+        i = 0;
+        tarI = newIndex(i);
+        tarCount = tarMaxCount;
+
+        gameOver = false;
+        canDie = false;
+        win = false;
+
+    },
+
+    // on user Action (touch or click)
     onAction = function () {
 
         var d = dist(i, tarI);
 
-        // reverse index delta
-        di = di === 1 ? -1 : 1;
+        if (!gameOver) {
+            // reverse index delta
+            di = di === 1 ? -1 : 1;
 
-        if (d <= tolerence) {
+            if (d <= tolerence) {
 
-            tarCount -= 1;
+                tarCount -= 1;
 
-            // hit target
-            if (tarCount <= 0) {
+                // hit target
+                if (tarCount <= 0) {
 
-                win = true;
-                gameOver = true;
+                    win = true;
+                    gameOver = true;
+
+                    //tarMaxCount += 1;
+
+                } else {
+
+                    tarI = newIndex(i);
+                    canDie = false;
+
+                }
 
             } else {
 
-                tarI = newIndex(i);
-                canDie = false;
+                gameOver = true;
 
             }
 
         } else {
 
-            gameOver = true;
+            console.log('game is over');
+
+            newGame();
 
         }
 
@@ -125,18 +151,14 @@ var Game = (function () {
             point.drawCircle(0, 0, game.world.width / 16);
             point.endFill();
 
-            console.log(dist(5, 99));
-
             // input
             game.input.onDown.add(function (pt, b) {
 
                 onAction();
 
-                //di = di === 1 ? -1 : 1;
             });
 
-            // set a starting target index
-            tarI = newIndex(i);
+            newGame();
 
         },
 
