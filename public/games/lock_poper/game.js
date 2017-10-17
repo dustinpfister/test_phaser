@@ -157,7 +157,27 @@ var Game = (function () {
             // input
             game.input.onDown.add(function (pt, b) {
 
-                onAction();
+                if (pt.x < 32 && pt.y < 32) {
+
+                    console.log('full screen');
+
+                    // if game is full screen
+                    if (game.scale.isFullScreen) {
+
+                        // turn it off
+                        game.scale.stopFullScreen();
+                    } else {
+
+                        // else turn it on
+                        game.scale.startFullScreen(false);
+                    }
+
+                } else {
+
+                    // else game action
+                    onAction();
+
+                }
 
             });
 
