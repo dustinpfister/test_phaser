@@ -1,12 +1,22 @@
 // the actual Game state once everything is loaded
 var Game = (function () {
 
-    var pt,
-    i = 0,
-    maxI = 70,
-    tickRate = 12,
-    lastTick = new Date();
+    // State variables
+    var pt, // point display object
+    i = 0,  // point index
+    maxI = 70, // max index for a point
+    tickRate = 12,  // tick rate
+    lastTick = new Date(), //the last game tick
 
+    // HELPERS
+    // normalize the given point index on a circle
+    normPTI = function (i) {
+
+        return i % maxI;
+
+    };
+
+    // return a phaser State object to the global
     return {
 
         create : function () {
@@ -20,6 +30,7 @@ var Game = (function () {
 
         },
 
+        // what to do on each tick
         update : function () {
 
             var r = Math.PI * 2 / maxI * i,
@@ -30,7 +41,7 @@ var Game = (function () {
 
             if (now - lastTick >= tickRate) {
                 i += 1;
-                i = i % maxI;
+                i = normPTI(i);
                 lastTick = now;
             }
 
