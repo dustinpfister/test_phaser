@@ -3,7 +3,7 @@ var Game = (function () {
 
     // STATE VARIABLES
     var point, // point display object
-    maxI = 70, // max index for a point
+    maxI = 30, // max index for a point
     i = 0, // point index
     di = 1, // delta index
 
@@ -14,6 +14,9 @@ var Game = (function () {
     // game status
     gameOver = false,
     canDie = false,
+    // tolerance is the number of index positions before and after the
+    // current index where the player has a chance to act
+    tolerence = 3,
 
     tickRate = 100, // tick rate
     lastTick = new Date(), //the last game tick
@@ -90,7 +93,7 @@ var Game = (function () {
             });
 
             // set a starting target index
-            tarI = 69; //newIndex(i);
+            tarI = newIndex(i);
 
         },
 
@@ -103,8 +106,8 @@ var Game = (function () {
             point.x = game.world.centerX + Math.cos(r) * (game.world.width / 4);
             point.y = game.world.centerY + Math.sin(r) * (game.world.width / 4);
 
-            r = Math.PI * 2 / maxI * tarI
-                target.x = game.world.centerX + Math.cos(r) * (game.world.width / 4);
+            r = Math.PI * 2 / maxI * tarI;
+            target.x = game.world.centerX + Math.cos(r) * (game.world.width / 4);
             target.y = game.world.centerY + Math.sin(r) * (game.world.width / 4);
 
             text_index.text = 'index: ' + i + '/' + maxI;
