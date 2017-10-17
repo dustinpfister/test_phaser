@@ -29,7 +29,8 @@ var Load = {
 
         console.log('ready to rock!');
         game.state.add('game', Game);
-        game.state.start('game');
+        game.state.add('title', Title);
+        game.state.start('title');
 
     }
 

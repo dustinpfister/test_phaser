@@ -17,6 +17,7 @@ var Game = (function () {
     gameOver = false,
     canDie = false,
     win = false, // win is false by default
+
     // tolerance is the number of index positions before and after the
     // current index where the player has a chance to act
     tolerence = 5,
@@ -135,7 +136,7 @@ var Game = (function () {
             };
 
             // text disp objects
-			
+
             text_count = game.add.text(game.world.centerX, game.world.centerY, '', style);
             text_index = game.add.text(5, 5, '', style);
             text_dist = game.add.text(5, 20, '', style);
@@ -191,7 +192,7 @@ var Game = (function () {
             setPoint(target, tarI);
 
             // update text disp objects
-			text_count.text = tarCount;
+            text_count.text = tarCount;
             text_index.text = 'index: ' + i + '/' + maxI;
             text_dist.text = 'dist: ' + d;
             text_status.text = 'CD: ' + canDie + ', GO: ' + gameOver + ',W: ' + win;
