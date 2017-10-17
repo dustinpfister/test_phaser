@@ -10,10 +10,12 @@ var Game = (function () {
     // target point
     target,
     tarI = 0,
+    tarCount = 3, // number of targets
 
     // game status
     gameOver = false,
     canDie = false,
+    win = false, // win is false by default
     // tolerance is the number of index positions before and after the
     // current index where the player has a chance to act
     tolerence = 3,
@@ -62,6 +64,38 @@ var Game = (function () {
         var r = Math.PI * 2 / maxI * i;
         dispObj.x = game.world.centerX + Math.cos(r) * (game.world.width / 4);
         dispObj.y = game.world.centerY + Math.sin(r) * (game.world.width / 4);
+    },
+
+    onAction = function () {
+
+        var d = dist(i, tarI);
+
+        // reverse index delta
+        di = di === 1 ? -1 : 1;
+
+        if (d <= tolerence) {
+
+            tarCount -= 1;
+
+            // hit target
+            if (tarCount <= 0) {
+
+                win = true;
+                gameOver = true;
+
+            } else {
+
+                tarI = newIndex(i);
+                canDie = false;
+
+            }
+
+        } else {
+
+            gameOver = true;
+
+        }
+
     };
 
     // return a phaser State object to the global
@@ -96,9 +130,9 @@ var Game = (function () {
             // input
             game.input.onDown.add(function (pt, b) {
 
-                //onAction();
+                onAction();
 
-                di = di === 1 ? -1 : 1;
+                //di = di === 1 ? -1 : 1;
             });
 
             // set a starting target index
