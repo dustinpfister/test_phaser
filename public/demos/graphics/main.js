@@ -1,3 +1,4 @@
+/*
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
         // create method
@@ -6,11 +7,27 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
             // add a graphics object to the world
             var cir = game.add.graphics(game.world.centerX, game.world.centerY);
 
-			console.log(cir);
-			
             // make it a green circle
             cir.beginFill(0x00ff00);
             cir.drawCircle(0, 0, 100);
+            cir.endFill();
+
+        }
+
+});
+*/
+
+var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
+
+        // create method
+        create : function () {
+
+            // add a graphics object to the world
+            var cir = game.add.graphics(game.world.centerX, game.world.centerY);
+
+            // make it a red rectangle
+            cir.beginFill(0xff0000);
+            cir.drawRect(-50, -50, 100,100);
             cir.endFill();
 
         }
