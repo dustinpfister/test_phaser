@@ -54374,6 +54374,7 @@ Phaser.Graphics.prototype.lineStyle = function (lineWidth, color, alpha) {
     this.lineColor = color || 0;
     this.lineAlpha = (alpha === undefined) ? 1 : alpha;
 
+
     if (this.currentPath)
     {
         if (this.currentPath.shape.points.length)
