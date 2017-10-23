@@ -41,6 +41,33 @@ var PM = (function () {
 
         },
 
+        forAll : function (func) {
+
+            var i = 0,
+            api;
+            while (i < this.pointCount) {
+
+                api = {
+
+                    i : i,
+                    xi : i * 2,
+                    yi : i * 2 + 1,
+                    data : this.data[i],
+                    points : this.points,
+                    pointCount : this.pointCount
+
+                };
+
+                api.x = api.points[api.xi];
+                api.y = api.points[api.yi];
+
+                func.call(api, api.x, api.y);
+
+                i += 1;
+            }
+
+        },
+
         // set data values
         setData : function () {
 
@@ -54,9 +81,9 @@ var PM = (function () {
                     radius : 80,
                     radian : Math.PI * 2 / this.pointCount * i,
                     deltaRadius : 1 - Math.floor(Math.random() * 2) * 2,
-                    radiusMin : 70,
-                    radiusMax : 90,
-                    rate : 15 + Math.floor(85 * Math.random()),
+                    radiusMin : 70 - Math.floor(Math.random() * 30),
+                    radiusMax : 90 + Math.floor(Math.random() * 30),
+                    rate : 33 + Math.floor(66 * Math.random()),
                     lastTime : new Date(),
                     prop : Math.random() * .25 + .25
 
@@ -83,7 +110,7 @@ var PM = (function () {
 
                 if (roll < data.prop) {
 
-                    data.rate = 15 + Math.floor(85 * Math.random())
+                    data.rate = 33 + Math.floor(66 * Math.random())
 
                 }
 
@@ -134,25 +161,43 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
         // create method
         create : function () {
 
+            PM.setPoints();
+
+            var back = game.add.graphics(game.world.centerX, game.world.centerY);
+
+            back.lineStyle(3, 000000, .4);
+
+            PM.forAll(function (x, y) {
+
+                back.moveTo(Math.cos(this.data.radian) * this.data.radiusMin,
+                    Math.sin(this.data.radian) * this.data.radiusMin);
+                back.lineTo(
+
+                    Math.cos(this.data.radian) * this.data.radiusMax,
+                    Math.sin(this.data.radian) * this.data.radiusMax);
+
+            });
+
             // add a graphics object to the world
             var gra = game.add.graphics(game.world.centerX, game.world.centerY);
-
-            PM.setPoints();
 
         },
 
         update : function () {
 
-            var gra = game.world.children[0];
+            var gra = game.world.children[1];
 
             gra.clear();
 
             PM.update();
 
-            gra.lineStyle(6, 0x000080);
+            gra.lineStyle(6, 0x000000);
 
             gra.drawPolygon(PM.points);
 
+            gra.lineStyle(2, 0xffffff);
+
+            gra.drawPolygon(PM.points);
         }
 
     }, true);
