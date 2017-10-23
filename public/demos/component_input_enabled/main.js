@@ -159,6 +159,29 @@ var PM = (function () {
 
         },
 
+        // user action
+        userAction : function (x, y) {
+
+            console.log(x + ',' + y);
+
+            this.forAll(function (ptx, pty) {
+
+                // Math.sqrt( Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) )
+
+                var d = Math.sqrt(Math.pow(x - ptx, 2) + Math.pow(y - pty, 2));
+
+                var per = 1 - d / 150;
+
+                per = per > 1 ? 1 : per;
+                per = per < 0 ? 0 : per;
+
+                this.data.radius = this.data.radiusMin + (this.data.radiusMax - this.data.radiusMin) * per;
+            });
+
+            this.update();
+
+        },
+
         update : function () {
 
             var i = 0,
@@ -169,39 +192,44 @@ var PM = (function () {
 
                 data = this.data[i];
 
+                this.points[i * 2] = Math.cos(data.radian) * data.radius;
+                this.points[i * 2 + 1] = Math.sin(data.radian) * data.radius;
+
+                /*
                 now = new Date();
                 roll = Math.random();
 
                 if (roll < data.prop) {
 
-                    data.rate = 33 + Math.floor(66 * Math.random())
+                data.rate = 33 + Math.floor(66 * Math.random())
 
                 }
-
+                 *
                 if (now - data.lastTime >= data.rate) {
 
-                    data.radius += data.deltaRadius;
+                data.radius += data.deltaRadius;
 
-                    if (data.radius <= data.radiusMin) {
+                if (data.radius <= data.radiusMin) {
 
-                        data.radius = data.radiusMin;
-                        data.deltaRadius = 1;
+                data.radius = data.radiusMin;
+                data.deltaRadius = 1;
 
-                    }
-
-                    if (data.radius >= data.radiusMax) {
-
-                        data.radius = data.radiusMax;
-                        data.deltaRadius = -1;
-
-                    }
-
-                    this.points[i * 2] = Math.cos(data.radian) * data.radius;
-                    this.points[i * 2 + 1] = Math.sin(data.radian) * data.radius;
-
-                    data.lastTime = now;
                 }
 
+                if (data.radius >= data.radiusMax) {
+
+                data.radius = data.radiusMax;
+                data.deltaRadius = -1;
+
+                }
+
+                this.points[i * 2] = Math.cos(data.radian) * data.radius;
+                this.points[i * 2 + 1] = Math.sin(data.radian) * data.radius;
+
+                data.lastTime = now;
+                }
+
+                 */
                 i += 1;
 
             }
@@ -246,8 +274,11 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
             var gra = game.add.graphics(game.world.centerX, game.world.centerY);
 
             gra.inputEnabled = true;
-            gra.input.useHandCursor = true;
+            //gra.input.useHandCursor = true;
+			//gra.input.draggable = true;
 
+			//console.log(gra.input.useHandCursor);
+			
             var draw = function () {
 
                 gra.clear();
@@ -265,12 +296,24 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
             }
 
+			console.log(gra.events);
+			
             gra.events.onInputDown.add(function (gra, pt) {
 
-                PM.update();
+                PM.userAction(pt.x - gra.x, pt.y - gra.y);
+                //PM.update();
                 draw();
 
             })
+			
+			
+			/*
+            gra.events.onDragUpdate.add(function (gra, pt) {
+
+			console.log('okay');
+
+            })
+			*/
 
             draw();
 
