@@ -56,8 +56,8 @@ var PM = (function () {
                     deltaRadius : 1 - Math.floor(Math.random() * 2) * 2,
                     radiusMin : 70,
                     radiusMax : 90,
-					rate : 15 + Math.floor(85 * Math.random()),
-					lastTime : new Date(),
+                    rate : 15 + Math.floor(85 * Math.random()),
+                    lastTime : new Date(),
                     prop : Math.random() * .25 + .25
 
                 });
@@ -72,18 +72,22 @@ var PM = (function () {
 
             var i = 0,
             roll,
-			now,
+            now,
             data;
             while (i < this.pointCount) {
 
                 data = this.data[i];
 
-				now = new Date();
+                now = new Date();
                 roll = Math.random();
 
-                //if (roll < data.prop) {
-				if(now - data.lastTime >= data.rate){
-					
+                if (roll < data.prop) {
+
+                    data.rate = 15 + Math.floor(85 * Math.random())
+
+                }
+
+                if (now - data.lastTime >= data.rate) {
 
                     data.radius += data.deltaRadius;
 
@@ -104,8 +108,7 @@ var PM = (function () {
                     this.points[i * 2] = Math.cos(data.radian) * data.radius;
                     this.points[i * 2 + 1] = Math.sin(data.radian) * data.radius;
 
-					
-					data.lastTime = now;
+                    data.lastTime = now;
                 }
 
                 i += 1;
@@ -152,4 +155,4 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
         }
 
-    },true);
+    }, true);
