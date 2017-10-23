@@ -51,11 +51,11 @@ var PM = (function () {
 
                 this.data.push({
 
-                    radius : 100,
+                    radius : 50,
                     radian : Math.PI * 2 / this.pointCount * i,
-                    deltaRadius : Math.floor(Math.random() * 3) - 2,
+                    deltaRadius : 1 - Math.floor(Math.random() * 2) * 2,
                     radiusMin : 20,
-                    radiusMax : 30
+                    radiusMax : 100
 
                 });
 
@@ -67,30 +67,32 @@ var PM = (function () {
 
         update : function () {
 
-            /*
             var i = 0,
-            x,
-            y,
-            dx,
-            dy,
-            ra;
-
+            data;
             while (i < this.pointCount) {
 
+                data = this.data[i];
 
-            ra = Math.PI * 2 / this.pointCount * i,
+                data.radius += data.deltaRadius;
 
-            x = this.points[i * 2];
-            y = this.points[i * 2 + 1];
-            dx = x + Math.cos(ra) * this.del[i].radius;
-            dy = y + Math.sin(ra) * this.del[i].radius;
+                if (data.radius <= data.radiusMin) {
 
-            x += dx;
-            y += dy;
+                    data.radius = data.radiusMin;
+                    data.deltaRadius = 1;
 
-            i += 1;
+                }
 
+                if (data.radius >= data.radiusMax) {
 
+                    data.radius = data.radiusMax;
+                    data.deltaRadius = -1;
+
+                }
+
+                this.points[i * 2] = Math.cos(data.radian) * data.radius;
+                this.points[i * 2 + 1] = Math.sin(data.radian) * data.radius;
+
+                i += 1;
 
             }
 
@@ -99,7 +101,6 @@ var PM = (function () {
             this.points.splice(this.points.length - 2, 1, this.points[0]);
             this.points.splice(this.points.length - 1, 1, this.points[1]);
 
-             */
         }
 
     };
