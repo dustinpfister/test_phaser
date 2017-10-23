@@ -22,12 +22,11 @@ gra.drawPolygon([0, -100, 100, 0, 0, 100, -50, 100, -50, 50, -100, 50, -100, -50
 });
  */
 
-var points = (function () {
+var getPoints = function () {
 
     var pCT = 10, // point count
     p = [], // points array to be returned
     pi = 0; // current point index
-
     while (pi < pCT) {
 
         // set some radian, and radius values for each point
@@ -49,8 +48,9 @@ var points = (function () {
     // return the points
     return p;
 
-}
-    ());
+},
+
+points = getPoints();
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
@@ -59,6 +59,16 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
             // add a graphics object to the world
             var gra = game.add.graphics(game.world.centerX, game.world.centerY);
+
+        },
+
+        update : function () {
+
+            var gra = game.world.children[0];
+
+            points = getPoints();
+
+            gra.clear();
 
             gra.lineStyle(3, 0x00ff00);
 
