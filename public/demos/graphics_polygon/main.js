@@ -51,11 +51,14 @@ var PM = (function () {
 
                 this.data.push({
 
-                    radius : 50,
+                    radius : 80,
                     radian : Math.PI * 2 / this.pointCount * i,
                     deltaRadius : 1 - Math.floor(Math.random() * 2) * 2,
-                    radiusMin : 20,
-                    radiusMax : 100
+                    radiusMin : 70,
+                    radiusMax : 90,
+					rate : 15 + Math.floor(85 * Math.random()),
+					lastTime : new Date(),
+                    prop : Math.random() * .25 + .25
 
                 });
 
@@ -68,29 +71,42 @@ var PM = (function () {
         update : function () {
 
             var i = 0,
+            roll,
+			now,
             data;
             while (i < this.pointCount) {
 
                 data = this.data[i];
 
-                data.radius += data.deltaRadius;
+				now = new Date();
+                roll = Math.random();
 
-                if (data.radius <= data.radiusMin) {
+                //if (roll < data.prop) {
+				if(now - data.lastTime >= data.rate){
+					
 
-                    data.radius = data.radiusMin;
-                    data.deltaRadius = 1;
+                    data.radius += data.deltaRadius;
 
+                    if (data.radius <= data.radiusMin) {
+
+                        data.radius = data.radiusMin;
+                        data.deltaRadius = 1;
+
+                    }
+
+                    if (data.radius >= data.radiusMax) {
+
+                        data.radius = data.radiusMax;
+                        data.deltaRadius = -1;
+
+                    }
+
+                    this.points[i * 2] = Math.cos(data.radian) * data.radius;
+                    this.points[i * 2 + 1] = Math.sin(data.radian) * data.radius;
+
+					
+					data.lastTime = now;
                 }
-
-                if (data.radius >= data.radiusMax) {
-
-                    data.radius = data.radiusMax;
-                    data.deltaRadius = -1;
-
-                }
-
-                this.points[i * 2] = Math.cos(data.radian) * data.radius;
-                this.points[i * 2 + 1] = Math.sin(data.radian) * data.radius;
 
                 i += 1;
 
@@ -130,10 +146,10 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
             PM.update();
 
-            gra.lineStyle(3, 0x00ff00);
+            gra.lineStyle(6, 0x000080);
 
             gra.drawPolygon(PM.points);
 
         }
 
-    });
+    },true);
