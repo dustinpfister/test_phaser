@@ -5,20 +5,77 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
         create : function () {
 
             // add a graphics object to the world
-            var gra = game.add.graphics(game.world.centerX, game.world.centerY);
+            var gra = game.add.graphics(0, 0);
 
             // make it a red rectangle
             gra.lineStyle(3, 0xff0000);
 
-            // start by moving to a point
-            gra.moveTo(0, 0);
+            gra.data = {
 
-            // draw a line
-            gra.lineTo(100, 0);
+                maxLines : 10,
+                lines : [],
+                sx : 0,
+                sy : game.world.height / 2,
+                genLines : function () {
 
-        }
+                    var i = 0,
+                    sx = this.sx,
+                    sy = this.sy,
+                    ex,
+                    ey,
+                    line;
 
-    });
+                    // gen lines
+                    while (i < this.maxLines) {
+
+                        ex = game.world.width / this.maxLines * (i+1);
+                        ey = Math.random() * game.world.height;
+
+                        line = new Phaser.Line(sx, sy, ex, ey);
+
+                        this.lines.push(line);
+
+                        sx = ex;
+                        sy = ey;
+
+                        i += 1;
+                    }
+
+                },
+
+                // draw to the given graphics object
+                draw : function (gra) {
+
+                    gra.clear();
+
+                    gra.lineStyle(3, 0xff0000);
+
+                    this.lines.forEach(function (line) {
+
+                        console.log(line.start.y)
+
+                        // start by moving to a point
+                        gra.moveTo(line.start.x, line.start.y);
+
+                        // draw a line
+                        gra.lineTo(line.end.x, line.end.y);
+
+                    });
+
+                }
+
+            };
+
+            gra.data.genLines();
+
+            gra.data.draw(gra);
+
+
+        },
+
+        update : function () {}
+
+    },true);
 
 /*
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
