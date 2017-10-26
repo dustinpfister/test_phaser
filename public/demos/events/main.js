@@ -1,45 +1,118 @@
 
 var game = (function () {
 
-    var drawCircle = function (gra, size) {
+    // a model
+    var model = {
 
-        size = size || 100;
+        // some model values
+        current : 'rest',
+        lastUpdate : new Date(),
+        size : 45,
+        deltaSize : 1,
 
-        // main circle
-        gra.clear();
-        gra.beginFill(0x00ff00);
-        gra.drawCircle(0, 0, size, size);
-        gra.endFill();
+        dragCount : 0,
 
-    },
+        // rest state
+        rest : {
 
-    checkBounds = function (gra) {
+            sizeLow : 40,
+            sizeHi : 50,
+            rate : 120,
+            color : 0x808080
 
-        if (gra.x < gra.width / 2) {
+        },
 
-            gra.x = gra.width / 2;
+        // down state
+        down : {
+
+            sizeLow : 50,
+            sizeHi : 60,
+            rate : 60,
+            color : 0x008000
+
+        },
+
+        // drag state
+        drag : {
+
+            sizeLow : 60,
+            sizeHi : 70,
+            rate : 30,
+            color : 0x00ff00
+
+        },
+
+        // update the model
+        update : function () {
+
+            var now = new Date(),
+            cur = this[this.current];
+
+            if (now - this.lastUpdate >= cur.rate) {
+
+                this.size += this.deltaSize;
+
+                if (this.size >= cur.sizeHi) {
+
+                    this.size = cur.sizeHi;
+                    this.deltaSize = -1;
+
+                }
+
+                if (this.size <= cur.sizeLow) {
+
+                    this.size = cur.sizeLow;
+                    this.deltaSize = 1;
+
+                }
+
+                this.lastUpdate = now;
+            }
+
+        },
+
+        // draw the model with the given Graphics Disp Object
+        draw : function (gra) {
+
+            var cur = this[this.current];
+
+            // main circle
+            gra.clear();
+            gra.beginFill(cur.color);
+            gra.drawCircle(0, 0, this.size, this.size);
+            gra.endFill();
+
+        },
+
+        checkBounds : function (gra) {
+
+            if (gra.x < gra.width / 2) {
+
+                gra.x = gra.width / 2;
+
+            }
+
+            if (gra.x > game.world.width - gra.width / 2) {
+
+                gra.x = game.world.width - gra.width / 2;
+
+            }
+
+            if (gra.y < gra.height / 2) {
+
+                gra.y = gra.height / 2;
+
+            }
+
+            if (gra.y > game.world.height - gra.height / 2) {
+
+                gra.y = game.world.height - gra.height / 2;
+
+            }
 
         }
 
-        if (gra.x > game.world.width - gra.width / 2) {
-
-            gra.x = game.world.width - gra.width / 2;
-
-        }
-
-        if (gra.y < gra.height / 2) {
-
-            gra.y = gra.height / 2;
-
-        }
-
-        if (gra.y > game.world.height - gra.height / 2) {
-
-            gra.y = game.world.height - gra.height / 2;
-
-        }
-
-    }
+    };
 
     return new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
@@ -52,7 +125,7 @@ var game = (function () {
                     font : '15px courier'
                 });
 
-            drawCircle(gra);
+            //drawCircle(gra);
 
             // prevent context menu on long press, or right click
             game.canvas.oncontextmenu = function (e) {
@@ -73,13 +146,22 @@ var game = (function () {
 
                 console.log('Drag start.');
 
+                model.current = 'down';
+
             });
 
             gra.events.onDragUpdate.add(function (gra) {
 
                 console.log('Drag update.');
 
-                checkBounds(gra);
+                if (model.dragCount >= 5) {
+
+                    model.current = 'drag';
+
+                }
+                model.dragCount += 1;
+
+                model.checkBounds(gra);
 
             });
 
@@ -87,14 +169,18 @@ var game = (function () {
 
                 console.log('Drag stop.');
 
-                console.log(gra.x);
+                //model.current = 'rest';
+
+                model.dragCount = 0;
 
             });
 
             // add a single handler for onInputDown
             gra.events.onInputDown.add(function (gra) {
 
-                console.log('down');
+                //console.log('down');
+
+                model.current = 'down';
 
             });
 
@@ -102,6 +188,8 @@ var game = (function () {
             gra.events.onInputUp.add(function (gra) {
 
                 console.log('up');
+
+                model.current = 'rest';
 
             });
 
@@ -127,6 +215,12 @@ var game = (function () {
 
             //text.text = gra.events;
 
+
+            //drawCircle(gra);
+
+            model.draw(gra);
+
+            model.update();
 
         }
 
