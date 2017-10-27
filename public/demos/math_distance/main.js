@@ -1,4 +1,6 @@
 
+console.log(Phaser.Math.distance(0,0,100,25));
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea', {
 
         // create method
