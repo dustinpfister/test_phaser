@@ -73,12 +73,11 @@ var game = (function () {
                 } else {
 
                     // else turn it on
-                    game.scale.startFullScreen(false);
+                    game.scale.startFullScreen();
+
                 }
 
-                console.log(game.scale);
-
-            });
+            },this);
 
         },
 
