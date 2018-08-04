@@ -1,6 +1,6 @@
 
 // start out on basic
-game.state.start('basic');
+game.state.start('bitmap-only');
 
 $('#state-select').on('change', function (evnt) {
 

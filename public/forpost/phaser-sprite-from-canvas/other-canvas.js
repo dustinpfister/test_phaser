@@ -1,5 +1,5 @@
 // basic state
-game.state.add('basic', {
+game.state.add('other-canvas', {
 
     create: function () {
 

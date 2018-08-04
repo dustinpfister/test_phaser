@@ -1,5 +1,5 @@
 // basic state
-game.state.add('bitmaponly', {
+game.state.add('bitmap-only', {
 
     create: function () {
 
