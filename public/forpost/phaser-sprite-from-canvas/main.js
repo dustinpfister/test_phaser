@@ -50,6 +50,8 @@ var fromCanvas = function (opt) {
     // use the bitmap data as the texture for a sprite
     sprite = game.add.sprite(0, 0, bitmap);
     sprite.name = opt.name;
+	
+	console.log(game);
 
     // return the sprite
     return sprite
@@ -92,18 +94,29 @@ game.state.add('boot', {
         sp2 = fromCanvas({
                 game: game,
                 name: 'sp2',
+                cacheBitmap: true,
                 canvas: canvas
             });
         sp2.x = 128;
         sp2.y = 32;
 
-        console.log(game.cache._cache);
-        //console.log(game.add.bitmapData);
-
+        //console.log(game.cache._cache);
+        //console.log(game.world.getByName('sp2'));
+        //console.log(game.cache.getBitmapData('bitmap-sp2'));
+        //console.log(game.cache.getSprite('sp2'));
 
     },
 
-    update: function () {}
+    update: function () {
+
+        var sp2 = game.world.getByName('sp2'),
+        r = 0,
+        d = 50;
+
+        sp2.x = Math.cos(r) * d + game.world.centerX / 2;
+        sp2.y = Math.sin(r) * d + game.world.centerY / 2;
+
+    }
 
 });
 
