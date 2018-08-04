@@ -14,6 +14,8 @@ var fromCanvas = function (opt) {
         ctx.lineWidth = 3;
         ctx.strokeRect(0, 0, this.width, this.height);
     };
+    opt.name = opt.name || new Date().getTime();
+    opt.cacheBitmap = opt.cacheBitmap || false;
 
     // use a canvas given via opt object, or create new
     canvas = opt.canvas || document.createElement('canvas');
@@ -39,11 +41,18 @@ var fromCanvas = function (opt) {
 
     }
 
-    bitmap = new Phaser.BitmapData(opt.game, 'bitmap', opt.width, opt.height);
-    // draw the canvas to the bitmap canvas
+    // create a bitmap data instance
+    bitmap = game.add.bitmapData(opt.width, opt.height, 'bitmap-' + opt.name, opt.cacheBitmap);
+
+    // draw to the bitmap data instance canvas.
     bitmap.context.drawImage(canvas, 0, 0);
 
-    return game.add.sprite(0, 0, bitmap);
+    // use the bitmap data as the texture for a sprite
+    sprite = game.add.sprite(0, 0, bitmap);
+    sprite.name = opt.name;
+
+    // return the sprite
+    return sprite
 
 };
 
@@ -61,6 +70,7 @@ game.state.add('boot', {
         // creates a new canvas, and uses a render method for it
         sp1 = fromCanvas({
                 game: game,
+                name: 'sp1',
                 width: 32,
                 height: 64,
                 render: function (ctx) {
@@ -81,12 +91,19 @@ game.state.add('boot', {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         sp2 = fromCanvas({
                 game: game,
+                name: 'sp2',
                 canvas: canvas
             });
         sp2.x = 128;
         sp2.y = 32;
 
-    }
+        console.log(game.cache._cache);
+        //console.log(game.add.bitmapData);
+
+
+    },
+
+    update: function () {}
 
 });
 
