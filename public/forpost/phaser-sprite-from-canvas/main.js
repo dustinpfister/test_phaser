@@ -53,36 +53,37 @@ game.state.add('boot', {
 
     create: function () {
 
+        var sp1,
+        sp2,
+        canvas,
+        ctx;
+
         // creates a new canvas, and uses a render method for it
-        var sp1 = fromCanvas({
+        sp1 = fromCanvas({
                 game: game,
                 width: 32,
                 height: 64,
                 render: function (ctx) {
-
                     ctx.strokeStyle = '#00ff00';
                     ctx.lineWidth = 3;
                     ctx.strokeRect(0, 0, this.width, this.height);
-
                 }
             });
+        sp1.x = 32;
+        sp1.y = 32;
 
         // uses a canvas that was created before hand
-        var canvas = document.createElement('canvas'),
+        canvas = document.createElement('canvas'),
         ctx = canvas.getContext('2d');
-
         canvas.width = 32;
         canvas.height = 32;
-
         ctx.fillStyle = 'red';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        var sp2 = fromCanvas({
+        sp2 = fromCanvas({
                 game: game,
                 canvas: canvas
             });
-
-        sp2.x = 64;
+        sp2.x = 128;
         sp2.y = 32;
 
     }
