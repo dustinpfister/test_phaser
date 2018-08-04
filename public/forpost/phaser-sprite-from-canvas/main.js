@@ -1,8 +1,8 @@
 
 var fromCanvas = function (opt) {
 
-    var canvas = document.createElement('canvas'),
-    ctx = canvas.getContext('2d'),
+    var canvas,
+    ctx,
     bitmap;
 
     opt = opt || {};
@@ -15,10 +15,29 @@ var fromCanvas = function (opt) {
         ctx.strokeRect(0, 0, this.width, this.height);
     };
 
-    canvas.width = opt.width;
-    canvas.height = opt.height;
+    // use a canvas given via opt object, or create new
+    canvas = opt.canvas || document.createElement('canvas');
+    ctx = canvas.getContext('2d');
 
-    opt.render.call(opt, ctx);
+    // if a canvas is given that will override
+    // and width, and height given
+    if (opt.canvas) {
+
+        opt.width = opt.canvas.width;
+        opt.height = opt.canvas.height;
+
+    } else {
+
+        // else leave opt.width, and height
+        // and use it to set the size of the new
+        // canvas
+        canvas.width = opt.width;
+        canvas.height = opt.height;
+
+        // and render to the new canvas
+        opt.render.call(opt, ctx);
+
+    }
 
     bitmap = new Phaser.BitmapData(opt.game, 'bitmap', opt.width, opt.height);
     // draw the canvas to the bitmap canvas
@@ -34,8 +53,11 @@ game.state.add('boot', {
 
     create: function () {
 
-        var sprite = fromCanvas({
+        // creates a new canvas, and uses a render method for it
+        var sp1 = fromCanvas({
                 game: game,
+                width: 32,
+                height: 64,
                 render: function (ctx) {
 
                     ctx.strokeStyle = '#00ff00';
@@ -44,6 +66,24 @@ game.state.add('boot', {
 
                 }
             });
+
+        // uses a canvas that was created before hand
+        var canvas = document.createElement('canvas'),
+        ctx = canvas.getContext('2d');
+
+        canvas.width = 32;
+        canvas.height = 32;
+
+        ctx.fillStyle = 'red';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        var sp2 = fromCanvas({
+                game: game,
+                canvas: canvas
+            });
+
+        sp2.x = 64;
+        sp2.y = 32;
 
     }
 
