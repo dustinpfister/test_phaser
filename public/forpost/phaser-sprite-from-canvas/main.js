@@ -50,8 +50,6 @@ var fromCanvas = function (opt) {
     // use the bitmap data as the texture for a sprite
     sprite = game.add.sprite(0, 0, bitmap);
     sprite.name = opt.name;
-	
-	console.log(game);
 
     // return the sprite
     return sprite
@@ -59,6 +57,22 @@ var fromCanvas = function (opt) {
 };
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+
+game.global = {
+
+    per: 0,
+    frame: 0,
+    maxFrame: 50,
+    step: function () {
+
+        this.frame += 1;
+        this.frame %= this.maxFrame;
+
+        this.per = this.frame / this.maxFrame;
+
+    }
+
+};
 
 game.state.add('boot', {
 
@@ -100,21 +114,20 @@ game.state.add('boot', {
         sp2.x = 128;
         sp2.y = 32;
 
-        //console.log(game.cache._cache);
-        //console.log(game.world.getByName('sp2'));
-        //console.log(game.cache.getBitmapData('bitmap-sp2'));
-        //console.log(game.cache.getSprite('sp2'));
+        console.log(game.state);
 
     },
 
     update: function () {
 
         var sp2 = game.world.getByName('sp2'),
-        r = 0,
-        d = 50;
+        r = Math.PI * 2 / game.global.maxFrame * game.global.frame,
+        d = 75;
 
-        sp2.x = Math.cos(r) * d + game.world.centerX / 2;
-        sp2.y = Math.sin(r) * d + game.world.centerY / 2;
+        sp2.x = Math.cos(r) * d + game.world.centerX - sp2.width / 2;
+        sp2.y = Math.sin(r) * d + game.world.centerY - sp2.height / 2; ;
+
+        game.global.step();
 
     }
 
