@@ -61,14 +61,18 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 game.global = {
 
     per: 0,
+    r: 0,
+    bias: 0,
     frame: 0,
-    maxFrame: 50,
+    maxFrame: 150,
     step: function () {
 
         this.frame += 1;
         this.frame %= this.maxFrame;
 
         this.per = this.frame / this.maxFrame;
+        this.r = Math.PI * 2 * this.per;
+        this.bias = Math.abs(this.per - 0.5) / 0.5;
 
     }
 
@@ -78,25 +82,22 @@ game.state.add('boot', {
 
     create: function () {
 
-        var sp1,
-        sp2,
+        var sp3,
         canvas,
         ctx;
 
         // creates a new canvas, and uses a render method for it
-        sp1 = fromCanvas({
-                game: game,
-                name: 'sp1',
-                width: 32,
-                height: 64,
-                render: function (ctx) {
-                    ctx.strokeStyle = '#00ff00';
-                    ctx.lineWidth = 3;
-                    ctx.strokeRect(0, 0, this.width, this.height);
-                }
-            });
-        sp1.x = 32;
-        sp1.y = 32;
+        fromCanvas({
+            game: game,
+            name: 'sp1',
+            width: 32,
+            height: 128,
+            render: function (ctx) {
+                ctx.strokeStyle = '#00ff00';
+                ctx.lineWidth = 3;
+                ctx.strokeRect(0, 0, this.width, this.height);
+            }
+        });
 
         // uses a canvas that was created before hand
         canvas = document.createElement('canvas'),
@@ -105,27 +106,33 @@ game.state.add('boot', {
         canvas.height = 32;
         ctx.fillStyle = 'red';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        sp2 = fromCanvas({
-                game: game,
-                name: 'sp2',
-                cacheBitmap: true,
-                canvas: canvas
-            });
-        sp2.x = 128;
-        sp2.y = 32;
+        fromCanvas({
+            game: game,
+            name: 'sp2',
+            cacheBitmap: true,
+            canvas: canvas
+        });
 
-        console.log(game.state);
+        // I can make more sprites with the cached bitmap from sp2
+        sp3 = game.add.sprite(0, 0, game.cache.getBitmapData('bitmap-sp2'));
+        sp3.name = 'sp3';
 
     },
 
     update: function () {
 
-        var sp2 = game.world.getByName('sp2'),
-        r = Math.PI * 2 / game.global.maxFrame * game.global.frame,
-        d = 75;
+        var sp1 = game.world.getByName('sp1'),
+        sp2 = game.world.getByName('sp2'),
+        sp3 = game.world.getByName('sp3');
 
-        sp2.x = Math.cos(r) * d + game.world.centerX - sp2.width / 2;
-        sp2.y = Math.sin(r) * d + game.world.centerY - sp2.height / 2; ;
+		sp1.x = game.global.bias * (game.world.width - sp1.width);
+		sp1.y = game.world.centerY - sp1.height / 2;
+		
+        sp2.x = Math.cos(game.global.r) * 75 + game.world.centerX - sp2.width / 2;
+        sp2.y = Math.sin(game.global.r) * 75 + game.world.centerY - sp2.height / 2;
+
+        sp3.x = game.world.centerX - sp3.width / 2;
+        sp3.y = game.world.centerY - sp3.height / 2;
 
         game.global.step();
 
