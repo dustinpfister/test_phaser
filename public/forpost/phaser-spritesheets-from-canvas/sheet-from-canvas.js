@@ -57,7 +57,6 @@ game.state.add('sheet-from-canvas', {
             frameWidth: 64,
             frameHeight: 64,
             forFrame: function (ctx) {
-
                 ctx.strokeStyle = '#ffff00';
                 ctx.save();
                 ctx.translate(this.sx + 32, 32);
@@ -68,7 +67,6 @@ game.state.add('sheet-from-canvas', {
                 ctx.lineTo(0, 30);
                 ctx.stroke();
                 ctx.restore();
-
             }
         });
 
@@ -88,12 +86,9 @@ game.state.add('sheet-from-canvas', {
         now = new Date();
 
         if (now - this.data.lastFrame >= this.data.frameRate) {
-
             sprite.frame += 1;
             sprite.frame %= this.data.maxFrame;
-
             this.data.lastFrame = new Date();
-
         }
 
     }
