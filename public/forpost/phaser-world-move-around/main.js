@@ -82,42 +82,41 @@ game.state.add('world-demo', {
 
     },
 
+    // update loop
     update: function () {
 
         var player = game.world.getByName('player'),
         cursors = game.data.cursors;
 
-        if (cursors.right.isDown) {
-
+        // data the deltas based a keyboard input
+        if (cursors.right.isDown)
             player.data.dx += .25;
-
-        }
-
-        if (cursors.left.isDown) {
-
+        if (cursors.left.isDown)
             player.data.dx -= .25;
-
-        }
-
-        if (cursors.down.isDown) {
-
+        if (cursors.down.isDown)
             player.data.dy += .25;
-
-        }
-
-        if (cursors.up.isDown) {
-
+        if (cursors.up.isDown)
             player.data.dy -= .25;
 
-        }
+        // crude friction
+        player.data.dx /= 1.05;
+        player.data.dy /= 1.05;
+        if (player.data.dx > 0 && player.data.dx <= 0.1)
+            player.data.dx = 0;
+        if (player.data.dx < 0 && player.data.dx >= -0.1)
+            player.data.dx = 0;
+        if (player.data.dy > 0 && player.data.dy <= 0.1)
+            player.data.dy = 0;
+        if (player.data.dy < 0 && player.data.dy >= -0.1)
+            player.data.dy = 0;
 
         // clamp deltas
         player.data.dx = Phaser.Math.clamp(player.data.dx, -5, 5);
         player.data.dy = Phaser.Math.clamp(player.data.dy, -5, 5);
 
         // add to player pos by deltas
-        player.x += player.data.dx;
-        player.y += player.data.dy;
+        player.x += Math.floor(player.data.dx);
+        player.y += Math.floor(player.data.dy);
 
         // clamp player pos
         player.x = Phaser.Math.clamp(player.x, 0, (game.world.width - 32));
