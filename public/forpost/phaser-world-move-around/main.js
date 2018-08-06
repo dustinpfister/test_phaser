@@ -11,12 +11,17 @@ game.state.add('world-demo', {
     create: function () {
 
         var i,
+        sprite,
+        player,
         len,
         x,
         y
 
-        game.world.resize(640, 240);
+        // set world size twice that of the native camera size
+        // given to the phaser camera constructor
+        game.world.resize(640, 480);
 
+        // making a sheet for objects
         sheetFromCanvas({
 
             game: game,
@@ -31,20 +36,7 @@ game.state.add('world-demo', {
 
         });
 
-        i = 0;
-        len = 20;
-        while (i < len) {
-
-            x = Math.floor(Math.random() * (game.world.width - 32));
-            y = Math.floor(Math.random() * (game.world.height - 32));
-
-            sprite = game.add.sprite(x, y, 'sheet-object', 0);
-            sprite.name = 'object' + i;
-
-            i += 1;
-
-        }
-
+        // a sheet for the player
         sheetFromCanvas({
 
             game: game,
@@ -59,14 +51,33 @@ game.state.add('world-demo', {
 
         });
 
-        var player = game.add.sprite(0, 0, 'sheet-player', 0);
+        // place some objects in the world
+        i = 0;
+        len = 20;
+        while (i < len) {
+
+            x = Math.floor(Math.random() * (game.world.width - 32));
+            y = Math.floor(Math.random() * (game.world.height - 32));
+
+            sprite = game.add.sprite(x, y, 'sheet-object', 0);
+            sprite.name = 'object' + i;
+
+            i += 1;
+
+        }
+
+        // the player sprite
+        player = game.add.sprite(0, 0, 'sheet-player', 0);
         player.name = 'player';
         player.data = {
             dx: 0,
             dy: 0
         };
 
+        // keyboard cursor keys
         game.data.cursors = game.input.keyboard.createCursorKeys();
+
+        // have the camera follow the player sprite
         game.camera.target = player;
 
     },
