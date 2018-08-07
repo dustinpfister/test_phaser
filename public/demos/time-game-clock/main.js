@@ -47,7 +47,8 @@ game.state.add('demo', {
 
         var canvas = document.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        sprite;
+        spriteGT,
+        spriteRT;
 
         canvas.width = 64;
         canvas.height = 32;
@@ -60,15 +61,14 @@ game.state.add('demo', {
         game.cache.addSpriteSheet('sheet', null, canvas, 32, 32, 2, 0, 0);
 
         // game time sprite
-        sprite = game.add.sprite(0, 32, 'sheet', 0);
-        sprite.name = 'box_game_time';
-        sprite.data.goRight = true;
+        spriteGT = game.add.sprite(0, 32, 'sheet', 0);
+        spriteGT.name = 'box_game_time';
 
-        // real time sprite
-        sprite = game.add.sprite(0, 64, 'sheet', 1);
-        sprite.name = 'box_real_time';
+        spriteGT.data.goRight = true;
 
-        game.global.xMax = game.world.width - sprite.width;
+        // create an play an animation using phasers animation manager
+        spriteGT.animations.add('flash', [0, 1], 6, true);
+        spriteGT.play('flash');
 
         // move 'box_game_time' sprite every 100ms
         game.time.events.loop(100, function () {
@@ -76,6 +76,12 @@ game.state.add('demo', {
             game.global.moveSprite(game.world.getByName('box_game_time'));
 
         });
+
+        // real time sprite
+        spriteGT = game.add.sprite(0, 64, 'sheet', 0);
+        spriteGT.name = 'box_real_time';
+
+        game.global.xMax = game.world.width - spriteGT.width;
 
     },
 
