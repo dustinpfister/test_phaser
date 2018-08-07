@@ -63,7 +63,6 @@ game.state.add('demo', {
         // game time sprite
         spriteGT = game.add.sprite(0, 32, 'sheet', 0);
         spriteGT.name = 'box_game_time';
-
         spriteGT.data.goRight = true;
 
         // create an play an animation using phasers animation manager
