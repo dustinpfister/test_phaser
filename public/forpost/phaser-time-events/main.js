@@ -1,5 +1,8 @@
 // the Phaser game instance
-var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+//var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+
+var game = new Phaser.Game(320, 240, Phaser.HEADLESS);
+//game.renderer = ;
 
 // some global stuff
 game.global = {
@@ -57,16 +60,34 @@ game.global = {
 
 };
 
+game.state.add('delay', {
+
+    create: function () {
+
+        console.log('create method called');
+        // fire the given callback every 100ms
+        game.time.events.add(5000, function () {
+
+            console.log('five secs passed');
+
+        });
+
+    }
+
+});
+
 game.state.add('basic-loops', {
 
     create: function () {
 
+        // fire the given callback every 100ms
         game.time.events.loop(100, function () {
 
             console.log('tick 100:');
 
         });
 
+        // fire the given callback every 1000ms
         game.time.events.loop(1000, function () {
 
             console.log('tick 1000:');
@@ -75,7 +96,7 @@ game.state.add('basic-loops', {
 
     }
 
-})
+});
 
 // compare-real-time demo
 game.state.add('compare-real-time', {
@@ -132,5 +153,25 @@ game.state.add('compare-real-time', {
 
 });
 
+game.state.add('timer-class', {
+
+    create: function () {
+
+        var timer = new Phaser.Timer(game, false);
+
+        console.log('just a sec...')
+        timer.add(1000, function () {
+
+            console.log('okay.');
+
+        });
+        timer.start();
+
+        game.time.add(timer);
+
+    }
+
+});
+
 //game.state.start('compare-real-time');
-game.state.start('basic');
+game.state.start('timer-class');
