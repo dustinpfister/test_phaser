@@ -153,20 +153,26 @@ game.state.add('compare-real-time', {
 
 });
 
-game.state.add('timer-class', {
+game.state.add('timer-pool', {
 
     create: function () {
 
-        var timer = new Phaser.Timer(game, false);
+        // making a new timer for this game that will auto destroy
+        var timer = new Phaser.Timer(game, true);
 
-        console.log('just a sec...')
+        console.log('just a sec...');
+
+        // add a one sec delay
         timer.add(1000, function () {
 
             console.log('okay.');
 
         });
+
+        // start the timer
         timer.start();
 
+        // add it to the timer pool
         game.time.add(timer);
 
     }
@@ -174,4 +180,4 @@ game.state.add('timer-class', {
 });
 
 //game.state.start('compare-real-time');
-game.state.start('timer-class');
+game.state.start('timer-pool');
