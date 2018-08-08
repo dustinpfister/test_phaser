@@ -57,6 +57,26 @@ game.global = {
 
 };
 
+game.state.add('basic-loops', {
+
+    create: function () {
+
+        game.time.events.loop(100, function () {
+
+            console.log('tick 100:');
+
+        });
+
+        game.time.events.loop(1000, function () {
+
+            console.log('tick 1000:');
+
+        });
+
+    }
+
+})
+
 // compare-real-time demo
 game.state.add('compare-real-time', {
 
@@ -112,4 +132,5 @@ game.state.add('compare-real-time', {
 
 });
 
-game.state.start('compare-real-time');
+//game.state.start('compare-real-time');
+game.state.start('basic');
