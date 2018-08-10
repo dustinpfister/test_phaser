@@ -12,23 +12,37 @@ game.state.add('single-loop', {
 
             game: game,
             name: 'sheet-basic',
-            frames: 5,
+            frameWidth: 32,
+            frameHeight: 64,
+            frames: 20,
             forFrame: function (ctx) {
 
-                //ctx.fillStyle = '#ff0000';
-                //ctx.fillRect(0, 0, this.frameWidth / 2 * this.per + this.frameWidth / 2, this.frameHeight);
+                var sa = -Math.PI,
+                a = sa - Math.PI * this.bias,
+                bounce = 4,
+                cx = this.frameWidth / 2,
+                cy = this.frameHeight / 2 - bounce * this.bias,
+                r = this.frameWidth / 4;
 
                 ctx.strokeStyle = '#ff0000';
+
+                // draw body
                 ctx.beginPath();
-                ctx.arc(this.frameWidth / 2, this.frameHeight / 2, this.frameWidth / 4, 0, Math.PI * 2);
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(Math.cos(a) * 8 + cx, Math.sin(a) * 8 + cy);
                 ctx.closePath();
                 ctx.stroke();
 
             }
         });
 
-        var sprite = game.add.sprite(0, 0, 'sheet-basic', 3);
-        sprite.animations.add('loop', [0, 1, 2, 3], 30, true);
+        var sprite = game.add.sprite(0, 0, 'sheet-basic', 0);
+        sprite.animations.add('loop', null, 12,true);
 
         //sprite.animations.play('loop');
 

@@ -23,17 +23,21 @@ var sheetFromCanvas = function (opt) {
 
         sx = opt.frameWidth * f + 0.5;
 
+        ctx.save();
         ctx.translate(sx, 0);
 
         opt.forFrame.call({
             f: f,
             sx: sx,
             per: per,
+            bias: Math.abs(.5 - per) / .5,
             canvas: canvas,
             ctx: ctx,
             frameWidth: opt.frameWidth,
             frameHeight: opt.frameHeight
         }, ctx);
+        ctx.restore();
+
         f += 1;
     }
 
