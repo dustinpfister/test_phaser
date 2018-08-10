@@ -24,27 +24,29 @@ game.state.add('single-loop', {
                 cy = this.frameHeight / 2 - bounce * this.bias,
                 r = this.frameWidth / 4;
 
-                ctx.strokeStyle = '#ff0000';
+                ctx.strokeStyle = '#ffffff';
 
-                // draw body
+                // draw main circle
                 ctx.beginPath();
                 ctx.arc(cx, cy, r, 0, Math.PI * 2);
                 ctx.closePath();
                 ctx.stroke();
 
+                // draw smaller circle along the line of the main circle
+                ctx.fillStyle = 'rgba('+Math.floor((255 * this.bias))+',0,0,1)';
                 ctx.beginPath();
-                ctx.moveTo(cx, cy);
-                ctx.lineTo(Math.cos(a) * 8 + cx, Math.sin(a) * 8 + cy);
+                ctx.arc(Math.cos(a) * 8 + cx, Math.sin(a) * 8 + cy, r / 4, 0, Math.PI * 2);
                 ctx.closePath();
                 ctx.stroke();
+                ctx.fill();
 
             }
         });
 
         var sprite = game.add.sprite(0, 0, 'sheet-basic', 0);
-        sprite.animations.add('loop', null, 12,true);
+        sprite.animations.add('loop', null, 12, true);
 
-        //sprite.animations.play('loop');
+        sprite.animations.play('loop');
 
     },
 
