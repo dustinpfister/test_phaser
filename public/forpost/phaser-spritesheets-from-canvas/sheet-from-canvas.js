@@ -94,5 +94,3 @@ game.state.add('sheet-from-canvas', {
     }
 
 });
-
-game.state.start('sheet-from-canvas');
