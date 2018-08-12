@@ -62,8 +62,6 @@ var sheetFromCanvas = function (opt) {
         opt.game.cache.addSpriteSheet(opt.name, null, canvas, opt.frameWidth, opt.frameHeight, opt.frames, 0, 0);
     }
 
-    document.body.appendChild(canvas);
-
     // return the canvas
     return canvas;
 
