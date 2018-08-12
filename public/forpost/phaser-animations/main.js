@@ -15,10 +15,7 @@ game.state.add('ani-box-guy', {
 
                         var sx = this.cx - 8,
                         sy = this.cy - 8 - 4 + 8 * (1 - this.bias),
-                        x,
-                        y,
-                        w,
-                        h;
+                        x,y,w,h;
 
                         ctx.fillStyle = '#ffffff';
                         ctx.strokeStyle = '#000000';
@@ -45,32 +42,37 @@ game.state.add('ani-box-guy', {
                     name: 'walk',
                     forFrame: function (ctx) {
 
-                        var x = this.cx - 8,
-                        y = this.cy - 8;
+                        var sx = this.cx - 8,
+                        sy = this.cy - 8,
+                        r = Math.PI / 180 * 25 * (1 - this.bias),
+                        x,y,w,h
 
                         ctx.fillStyle = '#ffffff';
                         ctx.strokeStyle = '#000000';
 
-                        console.log(1 - this.bias);
-
                         // legs
+                        x = sx + 4;
+                        y = sy + 12;
+                        w = 4;
+                        h = 12;
                         ctx.save();
-                        ctx.translate(x + 4, y + 12);
-                        ctx.rotate((Math.PI / 180 * 25) * (1 - this.bias));
-                        ctx.fillRect(-2, 0, 4, 12);
-                        ctx.strokeRect(-2, 0, 4, 12);
+                        ctx.translate(x, y);
+                        ctx.rotate(r);
+                        ctx.fillRect(-w / 2, 0, w, h);
+                        ctx.strokeRect(-w / 2, 0, w, h);
                         ctx.restore();
 
+                        x = sx + 12;
                         ctx.save();
-                        ctx.translate(x + 12, y + 12);
-                        ctx.rotate((-Math.PI / 180 * 25) * (1 - this.bias));
-                        ctx.fillRect(-2, 0, 4, 12);
-                        ctx.strokeRect(-2, 0, 4, 12);
+                        ctx.translate(x, y);
+                        ctx.rotate(-r);
+                        ctx.fillRect(-w / 2, 0, w, h);
+                        ctx.strokeRect(-w / 2, 0, w, h);
                         ctx.restore();
 
                         // body
-                        ctx.fillRect(x, y + 2 * this.bias, 16, 16);
-                        ctx.strokeRect(x, y + 2 * this.bias, 16, 16);
+                        ctx.fillRect(sx, sy + 2 * this.bias, 16, 16);
+                        ctx.strokeRect(sx, sy + 2 * this.bias, 16, 16);
 
                     }
                 }
