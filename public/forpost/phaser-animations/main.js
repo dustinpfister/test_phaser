@@ -1,9 +1,6 @@
 // the Phaser game instance
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-// some global stuff
-game.global = {};
-
 game.state.add('ani-box-guy', {
 
     create: function () {
