@@ -32,7 +32,7 @@ var sheetFromCanvas = (function () {
             f = 0;
             while (f < ani.frames) {
 
-                // save the context, and translate so that 0,0 
+                // save the context, and translate so that 0,0
                 // is the upper left corner of the frame when drawing in
                 // the forFrame method
                 ctx.save();
@@ -49,6 +49,20 @@ var sheetFromCanvas = (function () {
             }
 
         });
+
+    };
+
+    // set the canvas width based on what is set
+    // via opt.
+    var setCanvasWidth = function (opt, canvas) {
+
+        var width = 0;
+        opt.animations.forEach(function (ani) {
+            width += ani.frames * opt.frameWidth;
+        });
+
+        canvas.width = width;
+        canvas.height = opt.frameHeight;
 
     };
 
@@ -69,14 +83,10 @@ var sheetFromCanvas = (function () {
             ];
         opt.game = opt.game || null;
 
-        var width = 0;
-        opt.animations.forEach(function (ani) {
-            width += ani.frames * opt.frameWidth;
-        });
+        // set canvas width
+        setCanvasWidth(opt, canvas);
 
-        canvas.width = width;
-        canvas.height = opt.frameHeight;
-
+        // render frames
         renderFrames(opt, canvas);
 
         // add a new sheet to cache if we have a game
