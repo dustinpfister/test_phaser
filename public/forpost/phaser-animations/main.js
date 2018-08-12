@@ -10,6 +10,7 @@ game.state.add('ani-box-guy', {
             name: 'sheet-box-guy',
             animations: [{
                     frames: 4,
+                    name: 'static',
                     forFrame: function (ctx) {
 
                         var x = this.cx - 8,
@@ -31,6 +32,7 @@ game.state.add('ani-box-guy', {
                     }
                 }, {
                     frames: 8,
+                    name: 'walk',
                     forFrame: function (ctx) {
 
                         var x = this.cx - 8,
