@@ -10,7 +10,7 @@ game.state.add('ani-basic', {
 
         sheetFromCanvas({
             game: game,
-            name: 'box-guy',
+            name: 'sheet-box-guy',
             animations: [{
                     frames: 4,
                     forFrame: function (ctx) {
@@ -58,7 +58,12 @@ game.state.add('ani-basic', {
 
         });
 
-        game.add.sprite(0, 0, 'sheet-basic', 0);
+        var sprite = game.add.sprite(0, 0, 'sheet-box-guy', 0);
+        sprite.name = 'box-guy';
+
+        // static movement animation
+        sprite.animations.add('static', [0, 1, 2, 3], 6, true);
+        sprite.animations.play('static');
 
     },
 
