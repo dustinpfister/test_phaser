@@ -20,37 +20,45 @@ game.state.add('ani-basic', {
 
                         // red background
                         ctx.fillStyle = '#ff0000';
-                        ctx.fillRect(0, 0, this.frameWidth, this.frameHeight)
+                        ctx.fillRect(0, 0, this.frameWidth, this.frameHeight);
 
                         ctx.fillStyle = '#ffffff';
-                        ctx.strokeStyle = '#000000';
-
-                        // body
-                        ctx.fillRect(x, y, 16, 16);
 
                         // legs
                         ctx.fillRect(x + 2, y + 16, 4, 12 - 8 * (1 - this.bias));
                         ctx.fillRect(x + 10, y + 16, 4, 12 - 8 * (1 - this.bias));
 
+                        // body
+                        ctx.fillRect(x, y, 16, 16);
+
                     }
                 }, {
-                    frames: 3,
+                    frames: 8,
                     forFrame: function (ctx) {
 
-                        console.log(this.sx);
+                        var x = this.cx - 8,
+                        y = this.cy - 8;
 
                         ctx.fillStyle = '#00ff00';
-                        ctx.fillRect(0, 0, this.frameWidth, this.frameHeight)
+                        ctx.fillRect(0, 0, this.frameWidth, this.frameHeight);
 
-                    }
-                }, {
-                    frames: 3,
-                    forFrame: function (ctx) {
+                        ctx.fillStyle = '#ffffff';
 
-                        console.log(this.sx);
+                        // legs
+                        ctx.save();
+                        ctx.translate(x + 4, y + 12);
+                        ctx.rotate((Math.PI / 180 * 45) * (1 - this.bias));
+                        ctx.fillRect(-2, 0, 4, 12);
+                        ctx.restore();
 
-                        ctx.fillStyle = '#0000ff';
-                        ctx.fillRect(0, 0, this.frameWidth, this.frameHeight)
+                        ctx.save();
+                        ctx.translate(x + 12, y + 12);
+                        ctx.rotate((-Math.PI / 180 * 45) * (1 - this.bias));
+                        ctx.fillRect(-2, 0, 4, 12);
+                        ctx.restore();
+
+                        // body
+                        ctx.fillRect(x, y + 2 * this.bias, 16, 16);
 
                     }
                 }
@@ -63,7 +71,8 @@ game.state.add('ani-basic', {
 
         // static movement animation
         sprite.animations.add('static', [0, 1, 2, 3], 6, true);
-        sprite.animations.play('static');
+        sprite.animations.add('walk', [4, 5, 6, 7, 8, 9, 10, 11], 12, true);
+        sprite.animations.play('walk');
 
     },
 
