@@ -2,13 +2,13 @@ var sheetFromCanvas = (function () {
 
     // generate the api for the Current forFrame method, and frame
     // used in renderFrames
-    var genForFrameAPI = function (opt, ani, f, sx, canvas, ctx) {
+    var genForFrameAPI = function (opt, ani, af, sx, canvas, ctx) {
 
-        var per = per = f / ani.frames;
+        var per = per = af / ani.frames;
 
         // the API to work with in a forFrame method
         return {
-            f: f,
+            f: af,
             sx: sx,
             per: per,
             bias: Math.abs(.5 - per) / .5,
@@ -33,7 +33,7 @@ var sheetFromCanvas = (function () {
 
             af = 0; // frame index relative to the current animation
             frameData[ani.name] = [];
-            while (f < ani.frames) {
+            while (af < ani.frames) {
 
                 // save the context, and translate so that 0,0
                 // is the upper left corner of the frame when drawing in
@@ -112,6 +112,8 @@ var sheetFromCanvas = (function () {
             game.global.frameData = frameData;
 
         }
+		
+		document.body.appendChild(canvas);
 
     };
 
