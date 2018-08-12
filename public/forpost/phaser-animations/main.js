@@ -39,26 +39,30 @@ game.state.add('ani-basic', {
                         var x = this.cx - 8,
                         y = this.cy - 8;
 
-                        ctx.fillStyle = '#00ff00';
-                        ctx.fillRect(0, 0, this.frameWidth, this.frameHeight);
+                        //ctx.fillStyle = '#00ff00';
+                        //ctx.fillRect(0, 0, this.frameWidth, this.frameHeight);
 
                         ctx.fillStyle = '#ffffff';
+                        ctx.strokeStyle = '#000000';
 
                         // legs
                         ctx.save();
                         ctx.translate(x + 4, y + 12);
                         ctx.rotate((Math.PI / 180 * 45) * (1 - this.bias));
                         ctx.fillRect(-2, 0, 4, 12);
+                        ctx.strokeRect(-2, 0, 4, 12);
                         ctx.restore();
 
                         ctx.save();
                         ctx.translate(x + 12, y + 12);
                         ctx.rotate((-Math.PI / 180 * 45) * (1 - this.bias));
                         ctx.fillRect(-2, 0, 4, 12);
+                        ctx.strokeRect(-2, 0, 4, 12);
                         ctx.restore();
 
                         // body
                         ctx.fillRect(x, y + 2 * this.bias, 16, 16);
+                        ctx.strokeRect(x, y + 2 * this.bias, 16, 16);
 
                     }
                 }
