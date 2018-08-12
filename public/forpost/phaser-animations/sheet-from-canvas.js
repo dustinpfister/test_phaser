@@ -6,6 +6,7 @@ var sheetFromCanvas = (function () {
 
         var per = per = f / ani.frames;
 
+        // the API to work with in a forFrame method
         return {
             f: f,
             sx: sx,
@@ -25,21 +26,24 @@ var sheetFromCanvas = (function () {
     var renderFrames = function (opt, canvas) {
 
         var sx = 0,
-        f,
-        per,
         ctx = canvas.getContext('2d');
         opt.animations.forEach(function (ani) {
 
             f = 0;
             while (f < ani.frames) {
 
-                //per = f / ani.frames;
-
+                // save the context, and translate so that 0,0 
+                // is the upper left corner of the frame when drawing in
+                // the forFrame method
                 ctx.save();
                 ctx.translate(sx + 0.5, 0);
+
+                // call the forFrame method of the current animation
+                // generating the api that can be used via the this keyword
                 ani.forFrame.call(genAPI(opt, ani, f, sx, canvas, ctx), ctx);
                 ctx.restore();
 
+                // step start x, and frame index
                 sx += opt.frameWidth;
                 f += 1;
             }
