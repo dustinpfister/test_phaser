@@ -73,7 +73,7 @@ game.state.add('ani-box-guy', {
         sprite.name = 'box-walk';
 
         // static movement animation
-        sprite.animations.add('walk', [4, 5, 6, 7, 8, 9, 10, 11], 12, true);
+        sprite.animations.add('walk', game.global.frameData['walk'], 12, true);
         sprite.animations.play('walk');
         sprite.x = 0;
         sprite.y = 96;
@@ -81,7 +81,7 @@ game.state.add('ani-box-guy', {
 
         sprite = game.add.sprite(0, 0, 'sheet-box-guy', 0);
         sprite.name = 'box-static';
-        sprite.animations.add('static', [0, 1, 2, 3], 6, true);
+        sprite.animations.add('static', game.global.frameData['static'], 6, true);
         sprite.animations.play('static');
 
         sprite.x = 64;

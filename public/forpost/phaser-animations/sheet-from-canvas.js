@@ -2,7 +2,7 @@ var sheetFromCanvas = (function () {
 
     // generate the api for the Current forFrame method, and frame
     // used in renderFrames
-    var genAPI = function (opt, ani, f, sx, canvas, ctx) {
+    var genForFrameAPI = function (opt, ani, f, sx, canvas, ctx) {
 
         var per = per = f / ani.frames;
 
@@ -23,13 +23,16 @@ var sheetFromCanvas = (function () {
     };
 
     // render all frames with the given options, and canvas
-    var renderFrames = function (opt, canvas) {
+    var genFrames = function (opt, canvas) {
 
         var sx = 0,
+        frameData = {},
+        f = 0, // frame index
         ctx = canvas.getContext('2d');
         opt.animations.forEach(function (ani) {
 
-            f = 0;
+            af = 0; // frame index relative to the current animation
+            frameData[ani.name] = [];
             while (f < ani.frames) {
 
                 // save the context, and translate so that 0,0
@@ -40,15 +43,22 @@ var sheetFromCanvas = (function () {
 
                 // call the forFrame method of the current animation
                 // generating the api that can be used via the this keyword
-                ani.forFrame.call(genAPI(opt, ani, f, sx, canvas, ctx), ctx);
+                ani.forFrame.call(genForFrameAPI(opt, ani, af, sx, canvas, ctx), ctx);
                 ctx.restore();
+
+                // push the sheet relative frame index to frameData for the animation
+                frameData[ani.name].push(f);
 
                 // step start x, and frame index
                 sx += opt.frameWidth;
+                af += 1;
                 f += 1;
             }
 
         });
+
+        // return the frameData
+        return frameData;
 
     };
 
@@ -70,7 +80,7 @@ var sheetFromCanvas = (function () {
     return function (opt) {
 
         var canvas = document.createElement('canvas'),
-        width;
+        frameData;
 
         opt = opt || {};
         opt.name = opt.name || '';
@@ -87,12 +97,19 @@ var sheetFromCanvas = (function () {
         setCanvasWidth(opt, canvas);
 
         // render frames
-        renderFrames(opt, canvas);
+        frameData = genFrames(opt, canvas);
 
-        // add a new sheet to cache if we have a game
+        // if we have a game object
         if (opt.game) {
 
+            // add a sheet to cache
             opt.game.cache.addSpriteSheet(opt.name, null, canvas, opt.frameWidth, opt.frameHeight, opt.frames, 0, 0);
+
+            // append frame data to a global object
+
+            game.global = game.global || {};
+
+            game.global.frameData = frameData;
 
         }
 
