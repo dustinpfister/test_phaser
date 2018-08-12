@@ -112,8 +112,6 @@ var sheetFromCanvas = (function () {
             game.global.frameData = frameData;
 
         }
-		
-		document.body.appendChild(canvas);
 
     };
 
