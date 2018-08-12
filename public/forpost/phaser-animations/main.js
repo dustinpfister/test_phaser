@@ -4,7 +4,7 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 // some global stuff
 game.global = {};
 
-game.state.add('ani-basic', {
+game.state.add('ani-box-guy', {
 
     create: function () {
 
@@ -112,4 +112,4 @@ game.state.add('ani-basic', {
 
 });
 
-game.state.start('ani-basic');
+game.state.start('ani-box-guy');
