@@ -45,7 +45,9 @@ var sheetFromCanvas = function (opt) {
                 canvas: canvas,
                 ctx: ctx,
                 frameWidth: opt.frameWidth,
-                frameHeight: opt.frameHeight
+                frameHeight: opt.frameHeight,
+                cx: opt.frameWidth / 2,
+                cy: opt.frameHeight / 2
             }, ctx);
             ctx.restore();
 
