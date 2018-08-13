@@ -29,27 +29,53 @@ game.state.add('boot', {
         maxFrame = 4,
         frameWidth = 32,
         frameHeight = 16,
-        canvas = document.createElement('canvas');
+        buttons = ['foo', 'bar'],
+
+        // state colors [over,out,down,up]
+        stateColors = ['#ffff00', '#afafaf', '#ff0000', '#00ff00'],
+        button = 0,
+        maxButton = buttons.length,
+        canvas = document.createElement('canvas'),
         ctx = canvas.getContext('2d');
+
         canvas.width = frameWidth * maxFrame;
-        canvas.height = frameHeight;
+        canvas.height = frameHeight * maxButton;
 
         // disable scrollTo
         game.scale.compatibility.scrollTo = false;
-        while (frame < maxFrame) {
 
-            // figure startx, and percent done
-            var sx = frameWidth * frame + 0.5,
-            per = frame / maxFrame;
+        // make button sheet
+        while (button < buttons.length) {
 
-            // draw for current button
-            ctx.strokeStyle = '#000000';
-            ctx.strokeRect(sx, 0, frameWidth - 1, frameHeight);
+            frame = 0;
+            while (frame < maxFrame) {
 
-            // next frame
-            frame += 1;
+                // figure startx, and percent done
+                var sx = frameWidth * frame + 0.5,
+                sy = frameHeight * button + 0.5;
+
+                // draw for current button
+                ctx.strokeStyle = '#000000';
+                ctx.fillStyle = stateColors[frame];
+                ctx.strokeRect(sx, sy, frameWidth - 1, frameHeight - 1);
+                ctx.fillRect(sx, sy, frameWidth - 1, frameHeight - 1);
+
+                ctx.fillStyle = '#000000';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(buttons[button], sx + frameWidth / 2, sy + frameHeight / 2)
+
+                // next frame
+                frame += 1;
+
+            }
+
+            // next button
+            button += 1;
 
         }
+
+        document.body.appendChild(canvas);
 
         // add a new sheet to cache
         this.game.cache.addSpriteSheet('sheet-button', null, canvas, frameWidth, frameHeight, maxFrame, 0, 0);
