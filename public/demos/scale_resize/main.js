@@ -14,7 +14,7 @@ game.state.add('resize', {
 
         // disable scrollTo
         game.scale.compatibility.scrollTo = false;
-
+        game.scale.pageAlignHorizontally = true;
         game.input.onDown.add(function () {
 
             if (game.scale.scaleMode === Phaser.ScaleManager.NO_SCALE) {
@@ -37,29 +37,36 @@ game.state.add('resize', {
 
             }
 
-            console.log('window constraints: ' + JSON.stringify(game.scale.windowConstraints));
-            console.log('scale mode: ' + game.scale.scaleMode);
-            console.log('bounds: ' + game.scale.bounds);
-
         });
 
         game.scale.onSizeChange.add(function (scale) {
 
-            console.log('CHANGE');
+            console.log('********** SIZE CHANGE **********');
+            console.log('window constraints: ' + JSON.stringify(game.scale.windowConstraints));
+            console.log('scale mode: ' + game.scale.scaleMode);
+            console.log('bounds: ' + game.scale.bounds);
+            console.log('canvas size (offset): ' + game.canvas.offsetWidth + ',' + game.canvas.offsetHeight);
+            console.log('canvas size (native): ' + game.canvas.width + ',' + game.canvas.width);
+            console.log('game size: ' + game.width + ',' + game.height);
+            console.log('world size: ' + game.world.width + ',' + game.world.height);
+            //console.log(game.scale.scaleFactor);
+            console.log('********** **********');
 
+            /*
             if (scale.scaleMode === Phaser.ScaleManager.SHOW_ALL) {
 
-                game.canvas.style.position = 'fixed';
-                game.canvas.style.left = '0px';
-                game.canvas.style.top = '0px';
-                game.canvas.style.width = window.innerWidth + 'px';
-                game.canvas.style.height = window.innerHeight + 'px';
+            game.canvas.style.position = 'fixed';
+            game.canvas.style.left = '0px';
+            game.canvas.style.top = '0px';
+            game.canvas.style.width = window.innerWidth + 'px';
+            game.canvas.style.height = window.innerHeight + 'px';
 
             } else {
 
-                game.canvas.style.position = 'static';
+            game.canvas.style.position = 'static';
 
             }
+             */
 
         });
 
