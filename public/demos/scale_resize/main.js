@@ -15,14 +15,6 @@ game.state.add('resize', {
         // disable scrollTo
         game.scale.compatibility.scrollTo = false;
 
-        // inject a fixed position DIV for SCALE
-        var fixDiv = document.createElement('div');
-        fixDiv.style.position = 'fixed';
-        fixDiv.style.top = '0px';
-        fixDiv.style.left = '0px';
-
-        document.body.appendChild(fixDiv);
-
         // on input down
         game.input.onDown.add(function () {
 
@@ -40,17 +32,6 @@ game.state.add('resize', {
                 // set
                 game.scale.width = window.innerWidth;
                 game.scale.height = window.innerHeight;
-                fixDiv.style.width = game.scale.width + 'px';
-                fixDiv.style.Height = game.scale.height + 'px';
-
-                // remove from dom
-                Phaser.Canvas.removeFromDOM(game.canvas);
-
-                // append to fixDIV
-                fixDiv.appendChild(game.canvas);
-
-                // append to fixed div
-                console.log(game.canvas);
 
                 // set scale mode to 'SHOW_ALL'
                 game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -66,12 +47,6 @@ game.state.add('resize', {
                 // I will want to set these back to there defaults
                 game.scale.pageAlignHorizontally = false;
                 game.scale.pageAlignVertically = false;
-
-                // remove from dom
-                Phaser.Canvas.removeFromDOM(game.canvas);
-
-                // append back to game.parent
-                document.getElementById(game.parent).appendChild(game.canvas);
 
                 // set scale back to NO_SCALE
                 game.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
