@@ -14,9 +14,8 @@ game.state.add('resize', {
 
         // disable scrollTo
         game.scale.compatibility.scrollTo = false;
-        game.scale.pageAlignHorizontally = true;
 
-        // fixed position div
+        // inject a fixed position DIV for SCALE
         var fixDiv = document.createElement('div');
         fixDiv.style.position = 'fixed';
         fixDiv.style.top = '0px';
@@ -27,14 +26,18 @@ game.state.add('resize', {
         // on input down
         game.input.onDown.add(function () {
 
+            // IF scale mode is NO_SCALE then toggle to SHOW_ALL
             if (game.scale.scaleMode === Phaser.ScaleManager.NO_SCALE) {
 
                 // set window constraints to 'visual' for both right, and bottom
-                game.scale.windowConstraints.right = 'visual';
+                //game.scale.windowConstraints.right = 'visual';
                 game.scale.windowConstraints.bottom = 'visual';
 
-                console.log('yeah: ' + window.innerWidth);
+                // I will want the scaled canvas to align horizontally/Vertically
+                game.scale.pageAlignHorizontally = true;
+                game.scale.pageAlignVertically = true;
 
+                // set
                 game.scale.width = window.innerWidth;
                 game.scale.height = window.innerHeight;
                 fixDiv.style.width = game.scale.width + 'px';
@@ -54,13 +57,21 @@ game.state.add('resize', {
 
             } else {
 
+                // ELSE if scale mode is not NO_SCALE toggle back
+
                 // set window constraints back to default
                 game.scale.windowConstraints.right = 'layout';
                 game.scale.windowConstraints.bottom = '';
 
+                // I will want to set these back to there defaults
+                game.scale.pageAlignHorizontally = false;
+                game.scale.pageAlignVertically = false;
+
                 // remove from dom
                 Phaser.Canvas.removeFromDOM(game.canvas);
-                document.getElementById('gamearea').appendChild(game.canvas);
+
+                // append back to game.parent
+                document.getElementById(game.parent).appendChild(game.canvas);
 
                 // set scale back to NO_SCALE
                 game.scale.scaleMode = Phaser.ScaleManager.NO_SCALE;
@@ -80,24 +91,9 @@ game.state.add('resize', {
             console.log('canvas size (native): ' + game.canvas.width + ',' + game.canvas.width);
             console.log('game size: ' + game.width + ',' + game.height);
             console.log('world size: ' + game.world.width + ',' + game.world.height);
+            console.log(game);
             //console.log(scale.scaleFactor);
             console.log('********** **********');
-
-            /*
-            if (scale.scaleMode === Phaser.ScaleManager.SHOW_ALL) {
-
-            game.canvas.style.position = 'fixed';
-            game.canvas.style.left = '0px';
-            game.canvas.style.top = '0px';
-            game.canvas.style.width = window.innerWidth + 'px';
-            game.canvas.style.height = window.innerHeight + 'px';
-
-            } else {
-
-            game.canvas.style.position = 'static';
-
-            }
-             */
 
         });
 
