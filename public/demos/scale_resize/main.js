@@ -39,6 +39,21 @@ game.state.add('resize', {
             console.log('bounds: ' + game.scale.bounds);
 
         });
+		
+		game.scale.onSizeChange.add(function(scale){
+			
+			console.log(game.canvas)
+			
+			if(scale.scaleMode === Phaser.ScaleManager.SHOW_ALL){
+				
+				
+				//game.canvas.style.position = 'fixed';
+				//game.canvas.style.left = '0px';
+				
+			}
+			
+			
+		});
 
     }
 
