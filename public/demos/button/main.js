@@ -3,7 +3,7 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 game.transparent = true;
 
 // demo state
-game.state.add('demo', {
+game.state.add('game', {
 
     create: function () {
 
@@ -14,22 +14,23 @@ game.state.add('demo', {
 
         };
 
-        var button = game.add.button(10, 10, 'sheet-button', onPress, game, 0, 1, 2, 3);
+        game.add.button(10, 32, 'sheet-button', onPress, game, 0, 1, 2, 3);
+        game.add.button(10, 64, 'sheet-button', onPress, game, 4, 5, 6, 7);
 
     }
 
 });
 
-// boot state
-game.state.add('boot', {
+// buttons state
+game.state.add('buttons', {
 
     create: function () {
 
         var frame = 0,
         maxFrame = 4,
-        frameWidth = 32,
+        frameWidth = 64,
         frameHeight = 16,
-        buttons = ['foo', 'bar'],
+        buttons = ['work', 'upgrade'],
 
         // state colors [over,out,down,up]
         stateColors = ['#ffff00', '#afafaf', '#ff0000', '#00ff00'],
@@ -40,9 +41,6 @@ game.state.add('boot', {
 
         canvas.width = frameWidth * maxFrame;
         canvas.height = frameHeight * maxButton;
-
-        // disable scrollTo
-        game.scale.compatibility.scrollTo = false;
 
         // make button sheet
         while (button < buttons.length) {
@@ -78,9 +76,29 @@ game.state.add('boot', {
         document.body.appendChild(canvas);
 
         // add a new sheet to cache
-        this.game.cache.addSpriteSheet('sheet-button', null, canvas, frameWidth, frameHeight, maxFrame, 0, 0);
+        this.game.cache.addSpriteSheet('sheet-button', null, canvas, frameWidth, frameHeight, maxFrame * maxButton, 0, 0);
 
-        game.state.start('demo');
+        game.state.start('game');
+
+    }
+
+});
+
+// boot state
+game.state.add('boot', {
+
+    create: function () {
+
+        game.global = game.global || {};
+        game.money = 0;
+        game.upgrades = 0;
+        game.upgradeCost = 1;
+
+        // disable scrollTo
+        game.scale.compatibility.scrollTo = false;
+
+        // start buttons state
+        game.state.start('buttons');
 
     }
 
