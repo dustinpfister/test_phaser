@@ -1,7 +1,9 @@
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+// set some game values
 game.transparent = true;
+game.scale.compatibility.scrollTo = false;
 
 game.state.add('circles',
 
@@ -28,19 +30,19 @@ game.state.add('circles',
         return {
 
             // so here is the init method
-            init : function (opt) {
+            init: function (opt) {
 
                 var prop,
 
                 // the defaults
                 defaults = {
 
-                    count : 3,
-                    cx : 160,
-                    cy : 120,
-                    size : 32,
-                    radius : 64,
-                    color : 0x00ff00
+                    count: 3,
+                    cx: 160,
+                    cy: 120,
+                    size: 32,
+                    radius: 64,
+                    color: 0x00ff00
 
                 };
 
@@ -63,7 +65,7 @@ game.state.add('circles',
             },
 
             // the create method
-            create : function () {
+            create: function () {
 
                 var ci = 0,
                 r,
@@ -90,7 +92,7 @@ game.state.add('circles',
             },
 
             // showtime
-            update : function () {
+            update: function () {
 
                 var ci = 0;
 
@@ -119,8 +121,8 @@ game.state.add('circles',
 // start with default settings
 game.state.start('circles', true, true, {
 
-    count : 8,
-    size : 16,
-    color : 0x00afff
+    count: 8,
+    size: 16,
+    color: 0x00afff
 
 });

@@ -23,7 +23,7 @@ game.state.add('resize', {
 
         document.body.appendChild(fixDiv);
 
-        // on input down
+        // on input down toggle full screen
         game.input.onDown.add(function () {
 
             // IF scale mode is NO_SCALE then toggle to SHOW_ALL
@@ -77,49 +77,50 @@ game.state.add('resize', {
 
         });
 
+        /*
         var font = {
-            fill: 'white',
-            font: '10px courier'
+        fill: 'white',
+        font: '10px courier'
         };
 
         var txItems = [
 
-            function () {
-                return 'window constraints: ' + JSON.stringify(game.scale.windowConstraints);
-            },
-            function () {
-                return 'scale mode: ' + game.scale.scaleMode;
-            },
-            function () {
-                var bounds = game.scale.bounds;
-                return 'bounds: x:' + bounds.x + ',y:' + bounds.y + ',w:' + bounds.width + ',h:' + bounds.height;
-            }
+        function () {
+        return 'window constraints: ' + JSON.stringify(game.scale.windowConstraints);
+        },
+        function () {
+        return 'scale mode: ' + game.scale.scaleMode;
+        },
+        function () {
+        var bounds = game.scale.bounds;
+        return 'bounds: x:' + bounds.x + ',y:' + bounds.y + ',w:' + bounds.width + ',h:' + bounds.height;
+        }
         ]
 
         // text objects setup
         var setupTX = function () {
-            var i = 0,
-            tx,
-            len = txItems.length;
-            while (i < len) {
-                tx = game.add.text(5, 5 + 10 * i, '', font);
-                tx.name = 'tx' + i;
-                i += 1;
-            }
+        var i = 0,
+        tx,
+        len = txItems.length;
+        while (i < len) {
+        tx = game.add.text(5, 5 + 10 * i, '', font);
+        tx.name = 'tx' + i;
+        i += 1;
+        }
         };
 
         // text objects update
         var updateTX = function () {
 
-            var i = 0,
-            tx,
-            len = txItems.length;
-            while (i < len) {
-                tx = game.world.getByName('tx' + i);
-                tx.text = txItems[i]();
+        var i = 0,
+        tx,
+        len = txItems.length;
+        while (i < len) {
+        tx = game.world.getByName('tx' + i);
+        tx.text = txItems[i]();
 
-                i += 1;
-            }
+        i += 1;
+        }
 
         }
 
@@ -128,20 +129,21 @@ game.state.add('resize', {
 
         game.scale.onSizeChange.add(function (scale) {
 
-            updateTX();
+        updateTX();
 
-            console.log('********** SIZE CHANGE **********');
-            console.log('window constraints: ' + JSON.stringify(scale.windowConstraints));
-            console.log('scale mode: ' + scale.scaleMode);
-            console.log('bounds: ' + scale.bounds);
-            console.log('target size: ' + scale.width + ',' + scale.height)
-            console.log('canvas size (offset): ' + game.canvas.offsetWidth + ',' + game.canvas.offsetHeight);
-            console.log('canvas size (native): ' + game.canvas.width + ',' + game.canvas.width);
-            console.log('game size: ' + game.width + ',' + game.height);
-            console.log('world size: ' + game.world.width + ',' + game.world.height);
-            console.log('********** **********');
+        console.log('********** SIZE CHANGE **********');
+        console.log('window constraints: ' + JSON.stringify(scale.windowConstraints));
+        console.log('scale mode: ' + scale.scaleMode);
+        console.log('bounds: ' + scale.bounds);
+        console.log('target size: ' + scale.width + ',' + scale.height)
+        console.log('canvas size (offset): ' + game.canvas.offsetWidth + ',' + game.canvas.offsetHeight);
+        console.log('canvas size (native): ' + game.canvas.width + ',' + game.canvas.width);
+        console.log('game size: ' + game.width + ',' + game.height);
+        console.log('world size: ' + game.world.width + ',' + game.world.height);
+        console.log('********** **********');
 
         });
+         */
 
     }
 
