@@ -7,15 +7,21 @@ game.state.add('game', {
 
     create: function () {
 
-        var onPress = function () {
+        var font = {
+            fill: '#000000',
+            font: '20px courier'
+        },
+        money = game.add.text(150, 32, '$0000.00', font);
 
-            console.log('foo');
-            console.log(this);
+        onWork = function () {
+
+            this.money = Phaser.Math.roundTo(this.money + 0.25 + 0.25 * this.upgrades, -2);
+            money.text = '$' + Phaser.Utils.pad(this.money.toFixed(2), 7, 0, 1);
 
         };
 
-        game.add.button(10, 32, 'sheet-button', onPress, game, 0, 1, 2, 3);
-        game.add.button(10, 64, 'sheet-button', onPress, game, 4, 5, 6, 7);
+        game.add.button(10, 32, 'sheet-button', onWork, game.global, 0, 1, 2, 3);
+        //game.add.button(10, 64, 'sheet-button', onPress, game, 4, 5, 6, 7);
 
     }
 
@@ -73,7 +79,7 @@ game.state.add('buttons', {
 
         }
 
-        document.body.appendChild(canvas);
+        //document.body.appendChild(canvas);
 
         // add a new sheet to cache
         this.game.cache.addSpriteSheet('sheet-button', null, canvas, frameWidth, frameHeight, maxFrame * maxButton, 0, 0);
@@ -90,9 +96,9 @@ game.state.add('boot', {
     create: function () {
 
         game.global = game.global || {};
-        game.money = 0;
-        game.upgrades = 0;
-        game.upgradeCost = 1;
+        game.global.money = 0;
+        game.global.upgrades = 0;
+        game.global.upgradeCost = 1;
 
         // disable scrollTo
         game.scale.compatibility.scrollTo = false;
