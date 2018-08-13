@@ -21,6 +21,19 @@ game.state.add('resize', {
         fixDiv.style.top = '0px';
         fixDiv.style.left = '0px';
 
+        // setFiex to be called when toggling to pseudo full screen
+        // or when the window is resized
+        var setFixed = function () {
+            game.scale.width = window.innerWidth;
+            game.scale.height = window.innerHeight;
+            fixDiv.style.width = game.scale.width + 'px';
+            fixDiv.style.Height = game.scale.height + 'px';
+        };
+
+        // call setFixed on window resize
+        window.addEventListener('resize', function () {setFixed();});
+
+        // append to body
         document.body.appendChild(fixDiv);
 
         // on input down toggle full screen
@@ -30,7 +43,6 @@ game.state.add('resize', {
             if (game.scale.scaleMode === Phaser.ScaleManager.NO_SCALE) {
 
                 // set window constraints to 'visual' for both right, and bottom
-                //game.scale.windowConstraints.right = 'visual';
                 game.scale.windowConstraints.bottom = 'visual';
 
                 // I will want the scaled canvas to align horizontally/Vertically
@@ -38,10 +50,7 @@ game.state.add('resize', {
                 game.scale.pageAlignVertically = true;
 
                 // set
-                game.scale.width = window.innerWidth;
-                game.scale.height = window.innerHeight;
-                fixDiv.style.width = game.scale.width + 'px';
-                fixDiv.style.Height = game.scale.height + 'px';
+                setFixed();
 
                 // remove from dom
                 Phaser.Canvas.removeFromDOM(game.canvas);
@@ -57,7 +66,6 @@ game.state.add('resize', {
                 // ELSE if scale mode is not NO_SCALE toggle back
 
                 // set window constraints back to default
-                game.scale.windowConstraints.right = 'layout';
                 game.scale.windowConstraints.bottom = '';
 
                 // I will want to set these back to there defaults
