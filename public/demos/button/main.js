@@ -17,8 +17,9 @@ game.state.add('game', {
 
         updateInfo = function () {
 
-            tx_money.text = '$' + Phaser.Utils.pad(this.money.toFixed(2), 7, 0, 1);
+            tx_money.text = '$' + Phaser.Utils.pad(this.money.toFixed(2), 6, 0, 1);
             tx_upgrades.text = 'Per task (' + this.upgrades + ') : ' + this.taskRate.toFixed(2);
+            tx_upcost.text = 'upgrade cost: ' + this.upgradeCost.toFixed(2);
 
         },
 
@@ -26,6 +27,7 @@ game.state.add('game', {
         onWork = function () {
 
             this.money = Phaser.Math.roundTo(this.money + 0.25 + 0.25 * this.upgrades, -2);
+			this.money = Phaser.Math.clamp(this.money,0,999.99);
             updateInfo.call(this);
 
         },
