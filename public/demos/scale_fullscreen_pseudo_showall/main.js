@@ -7,7 +7,7 @@ game.state.add('resize', {
 
         // just a circle
         var bx = game.add.graphics(160, 120);
-        bx.beginFill(0x00ff00);
+        bx.beginFill(0x008f00);
         bx.drawCircle(0, 0, 240);
         bx.endFill();
         game.stage.backgroundColor = '#2a2a2a';
@@ -49,9 +49,6 @@ game.state.add('resize', {
                 // append to fixDIV
                 fixDiv.appendChild(game.canvas);
 
-                // append to fixed div
-                console.log(game.canvas);
-
                 // set scale mode to 'SHOW_ALL'
                 game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
@@ -80,7 +77,58 @@ game.state.add('resize', {
 
         });
 
+        var font = {
+            fill: 'white',
+            font: '10px courier'
+        };
+
+        var txItems = [
+
+            function () {
+                return 'window constraints: ' + JSON.stringify(game.scale.windowConstraints);
+            },
+            function () {
+                return 'scale mode: ' + game.scale.scaleMode;
+            },
+            function () {
+                var bounds = game.scale.bounds;
+                return 'bounds: x:' + bounds.x + ',y:' + bounds.y + ',w:' + bounds.width + ',h:' + bounds.height;
+            }
+        ]
+
+        // text objects setup
+        var setupTX = function () {
+            var i = 0,
+            tx,
+            len = txItems.length;
+            while (i < len) {
+                tx = game.add.text(5, 5 + 10 * i, '', font);
+                tx.name = 'tx' + i;
+                i += 1;
+            }
+        };
+
+        // text objects update
+        var updateTX = function () {
+
+            var i = 0,
+            tx,
+            len = txItems.length;
+            while (i < len) {
+                tx = game.world.getByName('tx' + i);
+                tx.text = txItems[i]();
+
+                i += 1;
+            }
+
+        }
+
+        setupTX();
+        updateTX();
+
         game.scale.onSizeChange.add(function (scale) {
+
+            updateTX();
 
             console.log('********** SIZE CHANGE **********');
             console.log('window constraints: ' + JSON.stringify(scale.windowConstraints));
@@ -91,8 +139,6 @@ game.state.add('resize', {
             console.log('canvas size (native): ' + game.canvas.width + ',' + game.canvas.width);
             console.log('game size: ' + game.width + ',' + game.height);
             console.log('world size: ' + game.world.width + ',' + game.world.height);
-            console.log(game);
-            //console.log(scale.scaleFactor);
             console.log('********** **********');
 
         });
