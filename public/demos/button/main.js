@@ -9,19 +9,45 @@ game.state.add('game', {
 
         var font = {
             fill: '#000000',
-            font: '20px courier'
+            font: '15px courier'
         },
-        money = game.add.text(150, 32, '$0000.00', font);
+        tx_money = game.add.text(100, 32, '', font),
+        tx_upgrades = game.add.text(100, 64, '', font),
+        tx_upcost = game.add.text(100, 96, '', font);
 
+        updateInfo = function () {
+
+            tx_money.text = '$' + Phaser.Utils.pad(this.money.toFixed(2), 7, 0, 1);
+            tx_upgrades.text = 'Per task (' + this.upgrades + ') : ' + this.taskRate.toFixed(2);
+
+        },
+
+        // on work callback
         onWork = function () {
 
             this.money = Phaser.Math.roundTo(this.money + 0.25 + 0.25 * this.upgrades, -2);
-            money.text = '$' + Phaser.Utils.pad(this.money.toFixed(2), 7, 0, 1);
+            updateInfo.call(this);
+
+        },
+
+        onUpgrade = function () {
+
+            if (this.money >= this.upgradeCost) {
+
+                this.money -= this.upgradeCost;
+                this.upgrades += 1;
+                this.upgradeCost = Math.pow(1.25, this.upgrades);
+                this.taskRate = 0.25 + 0.25 * this.upgrades;
+
+            }
+            updateInfo.call(this);
 
         };
 
+        updateInfo.call(game.global);
+
         game.add.button(10, 32, 'sheet-button', onWork, game.global, 0, 1, 2, 3);
-        //game.add.button(10, 64, 'sheet-button', onPress, game, 4, 5, 6, 7);
+        game.add.button(10, 64, 'sheet-button', onUpgrade, game.global, 4, 5, 6, 7);
 
     }
 
@@ -36,7 +62,7 @@ game.state.add('buttons', {
         maxFrame = 4,
         frameWidth = 64,
         frameHeight = 16,
-        buttons = ['work', 'upgrade'],
+        buttons = ['do task', 'upgrade'],
 
         // state colors [over,out,down,up]
         stateColors = ['#ffff00', '#afafaf', '#ff0000', '#00ff00'],
@@ -97,6 +123,7 @@ game.state.add('boot', {
 
         game.global = game.global || {};
         game.global.money = 0;
+        game.global.taskRate = 0.25;
         game.global.upgrades = 0;
         game.global.upgradeCost = 1;
 
