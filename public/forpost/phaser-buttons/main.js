@@ -1,6 +1,6 @@
 // main
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
-game.transparent = true;
+//game.transparent = true;
 
 // demo state
 game.state.add('game', {
@@ -8,7 +8,7 @@ game.state.add('game', {
     create: function () {
 
         var font = {
-            fill: '#000000',
+            fill: '#ffffff',
             font: '15px courier'
         },
         tx_money = game.add.text(100, 32, '', font),
@@ -67,7 +67,7 @@ game.state.add('buttons', {
         buttons = ['do task', 'upgrade'],
 
         // state colors [over,out,down,up]
-        stateColors = ['#ffff00', '#afafaf', '#ff0000', '#00ff00'],
+        stateColors = ['#ffff00', '#00afaf', '#ff0000', '#00ff00'],
         button = 0,
         maxButton = buttons.length,
         canvas = document.createElement('canvas'),
@@ -87,12 +87,12 @@ game.state.add('buttons', {
                 sy = frameHeight * button + 0.5;
 
                 // draw for current button
-                ctx.strokeStyle = '#000000';
+                ctx.strokeStyle = '#0000af';
                 ctx.fillStyle = stateColors[frame];
                 ctx.strokeRect(sx, sy, frameWidth - 1, frameHeight - 1);
                 ctx.fillRect(sx, sy, frameWidth - 1, frameHeight - 1);
 
-                ctx.fillStyle = '#000000';
+                ctx.fillStyle = '#0000af';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(buttons[button], sx + frameWidth / 2, sy + frameHeight / 2)
