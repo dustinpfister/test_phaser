@@ -88,10 +88,18 @@ game.state.add('game', {
 
             }
 
-            if (sprite.data.state =='inbound') {
+            if (sprite.data.state == 'inbound') {
 
                 sprite.x += sprite.data.dx;
                 sprite.y += sprite.data.dy;
+
+                var d = new Phaser.Point(game.world.centerX, game.world.centerY).distance(sprite);
+
+                if (d < 100) {
+
+                    sprite.data.state = 'active';
+
+                }
 
             }
 
