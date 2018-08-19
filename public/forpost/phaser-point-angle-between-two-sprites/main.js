@@ -1,5 +1,10 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+// very basic
+var angle = Phaser.Point.prototype.angle.call({x:0,y:0},{x:10,y:10});
+console.log( angle );  // 0.7853981633974483
+console.log( angle / Math.PI * 180); // 45
+
 game.state.add('basic', {
 
     create: function () {
@@ -16,3 +21,4 @@ game.state.add('basic', {
 });
 
 game.state.start('basic');
+
