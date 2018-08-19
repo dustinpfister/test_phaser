@@ -42,8 +42,12 @@ game.state.add('game', {
 
             sprite.data = {
 
-                active: false,
-                hp: 1
+                state: 'inactive',
+                heading: 0,
+                dx: 1,
+                dy: 0,
+                hp: 1,
+                delta: new Phaser.Point(0, 0)
 
             };
 
@@ -59,18 +63,47 @@ game.state.add('game', {
         len = game.global.block_pool_size,
         a,
         sprite;
+
+        // loop all blocks
         while (i < len) {
 
             sprite = game.world.getByName('block-' + i);
 
-            if (!sprite.data.active) {
+            // if not active
+            if (sprite.data.state === 'inactive') {
 
-                sprite.data.active = true;
-
+                sprite.data.state = 'inbound';
                 a = Math.PI * 2 * Math.random();
 
-                sprite.x = Math.cos(a) * (game.world.width / 2) + game.world.centerX - sprite.width / 2;
-                sprite.y = Math.sin(a) * (game.world.height / 2) + game.world.centerY - sprite.height / 2;
+                var spawnPt = new Phaser.Point(
+                        Math.cos(a) * (game.world.width) + game.world.centerX - sprite.width / 2,
+                        Math.sin(a) * (game.world.height) + game.world.centerY - sprite.height / 2);
+
+                sprite.x = spawnPt.x;
+                sprite.y = spawnPt.y;
+
+                sprite.data.heading = spawnPt.angle(new Phaser.Point(game.world.centerX, game.world.centerY));
+                sprite.data.dx = Math.cos(sprite.data.heading);
+                sprite.data.dy = Math.sin(sprite.data.heading);
+
+            }
+
+            if (sprite.data.state =='inbound') {
+
+                sprite.x += sprite.data.dx;
+                sprite.y += sprite.data.dy;
+
+            }
+
+            // if active
+            if (sprite.data.state == 'active') {
+
+                sprite.x += sprite.data.dx;
+                sprite.y += sprite.data.dy;
+
+                // make sure block is in the game area
+                sprite.x = Phaser.Math.wrap(sprite.x, -32, game.world.width + 32);
+                sprite.y = Phaser.Math.wrap(sprite.y, -32, game.world.height + 32);
 
             }
 
