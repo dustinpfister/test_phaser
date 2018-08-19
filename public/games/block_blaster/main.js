@@ -33,10 +33,11 @@ game.state.add('game', {
     create: function () {
 
         var i = 0,
-        len = game.global.block_pool_size;
+        len = game.global.block_pool_size,
+        sprite;
         while (i < len) {
 
-            var sprite = game.add.sprite(-32, -32, 'sheet-block', 0);
+            sprite = game.add.sprite(-32, -32, 'sheet-block', 0);
             sprite.name = 'block-' + i;
 
             sprite.data = {
@@ -48,6 +49,32 @@ game.state.add('game', {
 
             i += 1;
 
+        }
+
+    },
+
+    update: function () {
+
+        var i = 0,
+        len = game.global.block_pool_size,
+        a,
+        sprite;
+        while (i < len) {
+
+            sprite = game.world.getByName('block-' + i);
+
+            if (!sprite.data.active) {
+
+                sprite.data.active = true;
+
+                a = Math.PI * 2 * Math.random();
+
+                sprite.x = Math.cos(a) * (game.world.width / 2) + game.world.centerX - sprite.width / 2;
+                sprite.y = Math.sin(a) * (game.world.height / 2) + game.world.centerY - sprite.height / 2;
+
+            }
+
+            i += 1;
         }
 
     }
