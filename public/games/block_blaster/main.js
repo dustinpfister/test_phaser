@@ -21,9 +21,8 @@ game.state.add('boot', {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 1, 0, 0);
-		
-		
-		game.global.centerPoint = new Phaser.Point(game.world.centerX, game.world.centerY);
+
+        game.global.centerPoint = new Phaser.Point(game.world.centerX, game.world.centerY);
 
         game.state.start('game');
 
@@ -87,6 +86,24 @@ game.state.add('game', {
                 sprite.data.heading = spawnPt.angle(game.global.centerPoint);
                 sprite.data.dx = Math.cos(sprite.data.heading);
                 sprite.data.dy = Math.sin(sprite.data.heading);
+
+                sprite.inputEnabled = true;
+
+                // if a block is clicked
+                sprite.events.onInputDown.add(function (block) {
+
+                    block.data.hp -= 1;
+
+                    if (block.data.hp <= 0) {
+
+                        block.data.hp = 1;
+                        block.data.state = 'inactive';
+                        block.x = -32;
+                        block.y = -32;
+
+                    }
+
+                });
 
             }
 
