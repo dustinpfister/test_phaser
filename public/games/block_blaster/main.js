@@ -2,7 +2,7 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 
-game.state.add('block-blast', {
+game.state.add('game', {
 	
 	create: function(){
 		
@@ -13,4 +13,4 @@ game.state.add('block-blast', {
 	
 });
 
-game.state.start('block-blast');
+game.state.start('game');
