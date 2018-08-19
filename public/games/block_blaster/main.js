@@ -17,10 +17,15 @@ game.state.add('boot', {
         canvas.width = 64;
         canvas.height = 32;
 
+        // blue frame
         ctx.fillStyle = '#0000ff';
         ctx.fillRect(0, 0, 32, 32);
 
-        game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 1, 0, 0);
+        // red frame
+        ctx.fillStyle = '#ff0000';
+        ctx.fillRect(32, 0, 32, 32);
+
+        game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 2, 0, 0);
 
         game.global.centerPoint = new Phaser.Point(game.world.centerX, game.world.centerY);
 
@@ -76,6 +81,7 @@ game.state.add('game', {
 
                 sprite.data.state = 'inbound';
                 sprite.alpha = 1;
+                sprite.frame = 0;
                 a = Math.PI * 2 * Math.random();
 
                 var spawnPt = new Phaser.Point(
@@ -139,6 +145,7 @@ game.state.add('game', {
             if (sprite.data.state == 'dead') {
 
                 sprite.alpha = (100 - sprite.data.i) / 100;
+                sprite.frame = 1;
 
                 if (sprite.data.i >= 100) {
 
