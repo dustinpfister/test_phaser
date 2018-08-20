@@ -64,7 +64,9 @@ game.state.add('boot', {
 
         game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 2, 0, 0);
 
-        game.state.start('vanilla');
+        //console.log(game.input);
+
+        game.state.start('sprites_2');
 
     }
 
@@ -93,10 +95,25 @@ var mkSprites = function () {
 
 };
 
-// sprites1 state in which the thing sprite, just rotates around center
-game.state.add('sprites1', {
+var toggleDemos = function () {
 
-    create: mkSprites,
+    game.input.onDown.add(function () {
+
+        console.log('foo');
+
+    });
+
+};
+
+// sprites1 state in which the thing sprite, just rotates around center
+game.state.add('sprites_1', {
+
+    create: function () {
+
+        mkSprites();
+        toggleDemos();
+
+    },
 
     update: function () {
 
@@ -111,13 +128,14 @@ game.state.add('sprites1', {
 
 // sprites2 state, heart shaped pattern of thing rotating around
 // center, and center is on the move
-game.state.add('sprites2', {
+game.state.add('sprites_2', {
 
     create: function () {
 
         var thing;
 
         mkSprites();
+        toggleDemos();
 
         thing = game.world.getByName('thing');
 
@@ -150,14 +168,15 @@ game.state.add('sprites2', {
 
 });
 
-// vanilla js
-game.state.add('vanilla', {
+// sprites3 is a vanilla js solution
+game.state.add('sprites_3', {
 
     create: function () {
 
         var thing;
 
         mkSprites();
+        toggleDemos();
 
         thing = game.world.getByName('thing');
 
