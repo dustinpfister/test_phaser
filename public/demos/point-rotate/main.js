@@ -96,6 +96,8 @@ game.state.add('sprites', {
 
         var thing = game.world.getByName('thing'),
         center = game.world.getByName('center');
+		
+		Phaser.Point.rotate(thing,center.x,center.y,1,true,100);
 
     }
 
