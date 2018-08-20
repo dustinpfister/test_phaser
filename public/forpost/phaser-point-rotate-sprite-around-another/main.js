@@ -95,7 +95,7 @@ var mkSprites = function () {
 
 };
 
-var toggleDemos = function () {
+var stateSwitcher = function () {
 
     game.input.onDown.add(function () {
 
@@ -117,7 +117,7 @@ game.state.add('sprites_1', {
     create: function () {
 
         mkSprites();
-        toggleDemos();
+        stateSwitcher();
 
     },
 
@@ -141,7 +141,7 @@ game.state.add('sprites_2', {
         var thing;
 
         mkSprites();
-        toggleDemos();
+        stateSwitcher();
 
         thing = game.world.getByName('thing');
 
@@ -182,7 +182,7 @@ game.state.add('sprites_3', {
         var thing;
 
         mkSprites();
-        toggleDemos();
+        stateSwitcher();
 
         thing = game.world.getByName('thing');
 
