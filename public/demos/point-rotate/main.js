@@ -62,15 +62,13 @@ game.state.add('boot', {
 
         game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 2, 0, 0);
 
-        game.state.start('sprites');
+        game.state.start('sprites1');
 
     }
 
 });
 
-game.state.add('sprites', {
-
-    create: function () {
+var mkSprites = function () {
 
         var sprite,
         x,
@@ -90,14 +88,20 @@ game.state.add('sprites', {
         sprite = game.add.sprite(x, y, 'sheet-block', 1);
         sprite.name = 'center';
 
-    },
+
+};
+
+// sprites1 state
+game.state.add('sprites1', {
+
+    create: mkSprites,
 
     update: function () {
 
         var thing = game.world.getByName('thing'),
         center = game.world.getByName('center');
-		
-		Phaser.Point.rotate(thing,center.x,center.y,1,true,100);
+
+        Phaser.Point.rotate(thing, center.x, center.y, 1, true, 100);
 
     }
 
