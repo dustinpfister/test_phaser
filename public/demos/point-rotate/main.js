@@ -62,7 +62,7 @@ game.state.add('boot', {
 
         game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 2, 0, 0);
 
-        game.state.start('sprites1');
+        game.state.start('sprites2');
 
     }
 
@@ -70,24 +70,23 @@ game.state.add('boot', {
 
 var mkSprites = function () {
 
-        var sprite,
-        x,
-        y,
-        cx = game.world.centerX,
-        cy = game.world.centerY;
+    var sprite,
+    x,
+    y,
+    cx = game.world.centerX,
+    cy = game.world.centerY;
 
-        // thing
-        x = cx + 100 - 16;
-        y = cy - 16;
-        sprite = game.add.sprite(x, y, 'sheet-block', 0);
-        sprite.name = 'thing';
+    // thing
+    x = cx + 100 - 16;
+    y = cy - 16;
+    sprite = game.add.sprite(x, y, 'sheet-block', 0);
+    sprite.name = 'thing';
 
-        // center
-        x = cx - 16;
-        y = cy - 16;
-        sprite = game.add.sprite(x, y, 'sheet-block', 1);
-        sprite.name = 'center';
-
+    // center
+    x = cx - 16;
+    y = cy - 16;
+    sprite = game.add.sprite(x, y, 'sheet-block', 1);
+    sprite.name = 'center';
 
 };
 
@@ -102,6 +101,46 @@ game.state.add('sprites1', {
         center = game.world.getByName('center');
 
         Phaser.Point.rotate(thing, center.x, center.y, 1, true, 100);
+
+    }
+
+});
+
+// sprites2 state, heart shaped pattern
+game.state.add('sprites2', {
+
+    create: function () {
+
+        var thing;
+
+        mkSprites();
+
+        thing = game.world.getByName('thing');
+
+        thing.data.dist = 50;
+
+    },
+
+    update: function () {
+
+        var thing = game.world.getByName('thing'),
+        center = game.world.getByName('center'),
+        angle = Phaser.Point.angle({
+                x: thing.x + 16,
+                y: thing.y + 16
+            }, {
+                x: center.x + 16,
+                y: center.y + 16
+            }),
+        per = Math.abs(angle) / Math.PI;
+        thing.data.dist = per * 75 + 50;
+
+        // rotate
+        Phaser.Point.rotate(thing, center.x, center.y, 10, true, thing.data.dist);
+
+        center.x += 2;
+
+        center.x = Phaser.Math.wrap(center.x, -125, game.world.width + 125);
 
     }
 
