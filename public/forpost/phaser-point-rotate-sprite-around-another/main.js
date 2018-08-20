@@ -66,7 +66,7 @@ game.state.add('boot', {
 
         //console.log(game.input);
 
-        game.state.start('sprites_2');
+        game.state.start('sprites_1');
 
     }
 
@@ -99,7 +99,13 @@ var toggleDemos = function () {
 
     game.input.onDown.add(function () {
 
-        console.log('foo');
+        demoNum = Number(game.state.current.split('_')[1]);
+
+        demoNum += 1;
+
+        demoNum = Phaser.Math.wrap(demoNum, 1, 4);
+
+        game.state.start('sprites_' + demoNum);
 
     });
 
