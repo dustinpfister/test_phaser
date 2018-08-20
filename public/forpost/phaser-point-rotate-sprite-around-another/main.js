@@ -16,9 +16,10 @@ game.state.add('static', {
             y: 0
         };
 
+        // Using the static method
         Phaser.Point.rotate(thing, center.x, center.y, 45, true, 100);
 
-        console.log(Math.floor(thing.x), Math.floor(thing.y));
+        console.log(Math.floor(thing.x), Math.floor(thing.y)); // 0 100
 
     }
 
@@ -33,9 +34,10 @@ game.state.add('proto', {
         var thing = new Phaser.Point(100, 100),
         center = new Phaser.Point(0, 0);
 
+        // Using the prototype method
         thing.rotate(center.x, center.y, 45, true, 100);
 
-        console.log(Math.floor(thing.x), Math.floor(thing.y));
+        console.log(Math.floor(thing.x), Math.floor(thing.y)); // 0 100
 
     }
 
@@ -62,12 +64,13 @@ game.state.add('boot', {
 
         game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 2, 0, 0);
 
-        game.state.start('sprites2');
+        game.state.start('vanilla');
 
     }
 
 });
 
+// make sprites function
 var mkSprites = function () {
 
     var sprite,
@@ -90,7 +93,7 @@ var mkSprites = function () {
 
 };
 
-// sprites1 state
+// sprites1 state in which the thing sprite, just rotates around center
 game.state.add('sprites1', {
 
     create: mkSprites,
@@ -106,7 +109,8 @@ game.state.add('sprites1', {
 
 });
 
-// sprites2 state, heart shaped pattern
+// sprites2 state, heart shaped pattern of thing rotating around
+// center, and center is on the move
 game.state.add('sprites2', {
 
     create: function () {
@@ -140,6 +144,56 @@ game.state.add('sprites2', {
 
         center.x += 2;
 
+        center.x = Phaser.Math.wrap(center.x, -125, game.world.width + 125);
+
+    }
+
+});
+
+// vanilla js
+game.state.add('vanilla', {
+
+    create: function () {
+
+        var thing;
+
+        mkSprites();
+
+        thing = game.world.getByName('thing');
+
+        thing.data = {
+            a: 0,
+            f: 0,
+            fMax: 50,
+            dist: 50
+        };
+
+    },
+
+    update: function () {
+
+        var thing = game.world.getByName('thing'),
+        center = game.world.getByName('center');
+
+        // some variables that have to do with
+        // the current state of a movement
+        var per = thing.data.f / thing.data.fMax,
+        bias = Math.abs(per - 0.5) / 0.5,
+        offset = Math.PI;
+
+        // set angle based on the above variables
+        thing.data.a = Math.PI - (Math.PI / 2) + Math.PI * bias + offset;
+
+        // set the x, and y position of thing, relative to center
+        // using Math.cos, and Math.sin, as well as the angle found above,
+        // and a distance variable
+        thing.x = center.x + Math.cos(thing.data.a) * thing.data.dist;
+        thing.y = center.y + Math.sin(thing.data.a) * thing.data.dist;
+
+        thing.data.f += 1;
+        thing.data.f = Phaser.Math.wrap(thing.data.f, 0, thing.data.fMax - 1);
+
+        center.x += 2;
         center.x = Phaser.Math.wrap(center.x, -125, game.world.width + 125);
 
     }
