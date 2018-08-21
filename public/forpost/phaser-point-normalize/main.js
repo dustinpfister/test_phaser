@@ -4,7 +4,7 @@ game.state.add('basic', {
 
     create: function () {
 
-        var point = new Phaser.Point(10, 1),
+        var point = new Phaser.Point(-0, 1),
 
         // normalize point
         normal = Phaser.Point.normalize(point);
@@ -16,4 +16,42 @@ game.state.add('basic', {
 
 });
 
-game.state.start('basic');
+game.state.add('polly', {
+
+    create: function () {
+
+        var polly = new Phaser.Polygon((function () {
+                    var points = [],
+                    pt,
+                    x,
+                    y,
+                    a,
+                    pi = 0,
+                    pLen = 10,
+                    xOff = 25,
+                    yOff = 37,
+                    d = 100;
+                    while (pi < Plen) {
+
+                        a = Math.PI * 2 * (pi / Plen);
+                        x = Math.cos(a) * d + xOff;
+                        y = Math.sin(a) * d + yOff;
+
+                        pt = new Phaser.Point(x, y);
+
+                        points.push(pt);
+
+                        pi += 1;
+                    }
+
+                    return points;
+
+                }));
+
+        console.log(polly.points);
+
+    }
+
+});
+
+game.state.start('polly');
