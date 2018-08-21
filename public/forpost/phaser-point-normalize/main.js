@@ -48,22 +48,38 @@ var mkPollyCircle = function (pLen, d, xOff, yOff) {
 
 };
 
+// a polly state
 game.state.add('polly', {
 
     create: function () {
 
-        // create a Phaser Polygon  from an
-        // array of points
-        var polly = mkPollyCircle(5, 100, 50, 25);
+        // create a Phaser Polygon  from an array of points
+        var polly = mkPollyCircle(5, 100, 50, 50);
+
+        // before normalization
+        console.log(polly.points[0]); // i.Point {x: 150, y: 50, type: 25}
 
         // normalize all
         polly.points.forEach(function (pt) {
-
             pt = pt.normalize();
-
         });
 
-        console.log(polly.points);
+        // after normalization
+        console.log(polly.points[0]); // i.Point {x: 0.9486832980505138, y: 0.3162277660168379, type: 25}
+
+        // now the polygon can be easily scaled, and positioned
+        var scale = 5,
+        offset = {
+            x: 100,
+            y: 100
+        };
+        polly.points.forEach(function (pt) {
+            pt.x = pt.x * scale + offset.x;
+            pt.y = pt.y * scale + offset.y;
+        });
+
+        console.log(polly.points[0]); // i.Point {x: 104.74341649025257, y: 101.58113883008419, type: 25}
+
 
     }
 
