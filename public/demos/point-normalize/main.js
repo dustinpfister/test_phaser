@@ -4,12 +4,13 @@ game.state.add('basic', {
 
     create: function () {
 
-        var point = new Phaser.Point(10,1),
-        out = new Phaser.Point(1,1);
+        var point = new Phaser.Point(10, 1),
 
         // normalize point
-        Phaser.Point.normalize(point);
+        normal = Phaser.Point.normalize(point);
+
         console.log(point);
+        console.log(normal);
 
     }
 
