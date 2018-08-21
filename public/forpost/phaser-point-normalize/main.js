@@ -4,13 +4,13 @@ game.state.add('basic', {
 
     create: function () {
 
-        var point = new Phaser.Point(-0, 1),
+        var point = new Phaser.Point(10, 1),
 
         // normalize point
         normal = Phaser.Point.normalize(point);
 
-        console.log(point);
-        console.log(normal);
+        console.log(point); // i.Point {x: 10, y: 1, type: 25}
+        console.log(normal); // i.Point {x: 0.9950371902099892, y: 0.09950371902099892, type: 25}
 
     }
 
@@ -58,4 +58,4 @@ game.state.add('polly', {
 
 });
 
-game.state.start('polly');
+game.state.start('basic');
