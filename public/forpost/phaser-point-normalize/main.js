@@ -16,7 +16,7 @@ game.state.add('basic', {
 
 });
 
-var mkCirclePoints = function (pLen, d, xOff, yOff) {
+var mkPollyCircle = function (pLen, d, xOff, yOff) {
 
     var points = [],
     pt,
@@ -25,11 +25,10 @@ var mkCirclePoints = function (pLen, d, xOff, yOff) {
     a,
     pi;
 
-    pLen = pLen === undefined ? 10: pLen;
-    d = d === undefined ? 100: d;
-    xOff = xOff === undefined ? 25: xOff;
-    yOff = yOff === undefined ? 25: yOff;
-
+    pLen = pLen === undefined ? 10 : pLen;
+    d = d === undefined ? 100 : d;
+    xOff = xOff === undefined ? 25 : xOff;
+    yOff = yOff === undefined ? 25 : yOff;
 
     pi = 0;
     while (pi < pLen) {
@@ -45,7 +44,7 @@ var mkCirclePoints = function (pLen, d, xOff, yOff) {
         pi += 1;
     }
 
-    return points;
+    return new Phaser.Polygon(points);
 
 };
 
@@ -55,7 +54,14 @@ game.state.add('polly', {
 
         // create a Phaser Polygon  from an
         // array of points
-        var polly = new Phaser.Polygon(mkCirclePoints());
+        var polly = mkPollyCircle(5, 100, 50, 25);
+
+        // normalize all
+        polly.points.forEach(function (pt) {
+
+            pt = pt.normalize();
+
+        });
 
         console.log(polly.points);
 
