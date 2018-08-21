@@ -16,41 +16,46 @@ game.state.add('basic', {
 
 });
 
+var mkCirclePoints = function (pLen, d, xOff, yOff) {
+
+    var points = [],
+    pt,
+    x,
+    y,
+    a,
+    pi;
+
+    pLen = pLen === undefined ? 10: pLen;
+    d = d === undefined ? 100: d;
+    xOff = xOff === undefined ? 25: xOff;
+    yOff = yOff === undefined ? 25: yOff;
+
+
+    pi = 0;
+    while (pi < pLen) {
+
+        a = Math.PI * 2 * (pi / pLen);
+        x = Math.floor(Math.cos(a) * d + xOff);
+        y = Math.floor(Math.sin(a) * d + yOff);
+
+        pt = new Phaser.Point(x, y);
+
+        points.push(pt);
+
+        pi += 1;
+    }
+
+    return points;
+
+};
+
 game.state.add('polly', {
 
     create: function () {
 
         // create a Phaser Polygon  from an
         // array of points
-        var polly = new Phaser.Polygon((function () {
-                    var points = [],
-                    pt,
-                    x,
-                    y,
-                    a,
-                    pi = 0,
-                    pLen = 10,
-                    xOff = 25,
-                    yOff = 37,
-                    d = 100;
-
-                    while (pi < pLen) {
-
-                        a = Math.PI * 2 * (pi / pLen);
-                        x = Math.floor(Math.cos(a) * d + xOff);
-                        y = Math.floor(Math.sin(a) * d + yOff);
-
-                        pt = new Phaser.Point(x, y);
-
-                        points.push(pt);
-
-                        pi += 1;
-                    }
-
-                    return points;
-
-                }
-                    ()));
+        var polly = new Phaser.Polygon(mkCirclePoints());
 
         console.log(polly.points);
 
@@ -58,4 +63,4 @@ game.state.add('polly', {
 
 });
 
-game.state.start('basic');
+game.state.start('polly');
