@@ -20,6 +20,8 @@ game.state.add('polly', {
 
     create: function () {
 
+        // create a Phaser Polygon  from an
+        // array of points
         var polly = new Phaser.Polygon((function () {
                     var points = [],
                     pt,
@@ -31,11 +33,12 @@ game.state.add('polly', {
                     xOff = 25,
                     yOff = 37,
                     d = 100;
+
                     while (pi < pLen) {
 
                         a = Math.PI * 2 * (pi / pLen);
-                        x = Math.cos(a) * d + xOff;
-                        y = Math.sin(a) * d + yOff;
+                        x = Math.floor(Math.cos(a) * d + xOff);
+                        y = Math.floor(Math.sin(a) * d + yOff);
 
                         pt = new Phaser.Point(x, y);
 
