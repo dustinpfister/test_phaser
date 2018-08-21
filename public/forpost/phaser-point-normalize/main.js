@@ -31,9 +31,9 @@ game.state.add('polly', {
                     xOff = 25,
                     yOff = 37,
                     d = 100;
-                    while (pi < Plen) {
+                    while (pi < pLen) {
 
-                        a = Math.PI * 2 * (pi / Plen);
+                        a = Math.PI * 2 * (pi / pLen);
                         x = Math.cos(a) * d + xOff;
                         y = Math.sin(a) * d + yOff;
 
@@ -46,7 +46,8 @@ game.state.add('polly', {
 
                     return points;
 
-                }));
+                }
+                    ()));
 
         console.log(polly.points);
 
