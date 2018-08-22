@@ -4,16 +4,19 @@ game.state.add('basic', {
 
     create: function () {
 
-        var point = new Phaser.Point(10, 5);
+        var point = new Phaser.Point(10, 5),
+        startMag = point.getMagnitude();
 
+        console.log('start mag: ' + startMag); // 11.18...
+
+        // normalize or setMagnitude(1);
         point.normalize();
+        console.log('normal mag: ' + point.getMagnitude()); // 0.99...
 
-        point.multiply(11, 11);
-
-        // normalize point
-        //point.setMagnitude(10);
-
-        console.log(point);
+        // set length to 1/2
+        point.setMagnitude(startMag / 2);
+        console.log('half mag: ' + point.getMagnitude());
+        console.log('pos: ', point.x, point.y); // 5.00... 2.50...
 
     }
 
