@@ -1,8 +1,8 @@
 // main
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+//game.transparent = true;
 
-
-// game state
+// demo state
 game.state.add('game', {
 
     create: function () {
@@ -55,8 +55,8 @@ game.state.add('game', {
 
 });
 
-// button-sheet state
-game.state.add('button-sheet', {
+// buttons state
+game.state.add('buttons', {
 
     create: function () {
 
@@ -107,6 +107,8 @@ game.state.add('button-sheet', {
 
         }
 
+        //document.body.appendChild(canvas);
+
         // add a new sheet to cache
         this.game.cache.addSpriteSheet('sheet-button', null, canvas, frameWidth, frameHeight, maxFrame * maxButton, 0, 0);
 
@@ -121,7 +123,6 @@ game.state.add('boot', {
 
     create: function () {
 
-        // set some variables for a game state
         game.global = game.global || {};
         game.global.money = 0;
         game.global.taskRate = 0.25;
@@ -130,13 +131,15 @@ game.state.add('boot', {
 
         // scale settings
         game.scale.compatibility.scrollTo = false;
+        //game.scale.windowConstraints.right = 'visual';
+        //game.scale.windowConstraints.bottom = 'visual';
         game.scale.pageAlignHorizontally = true;
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.scale.width = document.getElementById(game.parent).scrollWidth;
         game.scale.height = document.getElementById(game.parent).scrollHeight;
 
         // start buttons state
-        game.state.start('button-sheet');
+        game.state.start('buttons');
 
     }
 
