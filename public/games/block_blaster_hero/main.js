@@ -4,10 +4,12 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 // variables that are global across all game states
 game.global = {
 
-    block_pool_size: 20,
-    block_spawn_rate: 3000,
+    block_pool_size: 20, // block sprite pool size
+    block_spawn_rate: 2000, // time between spawns
+    block_delta: 3, // used to set block deltaX, and deltaY
     block_spawn_last_time: new Date(),
     player: {},
+    kill_cap: 1000, // number of kills that will result in max game level
     centerPoint: null
 
 };
@@ -144,7 +146,10 @@ var Block = {
             sprite.frame = 0;
             a = Math.PI * 2 * Math.random();
 
+            // if spawn check
             if (Block.spawnCheck()) {
+
+                // set inbound
 
                 sprite.data.state = 'inbound';
 
@@ -156,8 +161,8 @@ var Block = {
                 sprite.y = spawnPt.y;
 
                 sprite.data.heading = spawnPt.angle(game.global.centerPoint);
-                sprite.data.dx = Math.cos(sprite.data.heading);
-                sprite.data.dy = Math.sin(sprite.data.heading);
+                sprite.data.dx = Math.cos(sprite.data.heading) * game.global.block_delta;
+                sprite.data.dy = Math.sin(sprite.data.heading) * game.global.block_delta;
 
             }
 
