@@ -4,7 +4,9 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 // variables that are global across all game states
 game.global = {
 
-    block_pool_size: 12,
+    block_pool_size: 20,
+    block_spawn_rate: 3000,
+    block_spawn_last_time: new Date(),
     player: {},
     centerPoint: null
 
@@ -92,6 +94,12 @@ var Block = {
                 hp: 1,
                 i: 0
             };
+
+            sprite.inputEnabled = true;
+
+            // if a block is clicked
+            sprite.events.onInputDown.add(Block.onClick);
+
             i += 1;
 
         }
@@ -111,32 +119,47 @@ var Block = {
 
     },
 
+    // check if it is time to spawn a new block
+    spawnCheck: function () {
+
+        var now = new Date(),
+        time = now - game.global.block_spawn_last_time;
+
+        if (time > game.global.block_spawn_rate) {
+            game.global.block_spawn_last_time = new Date();
+            return true;
+        }
+
+        return false;
+
+    },
+
     // update methods for each block state
     updateStates: {
 
         // the block is inactive, and outside the world
         inactive: function (sprite) {
 
-            sprite.data.state = 'inbound';
             sprite.alpha = 1;
             sprite.frame = 0;
             a = Math.PI * 2 * Math.random();
 
-            var spawnPt = new Phaser.Point(
-                    Math.cos(a) * (game.world.width) + game.world.centerX - sprite.width / 2,
-                    Math.sin(a) * (game.world.height) + game.world.centerY - sprite.height / 2);
+            if (Block.spawnCheck()) {
 
-            sprite.x = spawnPt.x;
-            sprite.y = spawnPt.y;
+                sprite.data.state = 'inbound';
 
-            sprite.data.heading = spawnPt.angle(game.global.centerPoint);
-            sprite.data.dx = Math.cos(sprite.data.heading);
-            sprite.data.dy = Math.sin(sprite.data.heading);
+                var spawnPt = new Phaser.Point(
+                        Math.cos(a) * (game.world.width) + game.world.centerX - sprite.width / 2,
+                        Math.sin(a) * (game.world.height) + game.world.centerY - sprite.height / 2);
 
-            sprite.inputEnabled = true;
+                sprite.x = spawnPt.x;
+                sprite.y = spawnPt.y;
 
-            // if a block is clicked
-            sprite.events.onInputDown.add(Block.onClick);
+                sprite.data.heading = spawnPt.angle(game.global.centerPoint);
+                sprite.data.dx = Math.cos(sprite.data.heading);
+                sprite.data.dy = Math.sin(sprite.data.heading);
+
+            }
 
         },
 
@@ -187,6 +210,8 @@ var Block = {
                 sprite.data.state = 'inactive';
                 sprite.x = -32;
                 sprite.y = -32;
+                sprite.data.dx = 0;
+                sprite.data.dy = 0;
 
             }
 
