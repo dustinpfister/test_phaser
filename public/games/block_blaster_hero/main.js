@@ -1,14 +1,40 @@
 // the main game variable
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+// variables that are global across all game states
 game.global = {
 
     block_pool_size: 12,
-    player: {}
+    player: {},
+    centerPoint: null
 
 };
 
+// the boot state of the game, this state will be stared first
+// when everything is ready
 game.state.add('boot', {
+
+    create: function () {
+
+        // scale settings
+        game.scale.compatibility.scrollTo = false;
+        game.scale.pageAlignHorizontally = true;
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.width = document.getElementById(game.parent).scrollWidth;
+        game.scale.height = document.getElementById(game.parent).scrollHeight;
+
+        // set center point
+        game.global.centerPoint = new Phaser.Point(game.world.centerX, game.world.centerY);
+
+        // make the sprite sheet
+        game.state.start('gen-block-sheet');
+
+    }
+
+});
+
+// generate
+game.state.add('gen-block-sheet', {
 
     create: function () {
 
@@ -27,8 +53,6 @@ game.state.add('boot', {
         ctx.fillRect(32, 0, 32, 32);
 
         game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 2, 0, 0);
-
-        game.global.centerPoint = new Phaser.Point(game.world.centerX, game.world.centerY);
 
         game.state.start('game');
 
