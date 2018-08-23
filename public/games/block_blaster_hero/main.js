@@ -26,6 +26,17 @@ game.state.add('boot', {
         // set center point
         game.global.centerPoint = new Phaser.Point(game.world.centerX, game.world.centerY);
 
+        // check local storage
+        var store = localStorage.getItem('block_blaster_hero');
+
+        if (store) {
+            game.global.player = JSON.parse(store);
+        } else {
+            game.global.player = {
+                kills: 0
+            };
+        }
+
         // make the sprite sheet
         game.state.start('gen-block-sheet');
 
@@ -166,6 +177,8 @@ var Block = {
 
             if (sprite.data.i >= 100) {
 
+                game.global.player.kills += 1;
+
                 sprite.data.i = 0;
                 sprite.data.state = 'inactive';
                 sprite.x = -32;
@@ -188,7 +201,15 @@ game.state.add('game', {
 
     create: function () {
 
+        // create blocks
         Block.createBlockPool();
+
+        // kill display
+        var text_kill = game.add.text(5, 5, '', {
+                fill: '#ffffff',
+                font: '10px courier'
+            });
+        text_kill.name = 'text_kill';
 
     },
 
@@ -210,6 +231,8 @@ game.state.add('game', {
 
             i += 1;
         }
+
+        game.world.getByName('text_kill').text = 'kills: ' + game.global.player.kills;
 
     }
 
