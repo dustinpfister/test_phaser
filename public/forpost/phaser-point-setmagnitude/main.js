@@ -54,9 +54,14 @@ game.state.add('gen-sheet', {
 });
 
 // the example
-game.state.add('gen-sheet', {
+game.state.add('example', {
 
-    create: function () {}
+    create: function () {
+
+        var sprite = game.add.sprite(0, 0, 'sheet-1', 0);
+        sprite.name = 'point1';
+
+    }
 
 });
 
