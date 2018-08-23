@@ -64,13 +64,17 @@ game.state.add('example', {
 
         // append some stuff to its data object
         sprite.data.sprite = sprite;
-        sprite.data.point = new Phaser.Point(game.world.centerX, game.world.centerY);
+        sprite.data.point = new Phaser.Point(game.world.width, game.world.height);
+        sprite.data.maxMag = new Phaser.Point(game.world.width, game.world.height).getMagnitude();
         sprite.data.setToPoint = function () {
             this.sprite.x = this.point.x - this.sprite.width / 2;
             this.sprite.y = this.point.y - this.sprite.height / 2;
         };
 
         // call set to point for first time
+        sprite.data.setToPoint();
+
+        sprite.data.point.setMagnitude(sprite.data.maxMag);
         sprite.data.setToPoint();
 
     }
