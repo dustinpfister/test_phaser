@@ -177,7 +177,11 @@ var Block = {
 
             if (sprite.data.i >= 100) {
 
+                // step kills
                 game.global.player.kills += 1;
+
+                // save progress via local storage
+                localStorage.setItem('block_blaster_hero', JSON.stringify(game.global.player));
 
                 sprite.data.i = 0;
                 sprite.data.state = 'inactive';
