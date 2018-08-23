@@ -84,7 +84,10 @@ var Block = {
         kills = Phaser.Math.clamp(kills, 0, game.global.kill_cap);
         per = kills / game.global.kill_cap;
 
+        // delta goes up
         game.global.block_delta = 0.5 + 2.5 * per;
+
+        game.global.block_spawn_rate = Math.floor(3000 - 2500 * per);
 
     },
 
