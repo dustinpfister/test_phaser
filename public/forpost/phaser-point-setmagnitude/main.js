@@ -58,9 +58,12 @@ game.state.add('example', {
 
     create: function () {
 
-        // make and name a sprite
-        var sprite = game.add.sprite(0, 0, 'sheet-1', 0);
-        sprite.name = 'point1';
+        // make a sprite
+        var sprite = game.add.sprite(0, 0, 'sheet-1', 0),
+        text = game.add.text(5, 5, '', {
+                fill: 'white',
+                font: '10px courier'
+            });
 
         // append some stuff to its data object
 
@@ -95,6 +98,9 @@ game.state.add('example', {
 
             data.frame += 1;
             data.frame = data.frame % data.maxFrame;
+
+            // print current magnitude
+            text.text = 'mag: ' + data.point.getMagnitude().toFixed(2);
 
         });
 
