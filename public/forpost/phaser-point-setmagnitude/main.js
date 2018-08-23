@@ -58,8 +58,20 @@ game.state.add('example', {
 
     create: function () {
 
+        // make and name a sprite
         var sprite = game.add.sprite(0, 0, 'sheet-1', 0);
         sprite.name = 'point1';
+
+        // append some stuff to its data object
+        sprite.data.sprite = sprite;
+        sprite.data.point = new Phaser.Point(game.world.centerX, game.world.centerY);
+        sprite.data.setToPoint = function () {
+            this.sprite.x = this.point.x - this.sprite.width / 2;
+            this.sprite.y = this.point.y - this.sprite.height / 2;
+        };
+
+        // call set to point for first time
+        sprite.data.setToPoint();
 
     }
 
