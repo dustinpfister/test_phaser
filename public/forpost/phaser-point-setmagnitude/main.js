@@ -63,19 +63,40 @@ game.state.add('example', {
         sprite.name = 'point1';
 
         // append some stuff to its data object
+
+        // a reference to the sprite
         sprite.data.sprite = sprite;
+
+        // a point that will be used to position the sprite
         sprite.data.point = new Phaser.Point(game.world.width, game.world.height);
+
+        // the max magnitude of the point
         sprite.data.maxMag = new Phaser.Point(game.world.width, game.world.height).getMagnitude();
+
+        // a method that will be used to position the sprite
         sprite.data.setToPoint = function () {
             this.sprite.x = this.point.x - this.sprite.width / 2;
             this.sprite.y = this.point.y - this.sprite.height / 2;
         };
 
-        // call set to point for first time
-        sprite.data.setToPoint();
+        // frame info
+        sprite.data.frame = 0;
+        sprite.data.maxFrame = 50;
 
-        sprite.data.point.setMagnitude(sprite.data.maxMag);
-        sprite.data.setToPoint();
+        // fire the given callback every 1000ms
+        game.time.events.loop(100, function () {
+
+            let data = sprite.data,
+            per = data.frame / data.maxFrame,
+            bias = Math.abs(0.5 - per) / 0.5;
+
+            data.point.setMagnitude(1 + (data.maxMag - 1) * bias);
+            data.setToPoint();
+
+            data.frame += 1;
+            data.frame = data.frame % data.maxFrame;
+
+        });
 
     }
 
