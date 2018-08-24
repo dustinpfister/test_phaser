@@ -105,6 +105,13 @@ game.state.add('game', {
         // collide with blocks
         game.physics.arcade.collide(ball, Blocks.blocks);
 
+        if (Blocks.countAlive() === 0) {
+
+            // just set up another set for now
+            Blocks.setupDataObjects();
+
+        }
+
         // text display
         game.world.getByName('text-0').text = 'ball-velocity: ' + ball.body.velocity.x + ',' + ball.body.velocity.y;
         game.world.getByName('text-1').text = 'ball-position: ' + Math.floor(ball.x) + ',' + Math.floor(ball.y);
