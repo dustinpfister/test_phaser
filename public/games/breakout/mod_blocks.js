@@ -37,7 +37,7 @@ var Blocks = {
             y = Math.floor(i / this.gridWidth) * this.blockHeight;
 
             // create sprite for block
-            sprite = this.game.add.sprite(0, 0, 'blocks', 0);
+            sprite = this.game.add.sprite(0, 0, 'blocks', 2);
             sprite.name = 'block-' + i;
             sprite.x = this.sx + x;
             sprite.y = this.sy + y;
@@ -63,8 +63,16 @@ var Blocks = {
     setupDataObjects: function () {
 
         var count = this.blocks.length,
+        sprite,
         i = 0;
         while (i < count) {
+
+            sprite = this.blocks[i];
+
+            sprite.data.hp = 1;
+            sprite.frame = 0;
+            sprite.body.enable = true;
+            sprite.alpha = 1
 
             i += 1;
 
@@ -76,6 +84,20 @@ var Blocks = {
 
         // the block sprite should be this
         var sprite = this;
+
+        sprite.data.hp -= 1;
+
+        if (sprite.data.hp <= 0) {
+
+            sprite.data.hp = 0;
+            sprite.body.enable = false;
+            sprite.alpha = 0
+
+        } else {
+
+            sprite.frame = sprite.data.hp - 1;
+
+        }
 
     }
 
