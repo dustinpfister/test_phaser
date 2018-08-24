@@ -54,6 +54,10 @@ var sheetFromCanvas = function (opt) {
         ctx.translate(sx, 0);
         opt.forFrame.call({
             f: f,
+            p: Math.PI,
+            p2: Math.PI * 2,
+            hw: opt.frameWidth / 2,
+            hh: opt.frameHeight / 2,
             sx: sx,
             per: per,
             canvas: canvas,
@@ -94,16 +98,18 @@ game.state.add('mksheets', {
 
                 var x,
                 y,
+                lw = 3,
+                hlw = lw / 2,
                 r;
 
                 ctx.fillStyle = '#00a0f0';
                 ctx.strokeStyle = '#c0c0c0';
-                ctx.lineWidth = 3;
+                ctx.lineWidth = lw;
                 //ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
                 // outer circle
                 ctx.beginPath();
-                ctx.arc(16, 16, 14, 0, Math.PI * 2);
+                ctx.arc(this.hw, this.hh, this.hw - hlw, 0, this.p2);
                 ctx.closePath();
                 ctx.fill();
                 ctx.stroke();
@@ -113,14 +119,15 @@ game.state.add('mksheets', {
                 ctx.beginPath();
 
                 r = Math.PI * 2 * this.per;
-                x = Math.cos(r) * 7 + 16;
-                y = Math.sin(r) * 7 + 16;
+                x = Math.cos(r) * (this.hw - lw * 3) + this.hw;
+                y = Math.sin(r) * (this.hw - lw * 3) + this.hh;
 
-                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
                 ctx.closePath();
                 ctx.fill()
 
             }
+
         });
 
     }
