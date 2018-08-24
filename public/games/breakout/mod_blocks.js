@@ -7,7 +7,7 @@ var Blocks = {
 
         this.game = opt.game || game;
         this.sheetKey = 'blocks';
-        this.gridWidth = 8;
+        this.gridWidth = 9;
         this.gridHeight = 4;
         this.blockWidth = 32;
         this.blockHeight = 8;
@@ -25,6 +25,8 @@ var Blocks = {
         x,
         y,
         sprite;
+
+        // for total block count
         while (i < count) {
 
             x = i % this.gridWidth * this.blockWidth;

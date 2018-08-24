@@ -14,6 +14,9 @@ game.state.add('boot', {
         // disable antialias
         game.antialias = false;
 
+        // will be using physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
         game.state.start('mksheets');
 
     }

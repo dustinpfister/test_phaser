@@ -19,9 +19,9 @@ game.state.add('game', {
         ball.x = paddle.x;
         ball.y = paddle.y - 20;
 
-		// setup blocks
-		Blocks.setup();
-		
+        // Setup blocks
+        Blocks.setup();
+
         // mk text objects
         mkTextObjects({
             game: game,
@@ -29,7 +29,6 @@ game.state.add('game', {
         });
 
         // physics
-        game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.enable([ball, paddle]);
 
         // no downward collision
