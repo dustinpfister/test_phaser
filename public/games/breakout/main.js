@@ -188,8 +188,42 @@ game.state.add('game', {
         paddle.x = game.world.centerX;
         paddle.y = game.world.height - 16;
         paddle.anchor.set(0.5, 1);
-		
-		
+        paddle.data = {
+            velocity: 0,
+            delta: 0
+        };
+
+        // keyboard
+        var right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        right.onDown.add(function (a) {
+
+            console.log('hello');
+            console.log(a);
+            paddle.body.drag = new Phaser.Point(100, 100);
+
+            paddle.body.velocity.set(150, 0)
+
+        }, this);
+        right.onUp.add(function () {
+
+
+            paddle.body.velocity.set(0, 0)
+
+        }, this);
+
+        var left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+        left.onDown.add(function () {
+
+
+            paddle.body.velocity.set(-150, 0)
+
+        }, this);
+        left.onUp.add(function () {
+
+
+            paddle.body.velocity.set(0, 0)
+
+        }, this);
 
         // physics
 
@@ -202,6 +236,8 @@ game.state.add('game', {
         ball.body.velocity.set(150, 150);
 
         paddle.body.immovable = true;
+        //paddle.body.drag = new Phaser.Point(1, 1);
+        //paddle.body.friction = new Phaser.Point(1, 1);
         //paddle.body.collideWorldBounds = true;
         //paddle.body.bounce.set(1);
         //paddle.body.velocity.set(0, 0);
@@ -225,6 +261,11 @@ game.state.add('game', {
 
         var ball = game.world.getByName('ball'),
         paddle = game.world.getByName('paddle');
+
+        paddle.data.velocity += paddle.data.delta;
+        paddle.data.velocity = Phaser.Math.clamp(paddle.data.velocity, -150, 150);
+
+        //paddle.body.velocity.set(paddle.data.velocity, 0);
 
         game.physics.arcade.collide(ball, paddle);
 
