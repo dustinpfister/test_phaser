@@ -1,6 +1,5 @@
 // the main game variable
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
-
 game.global = {
 
     frameData: {}
@@ -19,6 +18,9 @@ game.state.add('boot', {
         scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         scale.width = document.getElementById(game.parent).scrollWidth;
         scale.height = document.getElementById(game.parent).scrollHeight;
+
+        // disable antialias
+        game.antialias = false;
 
         game.state.start('mksheets');
 
