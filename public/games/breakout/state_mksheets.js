@@ -61,6 +61,25 @@ game.state.add('mksheets', {
 
         });
 
+        // blocks
+        sheetFromCanvas({
+            name: 'blocks',
+            game: game,
+            frames: 3,
+            frameWidth: 32,
+            frameHeight: 8,
+            forFrame: function (ctx) {
+
+                var colors = ['green', 'blue', 'red'];
+
+                // set color by frame
+                ctx.fillStyle = colors[this.f];
+                ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+            }
+
+        });
+
         game.state.start('game');
 
     }
