@@ -104,17 +104,18 @@ game.state.add('mksheets', {
 
     create: function () {
 
+        // ball sheet
         sheetFromCanvas({
             name: 'ball',
             game: game,
             frames: 10,
-            frameWidth: 32,
-            frameHeight: 32,
+            frameWidth: 12,
+            frameHeight: 12,
             forFrame: function (ctx) {
 
                 var x,
                 y,
-                lw = 3,
+                lw = 2,
                 hlw = lw / 2,
                 r;
 
@@ -128,17 +129,17 @@ game.state.add('mksheets', {
                 ctx.arc(this.hw, this.hh, this.hw - hlw, 0, this.p2);
                 ctx.closePath();
                 ctx.fill();
-                ctx.stroke();
+                //ctx.stroke();
 
                 // inner circle
                 ctx.fillStyle = '#c0c0c0';
                 ctx.beginPath();
 
                 r = Math.PI * 2 * this.per;
-                x = Math.cos(r) * (this.hw - lw * 3) + this.hw;
-                y = Math.sin(r) * (this.hw - lw * 3) + this.hh;
+                x = Math.cos(r) * (this.hw - lw * 2) + this.hw;
+                y = Math.sin(r) * (this.hw - lw * 2) + this.hh;
 
-                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.arc(x, y, 2, 0, Math.PI * 2);
                 ctx.closePath();
                 ctx.fill()
 
