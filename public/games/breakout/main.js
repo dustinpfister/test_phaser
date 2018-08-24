@@ -152,7 +152,21 @@ game.state.add('mksheets', {
 
         });
 
-        console.log(game.global.frameData)
+        // paddle sheet
+        sheetFromCanvas({
+            name: 'paddle',
+            game: game,
+            frames: 1,
+            frameWidth: 64,
+            frameHeight: 8,
+            forFrame: function (ctx) {
+
+                ctx.fillStyle = '#0000ff';
+                ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+            }
+
+        });
 
         game.state.start('game');
 
@@ -172,9 +186,12 @@ game.state.add('game', {
         ball.animations.play('roll');
 
         game.physics.enable(ball, Phaser.Physics.ARCADE);
-		ball.body.collideWorldBounds = true;
-		ball.body.bounce.set(1);
+        ball.body.collideWorldBounds = true;
+        ball.body.bounce.set(1);
         ball.body.velocity.set(150, 150);
+
+        // paddle
+        var paddle = game.add.sprite(0, 0, 'paddle', 0);
 
     }
 
