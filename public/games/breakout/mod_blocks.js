@@ -74,7 +74,7 @@ var Blocks = {
 
             sprite = this.blocks[i];
 
-            sprite.data.hp = 1 + Math.floor((1-yPer) * 2);
+            sprite.data.hp = 1 + Math.floor((1 - yPer) * 2);
             sprite.frame = sprite.data.hp - 1;
             sprite.body.enable = true;
             sprite.alpha = 1
@@ -82,6 +82,25 @@ var Blocks = {
                 i += 1;
 
         }
+
+    },
+
+    // count how many blocks are still alive
+    countAlive: function () {
+
+        var alive = 0;
+
+        this.blocks.forEach(function (block) {
+
+            if (block.data.hp > 0) {
+
+                alive += 1;
+
+            }
+
+        });
+
+        return alive;
 
     },
 

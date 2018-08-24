@@ -26,7 +26,7 @@ game.state.add('game', {
         // mk text objects
         mkTextObjects({
             game: game,
-            count: 2
+            count: 3
         });
 
         // physics
@@ -108,7 +108,7 @@ game.state.add('game', {
         // text display
         game.world.getByName('text-0').text = 'ball-velocity: ' + ball.body.velocity.x + ',' + ball.body.velocity.y;
         game.world.getByName('text-1').text = 'ball-position: ' + Math.floor(ball.x) + ',' + Math.floor(ball.y);
-
+        game.world.getByName('text-2').text = 'blocks alive: ' + Blocks.countAlive();
     }
 
 });
