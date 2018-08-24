@@ -146,8 +146,8 @@ game.state.add('mksheets', {
 
         });
 
-		console.log(game.global.frameData)
-		
+        console.log(game.global.frameData)
+
         game.state.start('game');
 
     }
@@ -158,7 +158,10 @@ game.state.add('game', {
 
     create: function () {
 
-        var sprite = game.add.sprite(0, 0, 'ball', 0);
+        var sprite = game.add.sprite(0, 0, 'ball', 0),
+        fd = game.global.frameData['ball'];
+        sprite.animations.add('roll', fd, 20, true);
+        sprite.animations.play('roll');
 
     }
 
