@@ -74,7 +74,11 @@ game.state.add('game', {
             paddle.body.velocity.set(150, 0);
         }
 
+        // collide with paddle
         game.physics.arcade.collide(ball, paddle);
+
+        // collide with blocks
+        game.physics.arcade.collide(ball, Blocks.blocks);
 
         // text display
         game.world.getByName('text-0').text = 'ball-velocity: ' + ball.body.velocity.x + ',' + ball.body.velocity.y;
