@@ -9,9 +9,9 @@ var Blocks = {
 
         this.game = opt.game || game;
         this.sheetKey = 'blocks';
-        this.gridWidth = 8;
-        this.gridHeight = 4;
-        this.blockWidth = 32;
+        this.gridWidth = 13;
+        this.gridHeight = 8;
+        this.blockWidth = 20;
         this.blockHeight = 8;
         this.sx = 32;
         this.sy = 32;
@@ -60,21 +60,26 @@ var Blocks = {
     },
 
     // set up data block objects
-    setupDataObjects: function () {
+    setupDataObjects: function (level) {
 
         var count = this.blocks.length,
         sprite,
+        yPer,
         i = 0;
+
+        level = level || 1;
         while (i < count) {
+
+            yPer = Math.floor(i / this.gridWidth) / this.gridHeight;
 
             sprite = this.blocks[i];
 
-            sprite.data.hp = 1;
-            sprite.frame = 0;
+            sprite.data.hp = 1 + Math.floor((1-yPer) * 2);
+            sprite.frame = sprite.data.hp - 1;
             sprite.body.enable = true;
             sprite.alpha = 1
 
-            i += 1;
+                i += 1;
 
         }
 
