@@ -44,6 +44,7 @@ game.state.add('game', {
 
             ball.x = paddle.x;
             ball.y = paddle.y - 20;
+            ball.body.velocity.set(0, 150);
 
         }, this);
 
@@ -55,13 +56,26 @@ game.state.add('game', {
 
             var max = paddle.width / 2 + ball.width / 2,
             fromCenter = Math.abs(ball.x - paddle.x),
-            per = fromCenter / max;
+            dir = ball.x - paddle.x < 0 ? 1 : -1;
+            per = fromCenter / max,
+            x = 0,
+            y = 0,
+            aUp = -Math.PI / 2,
+            a = aUp;
 
+            // clamp per
             per = Phaser.Math.clamp(per, 0, 1);
 
-            console.log(per);
+            a = aUp - Math.PI / 180 * 75 * per * dir
 
-        })
+                x = Math.floor(Math.cos(a) * 200);
+            y = Math.floor(Math.sin(a) * 200);
+
+            console.log(x, y);
+
+            ball.body.velocity.set(x, y);
+
+        });
 
     },
 
