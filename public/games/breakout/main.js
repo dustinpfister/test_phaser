@@ -22,6 +22,9 @@ game.state.add('boot', {
         // disable antialias
         game.antialias = false;
 
+        // will be using Physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
         game.state.start('mksheets');
 
     }
@@ -161,10 +164,15 @@ game.state.add('game', {
 
     create: function () {
 
-        var sprite = game.add.sprite(0, 0, 'ball', 0),
+        var ball = game.add.sprite(0, 0, 'ball', 0),
         fd = game.global.frameData['ball'];
-        sprite.animations.add('roll', fd, 20, true);
-        sprite.animations.play('roll');
+
+        ball.name = 'ball';
+        ball.animations.add('roll', fd, 20, true);
+        ball.animations.play('roll');
+
+        game.physics.enable(ball, Phaser.Physics.ARCADE);
+        ball.body.velocity.set(0, 15);
 
     }
 
