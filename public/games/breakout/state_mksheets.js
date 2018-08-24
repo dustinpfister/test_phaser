@@ -50,7 +50,7 @@ game.state.add('mksheets', {
             name: 'paddle',
             game: game,
             frames: 1,
-            frameWidth: 128,
+            frameWidth: 64,
             frameHeight: 8,
             forFrame: function (ctx) {
 

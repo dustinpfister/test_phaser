@@ -14,10 +14,11 @@ game.state.add('game', {
         paddle.name = 'paddle';
         paddle.x = game.world.centerX;
         paddle.y = game.world.height - 16;
-        paddle.anchor.set(0.5, 1);
+        paddle.anchor.set(0.5, 0.5);
 
         ball.x = paddle.x;
-        ball.y = paddle.y - 20;
+        ball.y = paddle.y - 50;
+        ball.anchor.set(0.5, 0.5);
 
         // Setup blocks
         Blocks.setup();
@@ -36,7 +37,7 @@ game.state.add('game', {
 
         ball.body.collideWorldBounds = true;
         ball.body.bounce.set(1);
-        ball.body.velocity.set(150, 150);
+        ball.body.velocity.set(0, 150);
 
         ball.checkWorldBounds = true;
         ball.events.onOutOfBounds.add(function () {
@@ -49,8 +50,18 @@ game.state.add('game', {
         paddle.body.immovable = true;
         paddle.body.collideWorldBounds = true;
 
-        ball.body.onCollide = new Phaser.Signal();
-        ball.body.onCollide.add(function () {})
+        paddle.body.onCollide = new Phaser.Signal();
+        paddle.body.onCollide.add(function () {
+
+            var max = paddle.width / 2 + ball.width / 2,
+            fromCenter = Math.abs(ball.x - paddle.x),
+            per = fromCenter / max;
+
+            per = Phaser.Math.clamp(per, 0, 1);
+
+            console.log(per);
+
+        })
 
     },
 
@@ -68,10 +79,10 @@ game.state.add('game', {
 
         // set velocity based on keyboard
         if (k.isDown(37)) {
-            paddle.body.velocity.set(-150, 0);
+            paddle.body.velocity.set(-200, 0);
         }
         if (k.isDown(39)) {
-            paddle.body.velocity.set(150, 0);
+            paddle.body.velocity.set(200, 0);
         }
 
         // collide with paddle
