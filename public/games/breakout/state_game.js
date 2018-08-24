@@ -19,6 +19,9 @@ game.state.add('game', {
         ball.x = paddle.x;
         ball.y = paddle.y - 20;
 
+		// setup blocks
+		Blocks.setup();
+		
         // mk text objects
         mkTextObjects({
             game: game,
