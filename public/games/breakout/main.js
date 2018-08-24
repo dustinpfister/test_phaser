@@ -1,5 +1,6 @@
 // the main game variable
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+
 game.global = {
 
     frameData: {}
@@ -27,6 +28,33 @@ game.state.add('boot', {
     }
 
 });
+
+// make a bunch of text display objects
+var mkTextObjects = function (opt) {
+
+    opt = opt || {};
+    opt.game = opt.game || game;
+    opt.count = opt.count || 1;
+    opt.sx = opt.sx || 5;
+    opt.sy = opt.sy || 5;
+    opt.size = opt.size || 8;
+    opt.font = opt.font || {
+        fill: 'white',
+        font: opt.size + 'px courier'
+    };
+
+    var i = 0,
+    text;
+    while (i < opt.count) {
+
+        text = opt.game.add.text(opt.sx, opt.sy + opt.size * i, '', opt.font);
+        text.name = 'text-' + i;
+
+        i += 1;
+
+    }
+
+};
 
 // sheet from canvas helper
 var sheetFromCanvas = function (opt) {
@@ -175,9 +203,9 @@ game.state.add('game', {
 
     create: function () {
 
+        // ball
         var ball = game.add.sprite(0, 0, 'ball', 0),
         fd = game.global.frameData['ball'];
-
         ball.name = 'ball';
         ball.animations.add('roll', fd, 60, true);
         ball.animations.play('roll');
@@ -188,14 +216,14 @@ game.state.add('game', {
         paddle.x = game.world.centerX;
         paddle.y = game.world.height - 16;
         paddle.anchor.set(0.5, 1);
-        paddle.data = {
-            velocity: 0,
-            delta: 0
-        };
+
+        // mk text objects
+        mkTextObjects({
+            game: game,
+            count: 2
+        });
 
         // physics
-
-        // will be using Physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.enable([ball, paddle]);
 
@@ -207,7 +235,6 @@ game.state.add('game', {
         paddle.body.collideWorldBounds = true;
 
         ball.body.onCollide = new Phaser.Signal();
-
         ball.body.onCollide.add(function () {})
 
     },
@@ -215,10 +242,8 @@ game.state.add('game', {
     update: function () {
 
         var ball = game.world.getByName('ball'),
-        paddle = game.world.getByName('paddle');
-
-        paddle.data.velocity += paddle.data.delta;
-        paddle.data.velocity = Phaser.Math.clamp(paddle.data.velocity, -150, 150);
+        paddle = game.world.getByName('paddle'),
+        text;
 
         // default paddle velocity to zero
         paddle.body.velocity.set(0, 0);
@@ -234,9 +259,11 @@ game.state.add('game', {
             paddle.body.velocity.set(150, 0);
         }
 
-        //paddle.body.velocity.set(paddle.data.velocity, 0);
-
         game.physics.arcade.collide(ball, paddle);
+
+        // text display
+        game.world.getByName('text-0').text = 'ball-velocity: ' + ball.body.velocity.x + ',' + ball.body.velocity.y;
+        game.world.getByName('text-1').text = 'ball-position: ' + Math.floor(ball.x) + ',' + Math.floor(ball.y);
 
     }
 
