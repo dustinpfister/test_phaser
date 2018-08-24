@@ -1,6 +1,12 @@
 // the main game variable
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+game.global = {
+
+    frameData: {}
+
+};
+
 game.state.add('boot', {
 
     create: function () {
@@ -24,6 +30,7 @@ game.state.add('boot', {
 var sheetFromCanvas = function (opt) {
 
     var f,
+    fd, // frame data
     sx,
     per,
     canvas = document.createElement('canvas');
@@ -35,10 +42,16 @@ var sheetFromCanvas = function (opt) {
     opt.frameWidth = opt.frameWidth || 32;
     opt.frameHeight = opt.frameHeight || 32;
     opt.forFrame = opt.forFrame || function () {};
-    opt.game = opt.game || null;
+    opt.game = opt.game || {};
 
     canvas.width = opt.frameWidth * opt.frames;
     canvas.height = opt.frameHeight;
+
+    // to store frame data
+    opt.game.global = opt.game.global || {};
+    opt.game.global.frameData = opt.game.frameData || {};
+
+    fd = opt.game.global.frameData[opt.name] = [];
 
     f = 0;
     // for each frame
@@ -47,6 +60,9 @@ var sheetFromCanvas = function (opt) {
         // find current percent
         per = f / opt.frames;
         sx = opt.frameWidth * f + 0.5;
+
+        // push frame index to frame data
+        fd.push(f);
 
         // call forFrame with api set to the value
         // of 'this' inside the forFrame function
@@ -77,7 +93,7 @@ var sheetFromCanvas = function (opt) {
 
     }
 
-    document.body.appendChild(canvas);
+    //document.body.appendChild(canvas);
 
     // return the canvas
     return canvas;
@@ -129,6 +145,20 @@ game.state.add('mksheets', {
             }
 
         });
+
+		console.log(game.global.frameData)
+		
+        game.state.start('game');
+
+    }
+
+});
+
+game.state.add('game', {
+
+    create: function () {
+
+        var sprite = game.add.sprite(0, 0, 'ball', 0);
 
     }
 
