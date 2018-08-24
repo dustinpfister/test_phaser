@@ -16,6 +16,9 @@ game.state.add('game', {
         paddle.y = game.world.height - 16;
         paddle.anchor.set(0.5, 1);
 
+        ball.x = paddle.x;
+        ball.y = paddle.y - 20;
+
         // mk text objects
         mkTextObjects({
             game: game,
@@ -36,8 +39,8 @@ game.state.add('game', {
         ball.checkWorldBounds = true;
         ball.events.onOutOfBounds.add(function () {
 
-            ball.x = 0;
-            ball.y = 0;
+            ball.x = paddle.x;
+            ball.y = paddle.y - 20;
 
         }, this);
 
