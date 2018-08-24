@@ -179,7 +179,7 @@ game.state.add('game', {
         fd = game.global.frameData['ball'];
 
         ball.name = 'ball';
-        ball.animations.add('roll', fd, 20, true);
+        ball.animations.add('roll', fd, 60, true);
         ball.animations.play('roll');
 
         // paddle
@@ -193,38 +193,6 @@ game.state.add('game', {
             delta: 0
         };
 
-        // keyboard
-        var right = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-        right.onDown.add(function (a) {
-
-            console.log('hello');
-            console.log(a);
-            paddle.body.drag = new Phaser.Point(100, 100);
-
-            paddle.body.velocity.set(150, 0)
-
-        }, this);
-        right.onUp.add(function () {
-
-
-            paddle.body.velocity.set(0, 0)
-
-        }, this);
-
-        var left = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-        left.onDown.add(function () {
-
-
-            paddle.body.velocity.set(-150, 0)
-
-        }, this);
-        left.onUp.add(function () {
-
-
-            paddle.body.velocity.set(0, 0)
-
-        }, this);
-
         // physics
 
         // will be using Physics
@@ -236,24 +204,11 @@ game.state.add('game', {
         ball.body.velocity.set(150, 150);
 
         paddle.body.immovable = true;
-        //paddle.body.drag = new Phaser.Point(1, 1);
-        //paddle.body.friction = new Phaser.Point(1, 1);
-        //paddle.body.collideWorldBounds = true;
-        //paddle.body.bounce.set(1);
-        //paddle.body.velocity.set(0, 0);
+        paddle.body.collideWorldBounds = true;
 
         ball.body.onCollide = new Phaser.Signal();
 
-        ball.body.onCollide.add(function () {
-
-            console.log('foo');
-
-        })
-
-        //game.physics.enable(paddle, Phaser.Physics.ARCADE);
-        //paddle.body.bounce.set(1);
-        //paddle.body.velocity.set(150, 150);
-        //paddle.body.immovable = true;
+        ball.body.onCollide.add(function () {})
 
     },
 
@@ -264,6 +219,20 @@ game.state.add('game', {
 
         paddle.data.velocity += paddle.data.delta;
         paddle.data.velocity = Phaser.Math.clamp(paddle.data.velocity, -150, 150);
+
+        // default paddle velocity to zero
+        paddle.body.velocity.set(0, 0);
+
+        // check keyboard
+        var k = game.input.keyboard;
+
+        // set velocity based on keyboard
+        if (k.isDown(37)) {
+            paddle.body.velocity.set(-150, 0);
+        }
+        if (k.isDown(39)) {
+            paddle.body.velocity.set(150, 0);
+        }
 
         //paddle.body.velocity.set(paddle.data.velocity, 0);
 
