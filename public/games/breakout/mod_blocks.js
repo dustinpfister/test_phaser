@@ -45,13 +45,37 @@ var Blocks = {
             // physics
             game.physics.enable(sprite);
             sprite.body.immovable = true;
-            //sprite.body.collideWorldBounds = true;
+
+            sprite.body.onCollide = new Phaser.Signal();
+            sprite.body.onCollide.add(this.onCollide, sprite);
 
             // push to blocks array
             this.blocks.push(sprite);
 
             i += 1;
         }
+
+        this.setupDataObjects();
+
+    },
+
+    // set up data block objects
+    setupDataObjects: function () {
+
+        var count = this.blocks.length,
+        i = 0;
+        while (i < count) {
+
+            i += 1;
+
+        }
+
+    },
+
+    onCollide: function () {
+
+        // the block sprite should be this
+        var sprite = this;
 
     }
 
