@@ -7,22 +7,33 @@ var Blocks = {
 
         this.game = opt.game || game;
         this.sheetKey = 'blocks';
-        this.width = 4;
-        this.height = 4;
+        this.gridWidth = 8;
+        this.gridHeight = 4;
+        this.blockWidth = 32;
+        this.blockHeight = 8;
         this.sx = 16;
         this.sy = 16;
 
-        this.createBlockPool(this.sheetKey, this.width * this.height);
+        this.createBlockPool(this.sheetKey, this.gridWidth * this.gridHeight);
 
     },
 
     // create a block pool with the given sheet key
     createBlockPool: function (sheetKey, count) {
 
-        var i = 0;
+        var i = 0,
+        x,
+        y,
+        sprite;
         while (i < count) {
 
-            this.game.add.sprite(0, 0, 'blocks', 0);
+            x = i % this.gridWidth * this.blockWidth;
+            y = Math.floor(i / this.gridWidth) * this.blockHeight;
+
+            sprite = this.game.add.sprite(0, 0, 'blocks', 0);
+            sprite.name = 'block-' + i;
+            sprite.x = this.sx + x;
+            sprite.y = this.sy + y;
 
             i += 1;
         }
