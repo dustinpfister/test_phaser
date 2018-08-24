@@ -172,7 +172,9 @@ game.state.add('game', {
         ball.animations.play('roll');
 
         game.physics.enable(ball, Phaser.Physics.ARCADE);
-        ball.body.velocity.set(0, 15);
+		ball.body.collideWorldBounds = true;
+		ball.body.bounce.set(1);
+        ball.body.velocity.set(150, 150);
 
     }
 
