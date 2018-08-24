@@ -227,9 +227,20 @@ game.state.add('game', {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.enable([ball, paddle]);
 
+        // no downward collision
+        game.physics.arcade.checkCollision.down = false;
+
         ball.body.collideWorldBounds = true;
         ball.body.bounce.set(1);
         ball.body.velocity.set(150, 150);
+
+        ball.checkWorldBounds = true;
+        ball.events.onOutOfBounds.add(function () {
+
+            ball.x = 0;
+            ball.y = 0;
+
+        }, this);
 
         paddle.body.immovable = true;
         paddle.body.collideWorldBounds = true;
