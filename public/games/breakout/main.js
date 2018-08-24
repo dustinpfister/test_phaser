@@ -22,9 +22,6 @@ game.state.add('boot', {
         // disable antialias
         game.antialias = false;
 
-        // will be using Physics
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-
         game.state.start('mksheets');
 
     }
@@ -185,39 +182,49 @@ game.state.add('game', {
         ball.animations.add('roll', fd, 20, true);
         ball.animations.play('roll');
 
-        game.physics.enable(ball, Phaser.Physics.ARCADE);
+        // paddle
+        var paddle = game.add.sprite(0, 0, 'paddle', 0);
+        paddle.name = 'paddle';
+        paddle.x = game.world.centerX;
+        paddle.y = game.world.height - 16;
+        paddle.anchor.set(0.5, 1);
+		
+		
+
+        // physics
+
+        // will be using Physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.physics.enable([ball, paddle]);
+
         ball.body.collideWorldBounds = true;
         ball.body.bounce.set(1);
         ball.body.velocity.set(150, 150);
 
-		ball.body.onCollide = new Phaser.Signal();
-		
-		ball.body.onCollide.add(function(){
-			
-			console.log('foo');
-			
-		})
+        paddle.body.immovable = true;
+        //paddle.body.collideWorldBounds = true;
+        //paddle.body.bounce.set(1);
+        //paddle.body.velocity.set(0, 0);
 
-        // paddle
-        var paddle = game.add.sprite(0, 0, 'paddle', 0);
+        ball.body.onCollide = new Phaser.Signal();
 
-        paddle.name = 'paddle';
+        ball.body.onCollide.add(function () {
 
-        paddle.x = game.world.centerX;
-        paddle.y = game.world.centerY;
-        paddle.anchor.set(0.5, 1);
+            console.log('foo');
 
-        game.physics.enable(paddle, Phaser.Physics.ARCADE);
-		//paddle.body.bounce.set(1);
+        })
+
+        //game.physics.enable(paddle, Phaser.Physics.ARCADE);
+        //paddle.body.bounce.set(1);
         //paddle.body.velocity.set(150, 150);
-		//paddle.body.immovable = true;
+        //paddle.body.immovable = true;
 
     },
 
     update: function () {
 
         var ball = game.world.getByName('ball'),
-        paddle = game.world.getByName('ball');
+        paddle = game.world.getByName('paddle');
 
         game.physics.arcade.collide(ball, paddle);
 
