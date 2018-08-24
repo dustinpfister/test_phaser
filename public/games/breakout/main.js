@@ -157,7 +157,7 @@ game.state.add('mksheets', {
             name: 'paddle',
             game: game,
             frames: 1,
-            frameWidth: 64,
+            frameWidth: 128,
             frameHeight: 8,
             forFrame: function (ctx) {
 
@@ -190,8 +190,36 @@ game.state.add('game', {
         ball.body.bounce.set(1);
         ball.body.velocity.set(150, 150);
 
+		ball.body.onCollide = new Phaser.Signal();
+		
+		ball.body.onCollide.add(function(){
+			
+			console.log('foo');
+			
+		})
+
         // paddle
         var paddle = game.add.sprite(0, 0, 'paddle', 0);
+
+        paddle.name = 'paddle';
+
+        paddle.x = game.world.centerX;
+        paddle.y = game.world.centerY;
+        paddle.anchor.set(0.5, 1);
+
+        game.physics.enable(paddle, Phaser.Physics.ARCADE);
+		//paddle.body.bounce.set(1);
+        //paddle.body.velocity.set(150, 150);
+		//paddle.body.immovable = true;
+
+    },
+
+    update: function () {
+
+        var ball = game.world.getByName('ball'),
+        paddle = game.world.getByName('ball');
+
+        game.physics.arcade.collide(ball, paddle);
 
     }
 
