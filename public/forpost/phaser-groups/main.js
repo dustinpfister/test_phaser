@@ -1,6 +1,6 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-game.state.add('demo', {
+game.state.add('example1', {
 
     create: function () {
 
@@ -60,11 +60,6 @@ game.state.add('demo', {
 
                 var dat = sprite.data;
 
-                // and change the position
-                //sprite.x = 32 + Math.random() * (game.world.width - 64);
-                //sprite.y = 32 + Math.random() * (game.world.height - 64);
-
-
                 dat.startX += dat.deltaX;
                 dat.startY += dat.deltaY;
 
@@ -80,20 +75,27 @@ game.state.add('demo', {
 
     update: function () {
 
+        // grab blocks using getByName
         var blocks = game.world.getByName('blocks');
 
+        // Group.forEach method example
         blocks.forEach(function (sprite) {
 
+            // get ref to data object,
+            // and find current percentage done
+            // of transition from start point to
+            // start point plus delta
             var dat = sprite.data,
             per = dat.tick / dat.tickCount;
 
+            // sprite position set from starting point
+            // plus current percentage of deltas
             sprite.x = dat.startX + dat.deltaX * per;
             sprite.y = dat.startY + dat.deltaY * per;
 
+            // step next tick
             if (dat.tick < dat.tickCount) {
-
                 dat.tick += 1;
-
             }
 
         });
