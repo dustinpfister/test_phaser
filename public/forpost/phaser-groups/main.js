@@ -12,6 +12,13 @@ var SpriteDat = function (opt) {
     // ref to the sprite
     this.sprite = opt.sprite || {};
 
+    // default percent done to zero
+    this.per = 0;
+
+    // default deltas to zero
+    this.deltaX = 0;
+    this.deltaY = 0;
+
     // full reset
     // this will set a new starting position,
     // along with deltas, and all other values
@@ -34,12 +41,16 @@ SpriteDat.prototype.reset = function () {
 // new starting position and deltas
 SpriteDat.prototype.newDeltas = function () {
 
+    this.startX += this.deltaX * this.per;
+    this.startY += this.deltaY * this.per;
+
     // deltas (amount of change)
     this.deltaX = Math.random() * 50 - 25;
     this.deltaY = Math.random() * 50 - 25;
 
     // current tick, percent done, and tick count
     this.tick = 0;
+    this.per = 0;
     this.tickCount = Math.floor(10 + 40 * Math.random());
 };
 
@@ -56,6 +67,8 @@ SpriteDat.prototype.clamped = function (per) {
     }
 
 };
+
+SpriteDat.prototype.tick = function (per) {};
 
 game.state.add('example-1', {
 
@@ -110,10 +123,6 @@ game.state.add('example-1', {
 
                 var dat = sprite.data,
                 newPos = dat.clamped(1);
-
-                // new start pos is now the old startPos plus full deltas
-                dat.startX = newPos.x;
-                dat.startY = newPos.y;
 
                 dat.newDeltas();
 
