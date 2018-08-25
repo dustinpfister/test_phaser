@@ -1,6 +1,6 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-game.state.add('example1', {
+game.state.add('example-1', {
 
     create: function () {
 
@@ -24,7 +24,7 @@ game.state.add('example1', {
         blocks.name = 'blocks';
 
         var i = 0,
-        len = 16,
+        len = 32,
         sprite,
         x,
         y;
@@ -53,17 +53,21 @@ game.state.add('example1', {
         }
 
         // every second
-        game.time.events.loop(1000, function () {
+        game.time.events.loop(2000, function () {
 
             // run through each sprite
             blocks.forEach(function (sprite) {
 
                 var dat = sprite.data;
 
-                dat.startX += dat.deltaX;
-                dat.startY += dat.deltaY;
+                //dat.startX += dat.deltaX;
+                //dat.startY += dat.deltaY;
+
+                dat.startX = Phaser.Math.wrap(dat.startX + dat.deltaX, -32, game.world.width + 32);
+                dat.startY = Phaser.Math.wrap(dat.startY + dat.deltaY, -32, game.world.height + 32);
 
                 dat.tick = 0;
+				dat.tickCount = Math.floor(10 + 40 * Math.random());
                 dat.deltaX = Math.random() * 50 - 25;
                 dat.deltaY = Math.random() * 50 - 25;
 
@@ -93,6 +97,9 @@ game.state.add('example1', {
             sprite.x = dat.startX + dat.deltaX * per;
             sprite.y = dat.startY + dat.deltaY * per;
 
+            sprite.x = Phaser.Math.wrap(sprite.x, -32, game.world.width + 32);
+            sprite.y = Phaser.Math.wrap(sprite.y, -32, game.world.height + 32);
+
             // step next tick
             if (dat.tick < dat.tickCount) {
                 dat.tick += 1;
@@ -104,4 +111,4 @@ game.state.add('example1', {
 
 });
 
-game.state.start('demo');
+game.state.start('example-1');
