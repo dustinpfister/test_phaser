@@ -31,7 +31,7 @@ game.state.add('demo', {
         // uisng group.create to create sprites for the group
         while (i < len) {
 
-            x = 32+Math.random() * (game.world.width - 64);
+            x = 32 + Math.random() * (game.world.width - 64);
             y = 32 + Math.random() * (game.world.height - 64);
 
             sprite = blocks.create(x, y, 'block');
@@ -41,10 +41,18 @@ game.state.add('demo', {
             i += 1;
         }
 
+        game.time.events.loop(1000, function () {
 
-    },
+            blocks.forEach(function (sprite) {
 
-    update: function () {}
+                sprite.x = 32 + Math.random() * (game.world.width - 64);
+                sprite.y = 32 + Math.random() * (game.world.height - 64);
+
+            });
+
+        });
+
+    }
 
 });
 
