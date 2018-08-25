@@ -1,18 +1,25 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-// SpriteDat Class to be used with Sprite dataObjects
+// SpriteDat Class to be used with Sprite data objects
 var SpriteDat = function (opt) {
 
     opt = opt || {};
-
-    this.reset();
 
     // will used the Phaser.Game instance given via the
     // options object, or assume a game variable exists at the global space
     this.game = opt.game || game;
 
+    // ref to the sprite
+    this.sprite = opt.sprite || {};
+
+    // full reset
+    // this will set a new starting position,
+    // along with deltas, and all other values
+    this.reset();
+
 };
 
+// call to fully reset
 SpriteDat.prototype.reset = function () {
 
     // first starting options
@@ -75,49 +82,20 @@ game.state.add('example-1', {
 
         var i = 0,
         len = 32,
-        sprite,
-        x,
-        y;
+        sprite;
 
         // using group.create to create sprites for the group
         while (i < len) {
-
-            //x = 32 + Math.random() * (game.world.width - 64);
-            //y = 32 + Math.random() * (game.world.height - 64);
 
             sprite = blocks.create(0, 0, 'block');
             sprite.name = 'block-' + i;
             sprite.frame = Math.floor(Math.random() * 3);
 
-            sprite.data = new SpriteDat();
+            sprite.data = new SpriteDat({
+                    game: this.game,
+                    sprite: sprite
+                });
 
-            /*
-            sprite.data = {
-            startX: x,
-            startY: y,
-            deltaX: 0,
-            deltaY: 0,
-            tick: 0,
-            per: 0,
-            tickCount: 10,
-
-            clamped: function (per) {
-
-            per = per === undefined ? this.per : per;
-
-            return {
-
-            x: Phaser.Math.wrap(this.startX + this.deltaX * per, -32, game.world.width + 32),
-            y: Phaser.Math.wrap(this.startY + this.deltaY * per, -32, game.world.height + 32)
-
-            }
-
-            },
-
-            onTick: function () {}
-
-            };
-             */
             sprite.x = sprite.data.startX;
             sprite.y = sprite.data.startY;
 
@@ -139,12 +117,6 @@ game.state.add('example-1', {
 
                 dat.newDeltas();
 
-                /*
-                dat.tick = 0;
-                dat.tickCount = Math.floor(10 + 40 * Math.random());
-                dat.deltaX = Math.random() * 50 - 25;
-                dat.deltaY = Math.random() * 50 - 25;
-                 */
             });
 
         });
