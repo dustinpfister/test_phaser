@@ -170,7 +170,7 @@ game.state.add('example-1', {
 
     update: function () {
 
-        // grab blocks using getByName
+        // I can also grab the group by using getByName
         var blocks = game.world.getByName('blocks');
 
         // Group.forEach method example
