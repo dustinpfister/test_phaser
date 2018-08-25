@@ -71,7 +71,6 @@ SpriteDat.prototype.clamped = function (per) {
 // start the nextTick
 SpriteDat.prototype.nextTick = function (per) {
 
-
     this.per = this.tick / this.tickCount;
 
     var curPos = this.clamped();
@@ -85,6 +84,45 @@ SpriteDat.prototype.nextTick = function (per) {
     }
 
 };
+
+// Sprite Group - The name should say it all
+var SpriteGroup = function (opt) {
+
+    opt = opt || {};
+
+    // will used the Phaser.Game instance given via the
+    // options object, or assume a game variable exists at the global space
+    this.game = opt.game || game;
+
+    // the key of the sprite sheet to use
+    this.sheetKey = opt.sheetKey || '';
+
+    this.group = this.game.add.group();
+    this.group.name = opt.name || '';
+
+    var i = 0,
+    len = 32,
+    sprite;
+
+    // using group.create to create sprites for the group
+    while (i < len) {
+
+        sprite = this.group.create(0, 0, this.sheetKey);
+        sprite.name = this.group.name + '-sprite-' + i;
+        sprite.frame = Math.floor(Math.random() * 3);
+
+        sprite.data = new SpriteDat({
+                game: this.game,
+                sprite: sprite
+            });
+
+        sprite.x = sprite.data.startX;
+        sprite.y = sprite.data.startY;
+
+        i += 1;
+    }
+
+}
 
 game.state.add('example-1', {
 
@@ -105,42 +143,21 @@ game.state.add('example-1', {
             }
         });
 
-        // making a group
-        var blocks = game.add.group();
-        blocks.name = 'blocks';
-
-        var i = 0,
-        len = 32,
-        sprite;
-
-        // using group.create to create sprites for the group
-        while (i < len) {
-
-            sprite = blocks.create(0, 0, 'block');
-            sprite.name = 'block-' + i;
-            sprite.frame = Math.floor(Math.random() * 3);
-
-            sprite.data = new SpriteDat({
-                    game: this.game,
-                    sprite: sprite
-                });
-
-            sprite.x = sprite.data.startX;
-            sprite.y = sprite.data.startY;
-
-            i += 1;
-        }
+        // making the sprite Group
+        var sg = new SpriteGroup({
+                game: this.game,
+                sheetKey: 'block',
+                name: 'blocks'
+            });
 
         // every second
         game.time.events.loop(2000, function () {
 
             // run through each sprite
-            blocks.forEach(function (sprite) {
+            sg.group.forEach(function (sprite) {
 
-                var dat = sprite.data,
-                newPos = dat.clamped(1);
-
-                dat.newDeltas();
+                // new deltas for all
+                sprite.data.newDeltas();
 
             });
 
@@ -156,8 +173,8 @@ game.state.add('example-1', {
         // Group.forEach method example
         blocks.forEach(function (sprite) {
 
-           // call next tick for each sprite in the group
-           sprite.data.nextTick();
+            // call next tick for each sprite in the group
+            sprite.data.nextTick();
 
         });
 
