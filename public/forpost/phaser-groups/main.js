@@ -1,25 +1,39 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 // SpriteDat Class to be used with Sprite dataObjects
-var SpriteDat = function () {
+var SpriteDat = function (opt) {
+
+    opt = opt || {};
+
+    this.reset();
 
     // will used the Phaser.Game instance given via the
     // options object, or assume a game variable exists at the global space
     this.game = opt.game || game;
 
-    // starting position
+};
+
+SpriteDat.prototype.reset = function () {
+
+    // first starting options
     this.startX = 32 + Math.random() * (game.world.width - 64);
     this.startY = 32 + Math.random() * (game.world.height - 64);
 
+    // new deltas
+    this.newDeltas();
+
+};
+
+// new starting position and deltas
+SpriteDat.prototype.newDeltas = function () {
+
     // deltas (amount of change)
-    this.deltaX = 0;
-    this.deltaY = 0;
+    this.deltaX = Math.random() * 50 - 25;
+    this.deltaY = Math.random() * 50 - 25;
 
     // current tick, percent done, and tick count
     this.tick = 0;
-    this.per = 0;
-    this.tickCount = 10;
-
+    this.tickCount = Math.floor(10 + 40 * Math.random());
 };
 
 // return a
@@ -123,11 +137,14 @@ game.state.add('example-1', {
                 dat.startX = newPos.x;
                 dat.startY = newPos.y;
 
+                dat.newDeltas();
+
+                /*
                 dat.tick = 0;
                 dat.tickCount = Math.floor(10 + 40 * Math.random());
                 dat.deltaX = Math.random() * 50 - 25;
                 dat.deltaY = Math.random() * 50 - 25;
-
+                 */
             });
 
         });
