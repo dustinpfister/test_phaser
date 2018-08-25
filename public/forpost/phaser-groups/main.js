@@ -1,27 +1,38 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+// SpriteDat Class to be used with Sprite dataObjects
 var SpriteDat = function () {
 
+    // will used the Phaser.Game instance given via the
+    // options object, or assume a game variable exists at the global space
+    this.game = opt.game || game;
+
+    // starting position
     this.startX = 32 + Math.random() * (game.world.width - 64);
     this.startY = 32 + Math.random() * (game.world.height - 64);
+
+    // deltas (amount of change)
     this.deltaX = 0;
     this.deltaY = 0;
+
+    // current tick, percent done, and tick count
     this.tick = 0;
     this.per = 0;
     this.tickCount = 10;
 
-    this.clamped = function (per) {
+};
 
-        per = per === undefined ? this.per : per;
+// return a
+SpriteDat.prototype.clamped = function (per) {
 
-        return {
+    per = per === undefined ? this.per : per;
 
-            x: Phaser.Math.wrap(this.startX + this.deltaX * per, -32, game.world.width + 32),
-            y: Phaser.Math.wrap(this.startY + this.deltaY * per, -32, game.world.height + 32)
+    return {
 
-        }
+        x: Phaser.Math.wrap(this.startX + this.deltaX * per, -32, game.world.width + 32),
+        y: Phaser.Math.wrap(this.startY + this.deltaY * per, -32, game.world.height + 32)
 
-    };
+    }
 
 };
 
