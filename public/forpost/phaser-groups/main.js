@@ -38,13 +38,31 @@ game.state.add('example-1', {
             sprite = blocks.create(0, 0, 'block');
             sprite.name = 'block-' + i;
             sprite.frame = Math.floor(Math.random() * 3);
+
             sprite.data = {
                 startX: x,
                 startY: y,
                 deltaX: 0,
                 deltaY: 0,
                 tick: 0,
-                tickCount: 10
+                per: 0,
+                tickCount: 10,
+
+                clamped: function (per) {
+
+                    per = per === undefined ? this.per : per;
+
+                    return {
+
+                        x: Phaser.Math.wrap(this.startX + this.deltaX * per, -32, game.world.width + 32),
+                        y: Phaser.Math.wrap(this.startY + this.deltaY * per, -32, game.world.height + 32)
+
+                    }
+
+                },
+
+                onTick: function () {}
+
             };
             sprite.x = sprite.data.startX;
             sprite.y = sprite.data.startY;
@@ -58,16 +76,15 @@ game.state.add('example-1', {
             // run through each sprite
             blocks.forEach(function (sprite) {
 
-                var dat = sprite.data;
+                var dat = sprite.data,
+                newPos = dat.clamped(1);
 
-                //dat.startX += dat.deltaX;
-                //dat.startY += dat.deltaY;
-
-                dat.startX = Phaser.Math.wrap(dat.startX + dat.deltaX, -32, game.world.width + 32);
-                dat.startY = Phaser.Math.wrap(dat.startY + dat.deltaY, -32, game.world.height + 32);
+                // new start pos is now the old startPos plus full deltas
+                dat.startX = newPos.x;
+                dat.startY = newPos.y;
 
                 dat.tick = 0;
-				dat.tickCount = Math.floor(10 + 40 * Math.random());
+                dat.tickCount = Math.floor(10 + 40 * Math.random());
                 dat.deltaX = Math.random() * 50 - 25;
                 dat.deltaY = Math.random() * 50 - 25;
 
@@ -89,16 +106,14 @@ game.state.add('example-1', {
             // and find current percentage done
             // of transition from start point to
             // start point plus delta
-            var dat = sprite.data,
-            per = dat.tick / dat.tickCount;
+            var dat = sprite.data;
+
+            dat.per = dat.tick / dat.tickCount;
 
             // sprite position set from starting point
             // plus current percentage of deltas
-            sprite.x = dat.startX + dat.deltaX * per;
-            sprite.y = dat.startY + dat.deltaY * per;
-
-            sprite.x = Phaser.Math.wrap(sprite.x, -32, game.world.width + 32);
-            sprite.y = Phaser.Math.wrap(sprite.y, -32, game.world.height + 32);
+            sprite.x = Phaser.Math.wrap(dat.startX + dat.deltaX * dat.per, -32, game.world.width + 32);
+            sprite.y = Phaser.Math.wrap(dat.startY + dat.deltaY * dat.per, -32, game.world.height + 32);
 
             // step next tick
             if (dat.tick < dat.tickCount) {
