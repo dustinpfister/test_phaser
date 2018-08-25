@@ -122,7 +122,18 @@ var SpriteGroup = function (opt) {
         i += 1;
     }
 
-}
+};
+
+SpriteGroup.prototype.newDeltas = function () {
+
+    this.group.forEach(function (sprite) {
+
+        // new deltas for all
+        sprite.data.newDeltas();
+
+    });
+
+};
 
 game.state.add('example-1', {
 
@@ -150,18 +161,10 @@ game.state.add('example-1', {
                 name: 'blocks'
             });
 
-        // every second
-        game.time.events.loop(2000, function () {
-
-            // run through each sprite
-            sg.group.forEach(function (sprite) {
-
-                // new deltas for all
-                sprite.data.newDeltas();
-
-            });
-
-        });
+        // I can set up a timer for new deltas
+        // I just need to make sure the context is the
+        // instance of SpriteGroup
+        game.time.events.loop(2000, sg.newDeltas, sg);
 
     },
 
