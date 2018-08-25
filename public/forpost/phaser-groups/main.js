@@ -1,5 +1,30 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+var SpriteDat = function () {
+
+    this.startX = 32 + Math.random() * (game.world.width - 64);
+    this.startY = 32 + Math.random() * (game.world.height - 64);
+    this.deltaX = 0;
+    this.deltaY = 0;
+    this.tick = 0;
+    this.per = 0;
+    this.tickCount = 10;
+
+    this.clamped = function (per) {
+
+        per = per === undefined ? this.per : per;
+
+        return {
+
+            x: Phaser.Math.wrap(this.startX + this.deltaX * per, -32, game.world.width + 32),
+            y: Phaser.Math.wrap(this.startY + this.deltaY * per, -32, game.world.height + 32)
+
+        }
+
+    };
+
+};
+
 game.state.add('example-1', {
 
     create: function () {
@@ -32,38 +57,42 @@ game.state.add('example-1', {
         // using group.create to create sprites for the group
         while (i < len) {
 
-            x = 32 + Math.random() * (game.world.width - 64);
-            y = 32 + Math.random() * (game.world.height - 64);
+            //x = 32 + Math.random() * (game.world.width - 64);
+            //y = 32 + Math.random() * (game.world.height - 64);
 
             sprite = blocks.create(0, 0, 'block');
             sprite.name = 'block-' + i;
             sprite.frame = Math.floor(Math.random() * 3);
 
+            sprite.data = new SpriteDat();
+
+            /*
             sprite.data = {
-                startX: x,
-                startY: y,
-                deltaX: 0,
-                deltaY: 0,
-                tick: 0,
-                per: 0,
-                tickCount: 10,
+            startX: x,
+            startY: y,
+            deltaX: 0,
+            deltaY: 0,
+            tick: 0,
+            per: 0,
+            tickCount: 10,
 
-                clamped: function (per) {
+            clamped: function (per) {
 
-                    per = per === undefined ? this.per : per;
+            per = per === undefined ? this.per : per;
 
-                    return {
+            return {
 
-                        x: Phaser.Math.wrap(this.startX + this.deltaX * per, -32, game.world.width + 32),
-                        y: Phaser.Math.wrap(this.startY + this.deltaY * per, -32, game.world.height + 32)
+            x: Phaser.Math.wrap(this.startX + this.deltaX * per, -32, game.world.width + 32),
+            y: Phaser.Math.wrap(this.startY + this.deltaY * per, -32, game.world.height + 32)
 
-                    }
+            }
 
-                },
+            },
 
-                onTick: function () {}
+            onTick: function () {}
 
             };
+             */
             sprite.x = sprite.data.startX;
             sprite.y = sprite.data.startY;
 
