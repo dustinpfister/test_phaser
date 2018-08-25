@@ -68,7 +68,23 @@ SpriteDat.prototype.clamped = function (per) {
 
 };
 
-SpriteDat.prototype.tick = function (per) {};
+// start the nextTick
+SpriteDat.prototype.nextTick = function (per) {
+
+
+    this.per = this.tick / this.tickCount;
+
+    var curPos = this.clamped();
+
+    this.sprite.x = curPos.x;
+    this.sprite.y = curPos.y;
+
+    // step next tick
+    if (this.tick < this.tickCount) {
+        this.tick += 1;
+    }
+
+};
 
 game.state.add('example-1', {
 
@@ -140,22 +156,8 @@ game.state.add('example-1', {
         // Group.forEach method example
         blocks.forEach(function (sprite) {
 
-            // get ref to data object,
-            // and find current percentage done
-            // of transition from start point to
-            // start point plus delta
-            var dat = sprite.data;
-
-            dat.per = dat.tick / dat.tickCount;
-
-            var curPos = dat.clamped();
-            sprite.x = curPos.x;
-            sprite.y = curPos.y;
-
-            // step next tick
-            if (dat.tick < dat.tickCount) {
-                dat.tick += 1;
-            }
+           // call next tick for each sprite in the group
+           sprite.data.nextTick();
 
         });
 
