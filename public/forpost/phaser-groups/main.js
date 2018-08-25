@@ -28,7 +28,7 @@ game.state.add('demo', {
         x,
         y;
 
-        // uisng group.create to create sprites for the group
+        // using group.create to create sprites for the group
         while (i < len) {
 
             x = 32 + Math.random() * (game.world.width - 64);
@@ -41,10 +41,13 @@ game.state.add('demo', {
             i += 1;
         }
 
+        // every second
         game.time.events.loop(1000, function () {
 
+            // run through each sprite
             blocks.forEach(function (sprite) {
 
+                // and change the position
                 sprite.x = 32 + Math.random() * (game.world.width - 64);
                 sprite.y = 32 + Math.random() * (game.world.height - 64);
 
