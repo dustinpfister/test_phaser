@@ -21,9 +21,10 @@ game.state.add('demo', {
 
         // making a group
         var blocks = game.add.group();
+        blocks.name = 'blocks';
 
         var i = 0,
-        len = 160,
+        len = 16,
         sprite,
         x,
         y;
@@ -34,9 +35,19 @@ game.state.add('demo', {
             x = 32 + Math.random() * (game.world.width - 64);
             y = 32 + Math.random() * (game.world.height - 64);
 
-            sprite = blocks.create(x, y, 'block');
+            sprite = blocks.create(0, 0, 'block');
             sprite.name = 'block-' + i;
             sprite.frame = Math.floor(Math.random() * 3);
+            sprite.data = {
+                startX: x,
+                startY: y,
+                deltaX: 0,
+                deltaY: 0,
+                tick: 0,
+                tickCount: 10
+            };
+            sprite.x = sprite.data.startX;
+            sprite.y = sprite.data.startY;
 
             i += 1;
         }
@@ -47,11 +58,43 @@ game.state.add('demo', {
             // run through each sprite
             blocks.forEach(function (sprite) {
 
+                var dat = sprite.data;
+
                 // and change the position
-                sprite.x = 32 + Math.random() * (game.world.width - 64);
-                sprite.y = 32 + Math.random() * (game.world.height - 64);
+                //sprite.x = 32 + Math.random() * (game.world.width - 64);
+                //sprite.y = 32 + Math.random() * (game.world.height - 64);
+
+
+                dat.startX += dat.deltaX;
+                dat.startY += dat.deltaY;
+
+                dat.tick = 0;
+                dat.deltaX = Math.random() * 50 - 25;
+                dat.deltaY = Math.random() * 50 - 25;
 
             });
+
+        });
+
+    },
+
+    update: function () {
+
+        var blocks = game.world.getByName('blocks');
+
+        blocks.forEach(function (sprite) {
+
+            var dat = sprite.data,
+            per = dat.tick / dat.tickCount;
+
+            sprite.x = dat.startX + dat.deltaX * per;
+            sprite.y = dat.startY + dat.deltaY * per;
+
+            if (dat.tick < dat.tickCount) {
+
+                dat.tick += 1;
+
+            }
 
         });
 
