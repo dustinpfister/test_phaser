@@ -139,10 +139,9 @@ game.state.add('example-1', {
 
             dat.per = dat.tick / dat.tickCount;
 
-            // sprite position set from starting point
-            // plus current percentage of deltas
-            sprite.x = Phaser.Math.wrap(dat.startX + dat.deltaX * dat.per, -32, game.world.width + 32);
-            sprite.y = Phaser.Math.wrap(dat.startY + dat.deltaY * dat.per, -32, game.world.height + 32);
+            var curPos = dat.clamped();
+            sprite.x = curPos.x;
+            sprite.y = curPos.y;
 
             // step next tick
             if (dat.tick < dat.tickCount) {
