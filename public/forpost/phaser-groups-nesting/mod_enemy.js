@@ -13,7 +13,7 @@ var Enemy = function (opt) {
     this.startPos = opt.startPos || new Phaser.Point(0, 0);
     this.targetPos = opt.targetPos || new Phaser.Point(0, 0);
 
-    this.overFrames = opt.overFrames || 50;
+    this.overFrames = opt.overFrames || 50 + Math.floor(Math.random()*100);
     this.frame = 0;
     this.per = 0;
 
