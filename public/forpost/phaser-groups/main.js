@@ -139,29 +139,32 @@ game.state.add('basic-1', {
 
     create: function () {
 
+        // creating the text Group
         var textGroup = game.add.group(),
         font = {
             fill: 'red',
             font: '15px courier'
-        };
+        },
+        i = 0,
+        len = 5,
+        text;
 
+        // giving th Group a Name
         textGroup.name = 'text-group';
 
-        var i = 0,
-        len = 5;
+        // make some Text objects
         while (i < len) {
-            var text = game.add.text(0, i * 15, '', font);
 
+            // adding the text object to the cache
+            // and storing a refernce to it
+            text = game.add.text(0, i * 15, '', font);
+
+            // using Group.add to add a text
+            // display object to the Group
             textGroup.add(text);
             text.name = 'text-' + i;
             i += 1;
         }
-
-        //console.log(game.world.getByName('text-group'));
-        //console.log(game.world.getByName('text-group').getByName('text-0'));
-
-
-        //console.log(others);
 
     },
 
@@ -183,13 +186,21 @@ game.state.add('basic-1', {
         // such as filter
         textGroup.filter(function (child, index) {
 
+            // return any child that has an index greater than zero
             return index > 0;
 
         }).list.forEach(function (child, i) {
 
+            // an instance of Phaser.ArraySet is returned
+            // so the list property of an ArraySet instance
+            // is the actual instance of Array in core js
+
+            // so something with the text
             var exp = child.data.exp = child.data.exp || 1,
             base = 2 + i;
 
+            // the text property of a text object is what can be used to set
+            // the value of text
             child.text = base + '^' + exp + ' = ' + Math.pow(base, exp);
 
             exp += 1;
