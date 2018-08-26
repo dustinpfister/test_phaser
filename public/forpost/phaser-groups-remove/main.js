@@ -107,8 +107,8 @@ game.state.add('example-1', {
 
         setText();
 
-        // every three seconds
-        game.time.events.loop(3000, function () {
+        // loop
+        game.time.events.loop(1000, function () {
             // if there are blocks in the cache
             if (cache.children.length > 0) {
                 // move child zero to the active group
@@ -118,6 +118,7 @@ game.state.add('example-1', {
                 child.y = Math.floor(Math.random() * (game.world.height - 32));
                 child.alpha = 1;
                 active.add(child);
+                setText();
             }
         });
 
