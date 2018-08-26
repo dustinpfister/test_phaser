@@ -1,5 +1,3 @@
-var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
-
 // SpriteDat Class to be used with Sprite data objects
 var SpriteDat = function (opt) {
 
@@ -134,6 +132,9 @@ SpriteGroup.prototype.newDeltas = function () {
     });
 
 };
+
+
+var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('example-1', {
 
