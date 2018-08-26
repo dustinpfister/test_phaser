@@ -55,4 +55,74 @@ game.state.add('basics-1', {
 
 });
 
-game.state.start('basics-1');
+game.state.add('example-1', {
+
+    create: function () {
+
+        // singe text object
+        var text = game.add.text(0, 0, '', {
+                fill: '#00ffff',
+                font: '15px courier'
+            });
+        var setText = function () {
+            text.text = 'active: ' + active.children.length + ', cached: ' + cache.children.length;
+        };
+
+        // basic block sprite sheet, made wwith canvas
+        var canvas = document.createElement('canvas');
+        ctx = canvas.getContext('2d');
+        canvas.width = 32;
+        canvas.height = 32;
+        ctx.fillStyle = '#ff0000';
+        ctx.fillRect(0, 0, 32, 32);
+        this.game.cache.addSpriteSheet('sheet-1', null, canvas, 32, 32, 1, 0, 0);
+
+        // a cache of blocks, invisible, and outside of the world
+        var cache = game.add.group();
+        cache.name = 'cache';
+        cache.x = -32;
+        cache.y = -32;
+        var i = 10;
+        while (i--) {
+            var blk = cache.create(0, 0, 'sheet-1');
+            blk.alpha = 0;
+            // when clicked remove from active,
+            // and place back in the cache
+            blk.inputEnabled = true;
+            blk.events.onInputDown.add(function (block) {
+                block.x = 0;
+                block.y = 0;
+                block.alpha = 0;
+                active.remove(block, false);
+                cache.add(block);
+                setText();
+            });
+        }
+
+        // and active group inside the world
+        var active = game.add.group();
+        active.name = 'active';
+        active.x = 0;
+        active.y = 0;
+
+        setText();
+
+        // every three seconds
+        game.time.events.loop(3000, function () {
+            // if there are blocks in the cache
+            if (cache.children.length > 0) {
+                // move child zero to the active group
+                var child = cache.children[0];
+                cache.remove(child, false);
+                child.x = Math.floor(Math.random() * (game.world.width - 32));
+                child.y = Math.floor(Math.random() * (game.world.height - 32));
+                child.alpha = 1;
+                active.add(child);
+            }
+        });
+
+    }
+
+});
+
+game.state.start('example-1');
