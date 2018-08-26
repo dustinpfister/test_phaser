@@ -19,13 +19,25 @@ game.state.add('game', {
             }
         });
 
+        /*
         var w = new Wave({
-                game: this.game,
-                sheetKey: 'badguys',
-                name: 'wave-1'
-            });
+        game: this.game,
+        sheetKey: 'badguys',
+        name: 'wave-1'
+        });
 
         game.time.events.loop(33, w.tick, w);
+         */
+
+        this.game.data = this.game.data || {};
+
+        var round = this.game.data.round = new Round({
+                game: this.game,
+                sheetKey: 'badguys',
+                waveCount: 10
+            });
+			
+			console.log(round)
 
     }
 

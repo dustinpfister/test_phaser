@@ -9,11 +9,15 @@ var Wave = function (opt) {
     this.sheetKey = opt.sheetKey || '';
 
     // the group instance that will contain Sprites for each enemy
-    this.enemys = this.game.add.group();
-    this.enemys.name = opt.name || '';
+    this.wave = this.game.add.group();
+    this.wave.name = opt.name || '';
+
+    // append this class instance to something in the enemy group
+    this.wave.data = this;
 
     // the count of enemys
-    this.count = opt.count || 10;
+    this.count = opt.count || 3;
+    this.lastRelease = new Date();
 
     var i = 0,
     x,
@@ -21,8 +25,8 @@ var Wave = function (opt) {
     sprite;
     while (i < this.count) {
 
-        sprite = this.enemys.create(0, 0, this.sheetKey);
-        sprite.name = this.enemys.name + '-sprite-' + i;
+        sprite = this.wave.create(0, 0, this.sheetKey);
+        sprite.name = this.wave.name + '-sprite-' + i;
 
         x = Math.floor(Math.random() * (this.game.world.width - 16));
 
@@ -43,6 +47,10 @@ var Wave = function (opt) {
 
 Wave.prototype.tick = function () {
 
+    var now = new Date();
+    if (now - this.lastRelease >= this.releaseRate) {}
+
+    // tick all enemy's
     this.enemys.forEach(function (enemy) {
 
         enemy.data.tick();
