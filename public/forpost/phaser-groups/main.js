@@ -135,7 +135,7 @@ SpriteGroup.prototype.newDeltas = function () {
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-game.state.add('basic-1', {
+game.state.add('example-1', {
 
     create: function () {
 
@@ -213,7 +213,7 @@ game.state.add('basic-1', {
 
 });
 
-game.state.add('example-1', {
+game.state.add('example-2', {
 
     create: function () {
 
@@ -263,5 +263,5 @@ game.state.add('example-1', {
 
 });
 
-game.state.start('basic-1');
-//game.state.start('example-1');
+//game.state.start('basic-1');
+game.state.start('example-1');
