@@ -140,15 +140,48 @@ game.state.add('basics-1', {
     create: function () {
 
         // create a group with game.add.group
-        var aGroup = game.add.group();
+        var aGroup = game.add.group(),
+        font = {
+            fill: 'red',
+            font: '20px courier'
+        };
 
-        var text = game.add.text(0, 0, 'foo');
+        var text = game.add.text(0, 0, 'foo',font);
 
         // add a display object with Group.add;
         aGroup.add(text);
 
         // the display objects of a Group are stored in the children array
         console.log(aGroup.children[0].text); // 'foo'
+
+    }
+
+});
+
+game.state.add('basics-2', {
+
+    create: function () {
+
+        // creating two groups
+        var group1 = game.add.group(),
+        group2 = game.add.group(),
+        font = {
+            fill: 'red',
+            font: '20px courier'
+        };
+
+        group1.add(game.add.text(0, 0, 'hello', font));
+        group1.add(game.add.text(0, 20, 'world', font));
+        group1.x = 50;
+        group1.y = 50;
+
+        group2.add(game.add.text(0, 0, 'phaser', font));
+        group2.add(game.add.text(0, 20, 'style!', font));
+        group2.x = 100;
+        group2.y = 50;
+
+        // I can nest groups
+        group1.add(group2);
 
     }
 
@@ -283,4 +316,4 @@ game.state.add('example-3', {
 });
 
 //game.state.start('basic-1');
-game.state.start('basics');
+game.state.start('basics-2');
