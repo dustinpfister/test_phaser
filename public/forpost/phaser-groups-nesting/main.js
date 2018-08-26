@@ -7,7 +7,7 @@ game.state.add('game', {
         // green block sheet
         sheetFromCanvas({
             name: 'badguys',
-            game: game,
+            game: this.game,
             frames: 3,
             frameWidth: 16,
             frameHeight: 16,
@@ -25,7 +25,9 @@ game.state.add('game', {
                 name: 'wave-1'
             });
 
-        console.log(w);
+		console.log(w);
+			
+        //game.add.sprite(10,10,'badguys');
 
     }
 

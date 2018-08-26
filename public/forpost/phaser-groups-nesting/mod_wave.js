@@ -16,23 +16,27 @@ var Wave = function (opt) {
     this.count = opt.count || 10;
 
     var i = 0,
+    x,
+    y,
     sprite;
     while (i < this.count) {
 
         sprite = this.enemys.create(0, 0, this.sheetKey);
         sprite.name = this.enemys.name + '-sprite-' + i;
-        sprite.frame = Math.floor(Math.random() * 3);
 
+        x = Math.floor(Math.random() * (this.game.world.width - 16));
+
+        // make the data object of the sprite,
+        // and instance of Enemy
         sprite.data = new Enemy({
                 game: this.game,
                 sprite: sprite,
-                startPos: new Phaser.Point(100, 0),
+                startPos: new Phaser.Point(x, -16),
+                targetPos: new Phaser.Point(x, game.world.height - 16)
             });
 
-        sprite.x = sprite.data.startX;
-        sprite.y = sprite.data.startY;
-
         i += 1;
+
     }
 
 };
