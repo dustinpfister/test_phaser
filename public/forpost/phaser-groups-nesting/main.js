@@ -25,9 +25,7 @@ game.state.add('game', {
                 name: 'wave-1'
             });
 
-		console.log(w);
-			
-        //game.add.sprite(10,10,'badguys');
+        game.time.events.loop(33, w.tick, w);
 
     }
 

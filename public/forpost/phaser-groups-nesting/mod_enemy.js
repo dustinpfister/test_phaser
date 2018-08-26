@@ -11,7 +11,7 @@ var Enemy = function (opt) {
     // default deltas to zero
 
     this.startPos = opt.startPos || new Phaser.Point(0, 0);
-    this.targetPos = opt.startPos || new Phaser.Point(0, 0);
+    this.targetPos = opt.targetPos || new Phaser.Point(0, 0);
 
     this.overFrames = opt.overFrames || 50;
     this.frame = 0;
@@ -27,11 +27,18 @@ Enemy.prototype.tick = function () {
 
     this.per = this.frame / this.overFrames;
 
-	var angle = this.startPos.angle(this.targetPos.x,this.targetPos.y),
-	dist = this.startPos.distnace(this.targetPos);
+    var angle = Phaser.Point.angle(this.startPos, this.targetPos),
+    dist = Phaser.Point.distance(this.startPos, this.targetPos);
 
-    this.sprite.x = Math.cos(angle)
+    this.sprite.x = this.startPos.x + Math.cos(angle) * dist * this.per;
+    this.sprite.y = this.startPos.y - Math.sin(angle) * dist * this.per;
 
     this.frame += 1;
+
+    if (this.frame >= this.overFrames) {
+
+        this.frame = this.overFrames;
+
+    }
 
 }

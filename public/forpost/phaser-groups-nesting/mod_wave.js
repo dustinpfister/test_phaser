@@ -31,12 +31,22 @@ var Wave = function (opt) {
         sprite.data = new Enemy({
                 game: this.game,
                 sprite: sprite,
-                startPos: new Phaser.Point(x, -16),
-                targetPos: new Phaser.Point(x, game.world.height - 16)
+                startPos: new Phaser.Point(x, 0),
+                targetPos: new Phaser.Point(x, game.world.height + 16)
             });
 
         i += 1;
 
     }
+
+};
+
+Wave.prototype.tick = function () {
+
+    this.enemys.forEach(function (enemy) {
+
+        enemy.data.tick();
+
+    });
 
 };
