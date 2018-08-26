@@ -135,6 +135,25 @@ SpriteGroup.prototype.newDeltas = function () {
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+game.state.add('basics-1', {
+
+    create: function () {
+
+        // create a group with game.add.group
+        var aGroup = game.add.group();
+
+        var text = game.add.text(0, 0, 'foo');
+
+        // add a display object with Group.add;
+        aGroup.add(text);
+
+        // the display objects of a Group are stored in the children array
+        console.log(aGroup.children[0].text); // 'foo'
+
+    }
+
+});
+
 game.state.add('example-1', {
 
     create: function () {
@@ -213,7 +232,7 @@ game.state.add('example-1', {
 
 });
 
-game.state.add('example-2', {
+game.state.add('example-3', {
 
     create: function () {
 
@@ -264,4 +283,4 @@ game.state.add('example-2', {
 });
 
 //game.state.start('basic-1');
-game.state.start('example-1');
+game.state.start('basics');
