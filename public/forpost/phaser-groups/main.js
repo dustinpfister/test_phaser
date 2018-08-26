@@ -133,8 +133,61 @@ SpriteGroup.prototype.newDeltas = function () {
 
 };
 
-
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+
+game.state.add('basic-1', {
+
+    create: function () {
+
+        var textGroup = game.add.group(),
+        font = {
+            fill: 'red',
+            font: '15px courier'
+        };
+
+        textGroup.name = 'text-group';
+
+        var i = 0,
+        len = 3;
+        while (i < len) {
+            var text = game.add.text(0, i * 15, '', font);
+
+            textGroup.add(text);
+            text.name = 'text-' + i;
+            i += 1;
+        }
+
+        //console.log(game.world.getByName('text-group'));
+        //console.log(game.world.getByName('text-group').getByName('text-0'));
+
+
+        // or I can use one of the many Phaser.Group Class Methods
+        // such as filter
+        var others = textGroup.filter(function (child, index) {
+
+                return index > 0;
+
+            });
+
+    },
+
+    update: function () {
+
+        // I can use getByName to grab a ref to the group
+        // if I am using names rather than a global variable
+        // or property of an object appended to the state or
+        // game objects
+        var textGroup = game.world.getByName('text-group'),
+        text;
+
+        // If I set names for the children of the group I can use
+        // that to get a certain child element
+        text = textGroup.getByName('text-0');
+        text.text = 'Roll: ' + Math.round(Math.random() * 6);
+
+    }
+
+});
 
 game.state.add('example-1', {
 
@@ -186,4 +239,5 @@ game.state.add('example-1', {
 
 });
 
-game.state.start('example-1');
+game.state.start('basic-1');
+//game.state.start('example-1');
