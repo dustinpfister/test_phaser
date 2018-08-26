@@ -19,16 +19,6 @@ game.state.add('game', {
             }
         });
 
-        /*
-        var w = new Wave({
-        game: this.game,
-        sheetKey: 'badguys',
-        name: 'wave-1'
-        });
-
-        game.time.events.loop(33, w.tick, w);
-         */
-
         this.game.data = this.game.data || {};
 
         var round = this.game.data.round = new Round({
@@ -36,8 +26,8 @@ game.state.add('game', {
                 sheetKey: 'badguys',
                 waveCount: 10
             });
-			
-			console.log(round)
+
+        game.time.events.loop(round.tick, 1000, round);
 
     }
 

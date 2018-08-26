@@ -4,9 +4,10 @@ var Round = function (opt) {
     opt = opt || {};
 
     this.game = opt.game || game;
+    this.lastRelease = new Date()
 
-    // the key of the sprite sheet to use
-    this.sheetKey = opt.sheetKey || '';
+        // the key of the sprite sheet to use
+        this.sheetKey = opt.sheetKey || '';
 
     this.waveCount = opt.waveCount || 3;
     this.waves = game.add.group();
@@ -28,3 +29,5 @@ var Round = function (opt) {
     }
 
 };
+
+Round.prototype.tick = function () {};
