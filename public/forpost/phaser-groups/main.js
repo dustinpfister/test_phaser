@@ -265,7 +265,7 @@ game.state.add('example-1', {
 
 });
 
-game.state.add('example-3', {
+game.state.add('example-2', {
 
     create: function () {
 
