@@ -148,7 +148,7 @@ game.state.add('basic-1', {
         textGroup.name = 'text-group';
 
         var i = 0,
-        len = 3;
+        len = 5;
         while (i < len) {
             var text = game.add.text(0, i * 15, '', font);
 
@@ -161,13 +161,7 @@ game.state.add('basic-1', {
         //console.log(game.world.getByName('text-group').getByName('text-0'));
 
 
-        // or I can use one of the many Phaser.Group Class Methods
-        // such as filter
-        var others = textGroup.filter(function (child, index) {
-
-                return index > 0;
-
-            });
+        //console.log(others);
 
     },
 
@@ -184,6 +178,25 @@ game.state.add('basic-1', {
         // that to get a certain child element
         text = textGroup.getByName('text-0');
         text.text = 'Roll: ' + Math.round(Math.random() * 6);
+
+        // or I can use one of the many Phaser.Group Class Methods
+        // such as filter
+        textGroup.filter(function (child, index) {
+
+            return index > 0;
+
+        }).list.forEach(function (child, i) {
+
+            var exp = child.data.exp = child.data.exp || 1,
+            base = 2 + i;
+
+            child.text = base + '^' + exp + ' = ' + Math.pow(base, exp);
+
+            exp += 1;
+            exp %= 25;
+            child.data.exp = exp;
+
+        });
 
     }
 
