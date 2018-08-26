@@ -6,18 +6,32 @@ game.state.add('basics-1', {
 
     create: function () {
 
-        var group = game.add.group();
+        var group1 = game.add.group(),
+        group2 = game.add.group();
 
         var i = 5;
         while (i--) {
 
-            group.add(game.add.text(0, i * 20, 'foo', {
+            group1.add(game.add.text(0, i * 20, 'foo' + i, {
                     fill: 'red'
                 }));
 
         }
 
-        console.log(group.children.length); // 5
+        console.log(group1.children.length); // 5
+        console.log(group2.children.length); // 0
+
+        var text = group1.children[2];
+        text.x = 0;
+        text.y = 0;
+
+        group1.remove(text, false);
+
+        group2.add(text);
+        group2.x = 100;
+
+        console.log(group1.children.length); // 4
+        console.log(group2.children.length); // 1
 
     }
 
