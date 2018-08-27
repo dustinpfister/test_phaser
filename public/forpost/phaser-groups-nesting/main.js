@@ -42,7 +42,7 @@ var round = {
             while (ei < enemysPerWave) {
 
                 enemy = wave.create(0, 0, 'badguys');
-                wave.name = 'wave-' + (wi + 1);
+                enemy.name = 'enemy-' + (wi + 1) + '_' + (ei + 1);
 
                 ei += 1;
             }
@@ -59,14 +59,15 @@ var round = {
         if (this.waves.children.length > 0) {
 
             var wave = this.waves.children[0],
-            cache = this.cache;
+            enemy,
+            cache = this.cache,
+            i = wave.children.length;
 
-            wave.forEach(function (enemy) {
-
+            while (i--) {
+                enemy = wave.children[i];
                 wave.remove(enemy);
                 cache.add(enemy);
-
-            });
+            }
 
             wave.destroy();
 
@@ -80,12 +81,33 @@ var round = {
         if (this.cache.children.length > 0) {
 
             var enemy = this.cache.children[0];
+            enemy.x = Math.floor(Math.random() * (this.game.world.width - 32));
+            enemy.y = -32;
 
             this.cache.remove(enemy, false);
 
             this.active.add(enemy);
 
         }
+
+    },
+
+    tick: function () {
+
+        var game = this.game;
+
+        this.active.forEach(function (enemy) {
+
+            enemy.y += 1;
+
+            if (enemy.y >= game.world.height) {
+
+                console.log(enemy.name + ' has attacked the player');
+                enemy.destroy();
+
+            }
+
+        });
 
     }
 
@@ -104,51 +126,32 @@ game.state.add('example-1', {
         ctx.fillRect(0, 0, 32, 32);
         this.game.cache.addSpriteSheet('badguys', null, canvas, 32, 32, 1, 0, 0);
 
+        var text = game.add.text(5, 5, '', {
+                fill: 'red'
+            });
+        text.name = 'text1';
+
         // setup
         round.setup();
 
         // call next wave
-        game.time.events.loop(3000, round.nextWave, round);
+        round.nextWave.call(round);
+        game.time.events.loop(5000, round.nextWave, round);
 
-        game.time.events.loop(500, round.release, round);
+        game.time.events.loop(1000, round.release, round);
+
+        game.time.events.loop(33, round.tick, round);
+
+    },
+
+    update: function () {
+
+        var text = game.world.getByName('text1');
+
+        text.text = 'waves: ' + round.waves.children.length;
 
     }
 
 })
 
 game.state.start('example-1');
-
-/*
-game.state.add('game', {
-
-create: function () {
-
-// green block sheet
-sheetFromCanvas({
-name: 'badguys',
-game: this.game,
-frames: 3,
-frameWidth: 16,
-frameHeight: 16,
-forFrame: function (ctx) {
-var colors = ['green', 'red', 'blue'];
-ctx.fillStyle = colors[this.f];
-ctx.lineWidth = 3;
-ctx.fillRect(0, 0, 32, 32);
-}
-});
-
-this.game.data = this.game.data || {};
-
-var round = this.game.data.round = new Round({
-game: this.game,
-sheetKey: 'badguys',
-waveCount: 10
-});
-
-game.time.events.loop(round.tick, 1000, round);
-
-}
-
-});
-*/
