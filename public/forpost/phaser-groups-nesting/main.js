@@ -8,6 +8,8 @@ var round = {
     active: {},
     game: game,
 
+    enemyCount: 0,
+
     playerHP: 1000,
 
     // setup waves
@@ -32,11 +34,27 @@ var round = {
         this.active.name = 'active';
         this.active.x = 0;
 
+        // 3 waves of 5
+        this.genWaves(3, 5);
+
+        // 1 wave of ten
+        this.genWaves(1, 10);
+
+    },
+
+    // generate the waves
+    genWaves: function (waveCount, enemysPerWave) {
+
+        var wave,
+        enemy,
+        wi,
+        ei;
+
         // for each
         wi = 0;
         while (wi < waveCount) {
 
-            // add new wave as parent of this.waves
+            // add new wave as parent of this.waves (nesting)
             wave = game.add.group(this.waves);
             wave.name = 'wave-' + (wi + 1);
 
@@ -44,8 +62,9 @@ var round = {
             while (ei < enemysPerWave) {
 
                 enemy = wave.create(0, 0, 'badguys');
-                enemy.name = 'enemy-' + (wi + 1) + '_' + (ei + 1);
+                enemy.name = 'enemy-' + this.enemyCount;
 
+                this.enemyCount += 1;
                 ei += 1;
             }
 
@@ -93,6 +112,7 @@ var round = {
 
     },
 
+    // tick the active group, where the real action happens
     tick: function () {
 
         var game = round.game;
@@ -102,8 +122,6 @@ var round = {
             enemy.y += 1;
 
             if (enemy.y >= game.world.height) {
-
-                console.log(enemy.name + ' has attacked the player');
 
                 round.playerHP -= 5;
 
