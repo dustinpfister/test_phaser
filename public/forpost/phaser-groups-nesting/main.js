@@ -62,7 +62,6 @@ var round = {
             enemy,
             cache = this.cache,
             i = wave.children.length;
-
             while (i--) {
                 enemy = wave.children[i];
                 wave.remove(enemy);
@@ -126,20 +125,23 @@ game.state.add('example-1', {
         ctx.fillRect(0, 0, 32, 32);
         this.game.cache.addSpriteSheet('badguys', null, canvas, 32, 32, 1, 0, 0);
 
-        var text = game.add.text(5, 5, '', {
-                fill: 'red'
-            });
-        text.name = 'text1';
-
         // setup
         round.setup();
 
-        // call next wave
-        round.nextWave.call(round);
-        game.time.events.loop(5000, round.nextWave, round);
+        var text = game.add.text(5, 5, '', {
+                fill: 'white',
+                font: '10px courier'
+            });
+        text.name = 'text1';
 
+        // call next wave for first time, and every ten seconds
+        round.nextWave.call(round);
+        game.time.events.loop(7000, round.nextWave, round);
+
+        // release a new enemy from cache every second
         game.time.events.loop(1000, round.release, round);
 
+        // tick active group
         game.time.events.loop(33, round.tick, round);
 
     },
@@ -148,7 +150,7 @@ game.state.add('example-1', {
 
         var text = game.world.getByName('text1');
 
-        text.text = 'waves: ' + round.waves.children.length;
+        text.text = 'enemys: ' + round.active.children.length + '(+' + round.cache.children.length + ')';
 
     }
 
