@@ -63,6 +63,13 @@ var round = {
 
                 enemy = wave.create(0, 0, 'badguys');
                 enemy.name = 'enemy-' + this.enemyCount;
+                enemy.inputEnabled = true;
+
+                enemy.events.onInputDown.add(function (enemy) {
+
+                    enemy.destroy();
+
+                });
 
                 this.enemyCount += 1;
                 ei += 1;
