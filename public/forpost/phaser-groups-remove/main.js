@@ -128,38 +128,38 @@ game.state.add('example-1', {
 });
 
 game.state.add('events-1', {
-
+ 
     create: function () {
-
+ 
         // display object with an onRemovedFromGroup event
         var text = game.add.text(0, 0, 'foo');
         text.name = 'text-1';
-
+ 
         // on add to group
         text.events.onAddedToGroup.add(function (dispObj, group) {
-
+ 
             console.log(dispObj.name + ' added to group ' + group.name);
-
+ 
         });
-
+ 
         // on remove from group
         text.events.onRemovedFromGroup.add(function (dispObj, group) {
-
+ 
             console.log(dispObj.name + ' remove from group ' + group.name);
-
+ 
         });
-
+ 
         var group = game.add.group();
         group.name = 'the-group';
-
-        group.add(text);
-        group.remove(text, false, false); // event does fire
-
-        group.add(text);
-        group.remove(text, false, true); // event does not fire
-
+ 
+        group.add(text); // onAddedToGroup event fires
+        group.remove(text, false, false); // onRemovedFromGroup event does fire
+ 
+        group.add(text); // onAddedToGroup event fires
+        group.remove(text, false, true); // onRemovedFromGroup event does not fire
+ 
     }
-
+ 
 });
 
 game.state.start('events-1');
