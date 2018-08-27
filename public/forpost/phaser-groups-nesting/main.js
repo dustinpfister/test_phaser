@@ -1,19 +1,17 @@
-var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
-
 // round object
 var round = {
 
     waves: {},
     cache: {},
     active: {},
-    game: game,
+    game: {},
 
     enemyCount: 0,
 
     playerHP: 1000,
 
     // setup waves
-    setup: function () {
+    setup: function (opt) {
 
         var waveCount = 3,
         enemysPerWave = 5,
@@ -21,6 +19,10 @@ var round = {
         enemy,
         wi,
         ei;
+
+        opt = opt || {};
+
+        this.game = opt.game || game;
 
         this.waves = game.add.group();
         this.waves.name = 'waves';
@@ -143,6 +145,8 @@ var round = {
 
 };
 
+var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+
 game.state.add('example-1', {
 
     create: function () {
@@ -157,7 +161,9 @@ game.state.add('example-1', {
         this.game.cache.addSpriteSheet('badguys', null, canvas, 32, 32, 1, 0, 0);
 
         // setup
-        round.setup();
+        round.setup({
+            game: game
+        });
 
         var font = {
             fill: 'white',
