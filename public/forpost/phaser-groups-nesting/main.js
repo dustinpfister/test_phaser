@@ -65,6 +65,7 @@ var round = {
                 enemy.name = 'enemy-' + this.enemyCount;
                 enemy.inputEnabled = true;
 
+                // enemies die when clicked
                 enemy.events.onInputDown.add(function (enemy) {
 
                     enemy.destroy();
@@ -196,6 +197,6 @@ game.state.add('example-1', {
 
     }
 
-})
+});
 
 game.state.start('example-1');
