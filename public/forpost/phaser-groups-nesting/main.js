@@ -205,4 +205,22 @@ game.state.add('example-1', {
 
 });
 
-game.state.start('example-1');
+game.state.add('basics', {
+
+    create: function () {
+
+        var parent = game.add.group();
+        parent.name = 'parent';
+
+        // I can make another group nested, 
+        var nested = game.add.group(parent);
+        nested.name = 'nested';
+
+        console.log(parent.children[0].name); // nested
+
+    }
+
+});
+
+game.state.start('basics');
+//game.state.start('example-1');
