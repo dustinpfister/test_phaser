@@ -55,6 +55,7 @@ game.state.add('basics-1', {
 
 });
 
+// removing from one group, and placing into another, and back again
 game.state.add('example-1', {
 
     create: function () {
