@@ -8,6 +8,8 @@ var round = {
     active: {},
     game: game,
 
+    playerHP: 1000,
+
     // setup waves
     setup: function () {
 
@@ -93,7 +95,7 @@ var round = {
 
     tick: function () {
 
-        var game = this.game;
+        var game = round.game;
 
         this.active.forEach(function (enemy) {
 
@@ -102,6 +104,9 @@ var round = {
             if (enemy.y >= game.world.height) {
 
                 console.log(enemy.name + ' has attacked the player');
+
+                round.playerHP -= 5;
+
                 enemy.destroy();
 
             }
@@ -128,11 +133,16 @@ game.state.add('example-1', {
         // setup
         round.setup();
 
-        var text = game.add.text(5, 5, '', {
-                fill: 'white',
-                font: '10px courier'
-            });
+        var font = {
+            fill: 'white',
+            font: '10px courier'
+        };
+
+        var text = game.add.text(5, 5, '', font);
         text.name = 'text1';
+
+        var text2 = game.add.text(5, 15, '', font);
+        text2.name = 'text2';
 
         // call next wave for first time, and every ten seconds
         round.nextWave.call(round);
@@ -148,9 +158,16 @@ game.state.add('example-1', {
 
     update: function () {
 
-        var text = game.world.getByName('text1');
+        var text = game.world.getByName('text1'),
+        text2 = game.world.getByName('text2');
 
-        text.text = 'enemys: ' + round.active.children.length + '(+' + round.cache.children.length + ')';
+        // wave info
+        text.text = 'waves: ' + round.waves.children.length + ' | enemys: ' +
+            round.active.children.length +
+            '(+' + round.cache.children.length + ')';
+
+        // player info
+        text2.text = 'hp: ' + round.playerHP;
 
     }
 
