@@ -127,4 +127,29 @@ game.state.add('example-1', {
 
 });
 
-game.state.start('example-1');
+game.state.add('events-1', {
+
+    create: function () {
+
+        // display object with an onRemovedFromGroup event
+        var text = game.add.text(0, 0, 'foo');
+        text.events.onRemovedFromGroup.add(function (a, b) {
+
+            console.log(a);
+            console.log(b);
+
+        });
+
+        var group = game.add.group();
+
+        group.add(text);
+        group.remove(text, false, true); // event does not fire
+
+        group.add(text);
+        group.remove(text, false, false); // event does file
+
+    }
+
+});
+
+game.state.start('events-1');
