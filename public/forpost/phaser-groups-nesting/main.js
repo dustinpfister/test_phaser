@@ -5,6 +5,7 @@ var round = {
 
     waves: {},
     cache: {},
+    active: {},
     game: game,
 
     // setup waves
@@ -24,6 +25,10 @@ var round = {
         this.cache = game.add.group();
         this.cache.name = 'cache';
         this.cache.x = -32;
+
+        this.active = game.add.group();
+        this.active.name = 'active';
+        this.active.x = 0;
 
         // for each
         wi = 0;
@@ -48,6 +53,27 @@ var round = {
 
     },
 
+    // add next wave to cache
+    nextWave: function () {
+
+        if (this.waves.children.length > 0) {
+
+            var wave = this.waves.children[0],
+            cache = this.cache;
+
+            wave.forEach(function (enemy) {
+
+                wave.remove(enemy);
+                cache.add(enemy);
+
+            });
+
+            wave.destroy();
+
+        }
+
+    },
+
     // release the next enemy from cache
     release: function () {
 
@@ -57,7 +83,7 @@ var round = {
 
             this.cache.remove(enemy, false);
 
-            this.game.add(enemy);
+            this.active.add(enemy);
 
         }
 
@@ -81,7 +107,10 @@ game.state.add('example-1', {
         // setup
         round.setup();
 
-        console.log(round.waves.children);
+        // call next wave
+        game.time.events.loop(3000, round.nextWave, round);
+
+        game.time.events.loop(500, round.release, round);
 
     }
 
