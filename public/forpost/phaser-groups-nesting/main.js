@@ -11,7 +11,7 @@ var round = {
 };
 
 // setup waves
-round.setup =function (opt) {
+round.setup = function (opt) {
 
     opt = opt || {};
 
@@ -28,12 +28,6 @@ round.setup =function (opt) {
     this.active = game.add.group();
     this.active.name = 'active';
     this.active.x = 0;
-
-    // 3 waves of 5
-    this.genWaves(3, 5);
-
-    // 1 wave of ten
-    this.genWaves(1, 10);
 
 };
 
@@ -166,6 +160,12 @@ game.state.add('example-1', {
 
         var text2 = game.add.text(5, 15, '', font);
         text2.name = 'text2';
+
+        // 3 waves of 5
+        round.genWaves(3, 5);
+
+        // 1 wave of ten
+        round.genWaves(1, 10);
 
         // call next wave for first time, and every ten seconds
         round.nextWave.call(round);
