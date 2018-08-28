@@ -1,3 +1,14 @@
+var addFixedGroup = function (game, name, offset) {
+
+    var fixed = game.add.group();
+    fixed.name = name;
+    fixed.fixedToCamera = true;
+    fixed.cameraOffset = offset;
+
+    return fixed;
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('example', {
@@ -8,10 +19,7 @@ game.state.add('example', {
         game.world.resize(640, 480);
 
         // MAKING THWE FIXED GROUP
-        var fixed = game.add.group();
-        fixed.name = 'fixed';
-        fixed.fixedToCamera = true;
-        fixed.cameraOffset = new Phaser.Point(0, game.camera.height - 20);
+        var fixed = addFixedGroup(game, 'fixed', new Phaser.Point(0, game.camera.height - 20))
 
         // ADDING A TEXT ELEMENT TO THE FIXED GROUP
         var font = {
