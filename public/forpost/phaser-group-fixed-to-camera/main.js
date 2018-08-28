@@ -43,7 +43,7 @@ var mkBoxSheet = function (game, sheetKey) {
 };
 
 // gen boxes
-var genBoxes = function (game, count) {
+var genBoxes = function (game, sheekKey, count) {
 
     var bx = count || 100,
     x,
@@ -53,7 +53,7 @@ var genBoxes = function (game, count) {
         x = Math.random() * (game.world.width - 32);
         y = Math.random() * (game.world.height - 32);
 
-        game.add.sprite(x, y, 'sheet-box');
+        game.add.sprite(x, y, sheekKey);
 
     }
 
@@ -76,7 +76,7 @@ game.state.add('example', {
 
         // GENERATING SOME BOXES TO THE WORLD
         mkBoxSheet(game, 'sheet-box');
-        genBoxes(game,150);
+        genBoxes(game, 'sheet-box', 150);
 
         // SETTING SOME VALUES
         // that will be used in the update method
