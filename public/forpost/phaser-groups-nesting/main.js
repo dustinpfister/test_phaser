@@ -99,9 +99,6 @@ round.release = function () {
         var enemy = this.cache.children[0];
         enemy.x = Math.floor(Math.random() * (this.game.world.width - 32));
         enemy.y = -32;
-
-        this.cache.remove(enemy, false);
-
         this.active.add(enemy);
 
     }
