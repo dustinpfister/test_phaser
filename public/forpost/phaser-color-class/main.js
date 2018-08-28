@@ -16,15 +16,24 @@ var webRGB = 'rgba(0,255,0,1)',
 
 colorObj = Phaser.Color.webToColor(webRGB);
 
-console.log(colorObj.r); // 255
-console.log(colorObj.g); // 0
+console.log(colorObj.r); // 0
+console.log(colorObj.g); // 255
 console.log(colorObj.b); // 0
 console.log(colorObj.a); // 1
 
+// vanilla
+var colorObj = {},
+colorArr = webRGB.replace(/rgba\(/, '').replace(/\)/, '').split(',');
 
+colorObj.r = colorArr[0];
+colorObj.g = colorArr[1];
+colorObj.b = colorArr[2];
+colorObj.a = colorArr[3];
 
-
-
+console.log(colorObj.r); // 0
+console.log(colorObj.g); // 255
+console.log(colorObj.b); // 0
+console.log(colorObj.a); // 1
 
 
 
