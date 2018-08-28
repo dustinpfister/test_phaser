@@ -1,3 +1,6 @@
+
+
+// add a fixed group helper
 var addFixedGroup = function (game, name, offset) {
 
     var fixed = game.add.group();
@@ -6,6 +9,19 @@ var addFixedGroup = function (game, name, offset) {
     fixed.cameraOffset = offset;
 
     return fixed;
+
+};
+
+// add a text element to a group
+var addText = function (game, group, name) {
+
+    var font = {
+        fill: 'white',
+        font: '15px courier'
+    };
+    var text = game.add.text(5, 5, '', font);
+    text.name = name;
+    group.add(text);
 
 };
 
@@ -19,16 +35,10 @@ game.state.add('example', {
         game.world.resize(640, 480);
 
         // MAKING THWE FIXED GROUP
-        var fixed = addFixedGroup(game, 'fixed', new Phaser.Point(0, game.camera.height - 20))
+        var fixed = addFixedGroup(game, 'fixed', new Phaser.Point(0, game.camera.height - 20));
 
         // ADDING A TEXT ELEMENT TO THE FIXED GROUP
-        var font = {
-            fill: 'white',
-            font: '15px courier'
-        };
-        var text = game.add.text(5, 5, '', font);
-        text.name = 'mess';
-        fixed.add(text);
+        addText(game, fixed, 'mess');
 
         // GENERATING SOME BOXES TO THE WORLD
         var canvas = document.createElement('canvas');
