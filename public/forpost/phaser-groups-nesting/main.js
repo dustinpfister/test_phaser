@@ -1,26 +1,17 @@
 // round object
 var round = {
 
-    waves: {},
-    cache: {},
-    active: {},
-    game: {},
-
-    enemyCount: 0,
-
-    playerHP: 1000
+    waves: {}, // the waves group will contain nested groups
+    cache: {}, // the cache will hold enemies to be released
+    active: {}, // active enemies in the game area
+    game: null, // what will be a reference to Phaser.Game
+    enemyCount: 0, // a count of enemies, use to set names
+    playerHP: 1000 // player hp
 
 };
 
 // setup waves
 round.setup =function (opt) {
-
-    var waveCount = 3,
-    enemysPerWave = 5,
-    wave,
-    enemy,
-    wi,
-    ei;
 
     opt = opt || {};
 
