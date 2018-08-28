@@ -13,15 +13,32 @@ var addFixedGroup = function (game, name, offset) {
 };
 
 // add a text element to a group
-var addText = function (game, group, name) {
+var addText = function (game, group, name, x, y) {
 
     var font = {
         fill: 'white',
         font: '15px courier'
     };
-    var text = game.add.text(5, 5, '', font);
+
+    x = x === undefined ? 5 : x;
+    y = y === undefined ? 5 : y;
+
+    var text = game.add.text(x, y, '', font);
     text.name = name;
     group.add(text);
+
+};
+
+// just make a simple box sheet
+var mkBoxSheet = function (game, sheetKey) {
+
+    var canvas = document.createElement('canvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = 32;
+    canvas.height = 32;
+    ctx.strokeStyle = '#ffffff';
+    ctx.strokeRect(0, 0, 32, 32);
+    game.cache.addSpriteSheet(sheetKey, null, canvas, 32, 32, 1, 0, 0);
 
 };
 
@@ -41,13 +58,7 @@ game.state.add('example', {
         addText(game, fixed, 'mess');
 
         // GENERATING SOME BOXES TO THE WORLD
-        var canvas = document.createElement('canvas');
-        ctx = canvas.getContext('2d');
-        canvas.width = 32;
-        canvas.height = 32;
-        ctx.strokeStyle = '#ffffff';
-        ctx.strokeRect(0, 0, 32, 32);
-        game.cache.addSpriteSheet('sheet-box', null, canvas, 32, 32, 1, 0, 0);
+        mkBoxSheet(game, 'sheet-box');
 
         var bx = 100,
         x,
