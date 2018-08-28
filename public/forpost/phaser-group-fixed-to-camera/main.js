@@ -42,6 +42,23 @@ var mkBoxSheet = function (game, sheetKey) {
 
 };
 
+// gen boxes
+var genBoxes = function (game, count) {
+
+    var bx = count || 100,
+    x,
+    y;
+    while (bx--) {
+
+        x = Math.random() * (game.world.width - 32);
+        y = Math.random() * (game.world.height - 32);
+
+        game.add.sprite(x, y, 'sheet-box');
+
+    }
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('example', {
@@ -59,18 +76,7 @@ game.state.add('example', {
 
         // GENERATING SOME BOXES TO THE WORLD
         mkBoxSheet(game, 'sheet-box');
-
-        var bx = 100,
-        x,
-        y;
-        while (bx--) {
-
-            x = Math.random() * (game.world.width - 32);
-            y = Math.random() * (game.world.height - 32);
-
-            game.add.sprite(x, y, 'sheet-box');
-
-        }
+        genBoxes(game,150);
 
         // SETTING SOME VALUES
         // that will be used in the update method
