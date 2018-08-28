@@ -82,7 +82,6 @@ round.nextWave = function () {
         i = wave.children.length;
         while (i--) {
             enemy = wave.children[i];
-            wave.remove(enemy);
             cache.add(enemy);
         }
 
