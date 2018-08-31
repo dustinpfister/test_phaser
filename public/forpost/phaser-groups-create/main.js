@@ -18,14 +18,15 @@ var createBlocks = function (group) {
 
     var i = 0,
     count = 10,
+    groupSize = 128,
     sprite;
     while (i < count) {
 
         sprite = group.create(0, 0, 'sheet-basic-block', 0);
         sprite.name = 'block-' + i;
 
-        sprite.x = Math.random() * (game.world.width - 32);
-        sprite.y = Math.random() * (game.world.height - 32);
+        sprite.x = Math.random() * (groupSize - 32);
+        sprite.y = Math.random() * (groupSize - 32);
 
         i += 1;
 
@@ -38,12 +39,14 @@ var makeBlockGroup = function (game) {
 
     var group = game.add.group();
     group.name = 'block-group';
+    group.width = 128;
+    group.height = 128;
 
     createBlocks(group);
 
 };
 
-//
+// the game instance, and state object
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('example', {
