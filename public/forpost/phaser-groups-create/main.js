@@ -74,6 +74,27 @@ var makeBlockGroup = function (game) {
 
     createBlocks(group);
 
+    group.data = {
+
+        group: group,
+        frame: 0,
+        maxFrame: 200,
+        tick: function () {
+
+            var per = this.frame / this.maxFrame,
+            bias = Math.abs(0.5 - per) / 0.5;
+
+            this.group.x = (game.world.width-64) * bias;
+
+            this.frame += 1;
+            this.frame %= this.maxFrame;
+
+        }
+
+    };
+    group.x = 0;
+    group.y = game.world.height / 2 - 32;
+
     return group;
 
 };
@@ -97,11 +118,14 @@ game.state.add('example', {
 
         var blocks = game.world.getByName('block-group');
 
+        // update children
         blocks.forEach(function (block) {
-
             block.data.tick();
+        });
 
-        })
+        // update group position
+        //blocks.x += 1;
+        blocks.data.tick();
 
     }
 
