@@ -20,7 +20,6 @@ var createBlocks = function (group) {
     count = 10,
     groupSize = 64,
     sprite;
-
     while (i < count) {
 
         // I can create a block using Group.create
@@ -36,14 +35,24 @@ var createBlocks = function (group) {
 
             sprite: sprite,
             angle: Math.PI * 2 * Math.random(),
+
+            // to be called on each tick
             tick: function () {
 
                 var dx = Math.cos(this.angle) * 1,
                 dy = Math.sin(this.angle) * 1; ;
                 this.sprite.y += dy;
 
-                this.sprite.x = Phaser.Math.wrap(this.sprite.x + dx, 0, groupSize);
-                this.sprite.y = Phaser.Math.wrap(this.sprite.y + dy, 0, groupSize);
+                this.sprite.x = Phaser.Math.clamp(this.sprite.x + dx, 0, groupSize - 8);
+                this.sprite.y = Phaser.Math.clamp(this.sprite.y + dy, 0, groupSize - 8);
+
+                // new angle when bounds of group are hit
+                if (this.sprite.x === groupSize - 8 || this.sprite.y === groupSize - 8) {
+                    this.angle = Math.PI * 2 * Math.random();
+                }
+                if (this.sprite.x === 0 || this.sprite.y === 0) {
+                    this.angle = Math.PI * 2 * Math.random();
+                }
 
             }
 
@@ -64,6 +73,8 @@ var makeBlockGroup = function (game) {
     group.height = 128;
 
     createBlocks(group);
+
+    return group;
 
 };
 
