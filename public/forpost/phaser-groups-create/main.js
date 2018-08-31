@@ -1,3 +1,4 @@
+
 // make a basic block sheet for the given game
 var makeBasicBlockSheet = function (game) {
 
@@ -6,8 +7,8 @@ var makeBasicBlockSheet = function (game) {
     ctx = canvas.getContext('2d');
     canvas.width = 32;
     canvas.height = 32;
-    ctx.fillStyle = '#ff0000';
-    ctx.fillRect(0, 0, 32, 32);
+    ctx.strokeStyle = '#ff0000';
+    ctx.strokeRect(0, 0, 32, 32);
     this.game.cache.addSpriteSheet('sheet-basic-block', null, canvas, 32, 32, 1, 0, 0);
 
 };
@@ -15,7 +16,20 @@ var makeBasicBlockSheet = function (game) {
 // create blocks
 var createBlocks = function (group) {
 
-    group.create(0, 0, 'sheet-basic-block', 0);
+    var i = 0,
+    count = 10,
+    sprite;
+    while (i < count) {
+
+        sprite = group.create(0, 0, 'sheet-basic-block', 0);
+        sprite.name = 'block-' + i;
+
+        sprite.x = Math.random() * (game.world.width - 32);
+        sprite.y = Math.random() * (game.world.height - 32);
+
+        i += 1;
+
+    }
 
 };
 
