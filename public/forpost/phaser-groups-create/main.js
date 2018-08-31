@@ -8,7 +8,7 @@ var makeBasicBlockSheet = function (game) {
     canvas.width = 32;
     canvas.height = 32;
     ctx.strokeStyle = '#ff0000';
-    ctx.strokeRect(0, 0, 32, 32);
+    ctx.strokeRect(0, 0, 8, 8);
     this.game.cache.addSpriteSheet('sheet-basic-block', null, canvas, 32, 32, 1, 0, 0);
 
 };
@@ -18,15 +18,36 @@ var createBlocks = function (group) {
 
     var i = 0,
     count = 10,
-    groupSize = 128,
+    groupSize = 64,
     sprite;
+
     while (i < count) {
 
+        // I can create a block using Group.create
         sprite = group.create(0, 0, 'sheet-basic-block', 0);
-        sprite.name = 'block-' + i;
 
-        sprite.x = Math.random() * (groupSize - 32);
-        sprite.y = Math.random() * (groupSize - 32);
+        // group.create returns a reference to the sprite
+        // that I can then use to add soem values;
+        sprite.name = 'block-' + i;
+        sprite.x = Math.random() * (groupSize - 8);
+        sprite.y = Math.random() * (groupSize - 8);
+
+        sprite.data = {
+
+            sprite: sprite,
+            angle: Math.PI * 2 * Math.random(),
+            tick: function () {
+
+                var dx = Math.cos(this.angle) * 1,
+                dy = Math.sin(this.angle) * 1; ;
+                this.sprite.y += dy;
+
+                this.sprite.x = Phaser.Math.wrap(this.sprite.x + dx, 0, groupSize);
+                this.sprite.y = Phaser.Math.wrap(this.sprite.y + dy, 0, groupSize);
+
+            }
+
+        }
 
         i += 1;
 
@@ -53,9 +74,23 @@ game.state.add('example', {
 
     create: function () {
 
+        game.scale.compatibility.scrollTo = false;
+
         makeBasicBlockSheet(this.game);
 
         makeBlockGroup(this.game);
+
+    },
+
+    update: function () {
+
+        var blocks = game.world.getByName('block-group');
+
+        blocks.forEach(function (block) {
+
+            block.data.tick();
+
+        })
 
     }
 
