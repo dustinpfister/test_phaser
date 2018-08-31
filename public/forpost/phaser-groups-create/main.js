@@ -20,6 +20,40 @@ var createBlocks = function (group) {
     count = 10,
     groupSize = 64,
     sprite;
+
+    var Block = function (opt) {
+
+        this.sprite = opt.sprite;
+
+        this.newAngle();
+
+    };
+
+    Block.prototype.newAngle = function () {
+
+        this.angle = Math.PI * 2 * Math.random();
+
+    };
+
+    Block.prototype.tick = function () {
+
+        var dx = Math.cos(this.angle) * 1,
+        dy = Math.sin(this.angle) * 1; ;
+        this.sprite.y += dy;
+
+        // update sprite position relative to group
+        this.sprite.x = Phaser.Math.clamp(this.sprite.x + dx, 0, groupSize - 8);
+        this.sprite.y = Phaser.Math.clamp(this.sprite.y + dy, 0, groupSize - 8);
+
+        // new angle when bounds of group are hit
+        if (this.sprite.x === groupSize - 8 || this.sprite.y === groupSize - 8) {
+            this.newAngle();
+        }
+        if (this.sprite.x === 0 || this.sprite.y === 0) {
+            this.newAngle();
+        }
+
+    };
     while (i < count) {
 
         // I can create a block using Group.create
@@ -31,32 +65,9 @@ var createBlocks = function (group) {
         sprite.x = Math.random() * (groupSize - 8);
         sprite.y = Math.random() * (groupSize - 8);
 
-        sprite.data = {
-
-            sprite: sprite,
-            angle: Math.PI * 2 * Math.random(),
-
-            // to be called on each tick
-            tick: function () {
-
-                var dx = Math.cos(this.angle) * 1,
-                dy = Math.sin(this.angle) * 1; ;
-                this.sprite.y += dy;
-
-                this.sprite.x = Phaser.Math.clamp(this.sprite.x + dx, 0, groupSize - 8);
-                this.sprite.y = Phaser.Math.clamp(this.sprite.y + dy, 0, groupSize - 8);
-
-                // new angle when bounds of group are hit
-                if (this.sprite.x === groupSize - 8 || this.sprite.y === groupSize - 8) {
-                    this.angle = Math.PI * 2 * Math.random();
-                }
-                if (this.sprite.x === 0 || this.sprite.y === 0) {
-                    this.angle = Math.PI * 2 * Math.random();
-                }
-
-            }
-
-        }
+        sprite.data = new Block({
+                sprite: sprite
+            });
 
         i += 1;
 
@@ -84,7 +95,7 @@ var makeBlockGroup = function (game) {
             var per = this.frame / this.maxFrame,
             bias = Math.abs(0.5 - per) / 0.5;
 
-            this.group.x = (game.world.width-64) * bias;
+            this.group.x = (game.world.width - 64) * bias;
 
             this.frame += 1;
             this.frame %= this.maxFrame;
