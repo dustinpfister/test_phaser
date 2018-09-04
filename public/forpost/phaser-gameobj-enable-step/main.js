@@ -20,7 +20,33 @@ var makeCircleSheet = function (game) {
 
     this.game.cache.addSpriteSheet('sheet-circle', null, canvas, 32, 32, 2, 0, 0);
 
-    //document.body.appendChild(canvas);
+};
+
+var makeCircleGroup = function (game) {
+
+    var circles = game.add.group();
+    circles.name = 'circles';
+
+    circles.data = {
+        i: 0
+    };
+
+    var i = 0,
+    len = 12,
+    x,
+    y,
+    r;
+    while (i < len) {
+
+        r = Math.PI * 2 * (i / len);
+        x = game.world.centerX - 16 + Math.cos(r) * 96;
+        y = game.world.centerY - 16 + Math.sin(r) * 96;
+
+        circles.create(x, y, 'sheet-circle', 0);
+
+        i += 1;
+
+    }
 
 };
 
@@ -34,29 +60,7 @@ game.state.add('demo', {
 
         makeCircleSheet(this.game);
 
-        var circles = game.add.group();
-        circles.name = 'circles';
-
-        circles.data = {
-            i: 0
-        };
-
-        var i = 0,
-        len = 12,
-        x,
-        y,
-        r;
-        while (i < len) {
-
-            r = Math.PI * 2 * (i / len);
-            x = game.world.centerX - 16 + Math.cos(r) * 96;
-            y = game.world.centerY - 16 + Math.sin(r) * 96;
-
-            circles.create(x, y, 'sheet-circle', 0);
-
-            i += 1;
-
-        }
+        makeCircleGroup(this.game);
 
         this.game.input.onDown.add(function () {
 
