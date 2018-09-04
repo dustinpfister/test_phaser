@@ -33,16 +33,19 @@ var makeCircleGroup = function (game) {
     };
 
     var i = 0,
-    len = 12,
+    len = 12,  // 12 circles
     x,
     y,
     r;
+
+    // create a sprite for each circle
     while (i < len) {
 
         r = Math.PI * 2 * (i / len);
         x = game.world.centerX - 16 + Math.cos(r) * 96;
         y = game.world.centerY - 16 + Math.sin(r) * 96;
 
+        // using group.create to create sprites for the group
         circles.create(x, y, 'sheet-circle', 0);
 
         i += 1;
@@ -79,6 +82,8 @@ game.state.add('demo', {
         // on input down, step
         this.game.input.onDown.add(function () {
 
+            // game.step can then be used to 
+            // step each game tick
             game.step();
 
         });
@@ -88,23 +93,30 @@ game.state.add('demo', {
     // what to do for each tick
     update: function () {
 
+        // getting circle group by name
         var circles = game.world.getByName('circles'),
         index = 0;
 
+        // for each circle
         circles.forEach(function (circle) {
 
+            // default to frame zero
             circle.frame = 0;
 
+            // if index === current index
             if (index === circles.data.i) {
 
+                // use frame 1
                 circle.frame = 1;
 
             }
 
+            // next child index
             index += 1;
 
         });
 
+        // step current index
         circles.data.i += 1;
         circles.data.i %= circles.children.length;
 
