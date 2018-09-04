@@ -30,10 +30,17 @@ game.state.add('demo', {
         circles.name = 'circles';
 
         var i = 0,
-        len = 12;
+        len = 12,
+        x,
+        y,
+        r;
         while (i < len) {
 
-            circles.create(0, 0, 'sheet-circle', 0);
+            r = Math.PI * 2 * (i / len);
+            x = game.world.centerX - 16 + Math.cos(r) * 96;
+            y = game.world.centerY - 16 + Math.sin(r) * 96;
+
+            circles.create(x, y, 'sheet-circle', 0);
 
             i += 1;
 
