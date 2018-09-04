@@ -4,13 +4,21 @@ var makeCircleSheet = function (game) {
 
     var canvas = document.createElement('canvas');
     ctx = canvas.getContext('2d');
-    canvas.width = 32;
+    canvas.width = 64;
     canvas.height = 32;
+
     ctx.strokeStyle = '#ff0000';
+    ctx.fillStyle = '#ffff00';
     ctx.beginPath();
-    ctx.arc(16.5, 16.5, 15, 0, Math.PI * 2);
+    ctx.arc(16.5, 16.5, 12, 0, Math.PI * 2);
     ctx.stroke();
-    this.game.cache.addSpriteSheet('sheet-circle', null, canvas, 32, 32, 1, 0, 0);
+
+    ctx.beginPath();
+    ctx.arc(48.5, 16.5, 15, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fill();
+
+    this.game.cache.addSpriteSheet('sheet-circle', null, canvas, 32, 32, 2, 0, 0);
 
     //document.body.appendChild(canvas);
 
@@ -28,6 +36,10 @@ game.state.add('demo', {
 
         var circles = game.add.group();
         circles.name = 'circles';
+
+        circles.data = {
+            i: 0
+        };
 
         var i = 0,
         len = 12,
@@ -56,7 +68,9 @@ game.state.add('demo', {
 
     update: function () {
 
-        console.log('tick');
+        var circles = game.world.getByName('circles');
+
+        circles.children[circles.data.i].frame = 1;
 
     }
 
