@@ -54,6 +54,7 @@ var makeCircleGroup = function (game) {
 
 };
 
+// tick the given circle group
 var tickCircleGroup = function (circles) {
 
     var index = 0;
