@@ -22,6 +22,7 @@ var makeCircleSheet = function (game) {
 
 };
 
+// make a group of circles
 var makeCircleGroup = function (game) {
 
     var circles = game.add.group();
@@ -52,16 +53,30 @@ var makeCircleGroup = function (game) {
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-game.enableStep();
+game.state.add('boot', {
+
+    create: function () {
+
+        // make the sheet
+        makeCircleSheet(this.game);
+
+        // enable stepping
+        game.enableStep();
+
+        // start the demo
+        game.state.start('demo');
+
+    }
+
+});
 
 game.state.add('demo', {
 
     create: function () {
 
-        makeCircleSheet(this.game);
-
         makeCircleGroup(this.game);
 
+        // on input down, step
         this.game.input.onDown.add(function () {
 
             game.step();
@@ -70,6 +85,7 @@ game.state.add('demo', {
 
     },
 
+    // what to do for each tick
     update: function () {
 
         var circles = game.world.getByName('circles'),
@@ -96,4 +112,4 @@ game.state.add('demo', {
 
 });
 
-game.state.start('demo');
+game.state.start('boot');
