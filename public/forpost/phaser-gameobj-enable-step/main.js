@@ -33,7 +33,7 @@ var makeCircleGroup = function (game) {
     };
 
     var i = 0,
-    len = 12,  // 12 circles
+    len = 12, // 12 circles
     x,
     y,
     r;
@@ -54,8 +54,38 @@ var makeCircleGroup = function (game) {
 
 };
 
+var tickCircleGroup = function (circles) {
+
+    var index = 0;
+
+    // for each circle
+    circles.forEach(function (circle) {
+
+        // default to frame zero
+        circle.frame = 0;
+
+        // if index === current index
+        if (index === circles.data.i) {
+
+            // use frame 1
+            circle.frame = 1;
+
+        }
+
+        // next child index
+        index += 1;
+
+    });
+
+    // step current index
+    circles.data.i += 1;
+    circles.data.i %= circles.children.length;
+
+}
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+// the boot state
 game.state.add('boot', {
 
     create: function () {
@@ -73,6 +103,7 @@ game.state.add('boot', {
 
 });
 
+// the actual demo state
 game.state.add('demo', {
 
     create: function () {
@@ -82,7 +113,7 @@ game.state.add('demo', {
         // on input down, step
         this.game.input.onDown.add(function () {
 
-            // game.step can then be used to 
+            // game.step can then be used to
             // step each game tick
             game.step();
 
@@ -93,35 +124,13 @@ game.state.add('demo', {
     // what to do for each tick
     update: function () {
 
-        // getting circle group by name
-        var circles = game.world.getByName('circles'),
-        index = 0;
-
-        // for each circle
-        circles.forEach(function (circle) {
-
-            // default to frame zero
-            circle.frame = 0;
-
-            // if index === current index
-            if (index === circles.data.i) {
-
-                // use frame 1
-                circle.frame = 1;
-
-            }
-
-            // next child index
-            index += 1;
-
-        });
-
-        // step current index
-        circles.data.i += 1;
-        circles.data.i %= circles.children.length;
+        // call the tick Circle group method for each
+        // frame tick
+        tickCircleGroup(game.world.getByName('circles'));
 
     }
 
 });
 
+// start with the boot state
 game.state.start('boot');
