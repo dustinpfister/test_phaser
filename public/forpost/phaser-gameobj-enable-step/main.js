@@ -68,9 +68,22 @@ game.state.add('demo', {
 
     update: function () {
 
-        var circles = game.world.getByName('circles');
+        var circles = game.world.getByName('circles'),
+        index = 0;
 
-        circles.children[circles.data.i].frame = 1;
+        circles.forEach(function (circle) {
+
+            circle.frame = 0;
+
+            if (index === circles.data.i) {
+
+                circle.frame = 1;
+
+            }
+
+            index += 1;
+
+        });
 
     }
 
