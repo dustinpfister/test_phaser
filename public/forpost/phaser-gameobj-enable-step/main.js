@@ -85,6 +85,9 @@ game.state.add('demo', {
 
         });
 
+        circles.data.i += 1;
+        circles.data.i %= circles.children.length;
+
     }
 
 });
