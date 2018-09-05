@@ -82,7 +82,7 @@ var tickCircleGroup = function (circles) {
     circles.data.i += 1;
     circles.data.i %= circles.children.length;
 
-}
+};
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
