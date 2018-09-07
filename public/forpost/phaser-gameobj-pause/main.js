@@ -27,7 +27,7 @@ game.state.add('demo', {
 
     create: function () {
 
-        game.paused = true;
+        //game.paused = true;
 
         var i = 0,
         count = 10,
@@ -37,6 +37,10 @@ game.state.add('demo', {
             sprite.name = 'block' + i;
             i += 1;
         }
+
+        this.game.data = {
+            i: 0
+        };
 
     },
 
@@ -48,15 +52,23 @@ game.state.add('demo', {
 
     update: function () {
 
-        var i = 0,
+        var per = this.game.data.i / 120,
+        r = Math.PI * 2 * per,
+        i = 0,
         count = 10,
         sprite;
         while (i < count) {
+
+            a = Math.PI * 2 * (i / 10);
+
             sprite = this.game.world.getByName('block' + i);
-            sprite.x = game.world.centerX - 16;
-            sprite.y = game.world.centerY - 16;
+            sprite.x = game.world.centerX - 16 + Math.cos(r + a) * 50;
+            sprite.y = game.world.centerY - 16 + Math.sin(r + a) * 50;
             i += 1;
         }
+
+        this.game.data.i += 1;
+        this.game.data.i %= 120;
 
     }
 
