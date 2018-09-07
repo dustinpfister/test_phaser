@@ -31,6 +31,8 @@ game.state.add('demo', {
         var i = 0,
         count = 10,
         obj;
+
+        // create sprites
         while (i < count) {
             obj = this.game.add.sprite(0, 0, 'sheet');
             obj.name = 'block' + i;
@@ -55,12 +57,15 @@ game.state.add('demo', {
 
     },
 
+    // this will fire once when the game is paused
     paused: function () {
 
+        // display paused message
         this.game.world.getByName('text').text = 'paused';
 
     },
 
+    // update will run if the game is not paused
     update: function () {
 
         var per = this.game.data.i / 120,
@@ -68,6 +73,8 @@ game.state.add('demo', {
         i = 0,
         count = 10,
         sprite;
+
+        // move sprites around
         while (i < count) {
 
             a = Math.PI * 2 * (i / 10);
@@ -76,11 +83,13 @@ game.state.add('demo', {
             sprite.x = game.world.centerX - 16 + Math.cos(r + a) * 50;
             sprite.y = game.world.centerY - 16 + Math.sin(r + a) * 50;
             i += 1;
+
         }
 
         this.game.data.i += 1;
         this.game.data.i %= 120;
 
+        // display nothing if update is running
         this.game.world.getByName('text').text = '';
 
     }
