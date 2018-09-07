@@ -27,16 +27,21 @@ game.state.add('demo', {
 
     create: function () {
 
-        //game.paused = true;
+        game.paused = true;
 
         var i = 0,
         count = 10,
-        sprite;
+        obj;
         while (i < count) {
-            sprite = this.game.add.sprite(0, 0, 'sheet');
-            sprite.name = 'block' + i;
+            obj = this.game.add.sprite(0, 0, 'sheet');
+            obj.name = 'block' + i;
             i += 1;
         }
+
+        obj = game.add.text(game.world.centerX, game.world.centerY, 'foo', {
+                fill: 'white'
+            });
+        obj.name = 'text';
 
         this.game.data = {
             i: 0
@@ -44,11 +49,7 @@ game.state.add('demo', {
 
     },
 
-    paused: function () {
-
-        console.log('yeah');
-
-    },
+    paused: function () {},
 
     update: function () {
 
