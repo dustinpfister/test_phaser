@@ -8,12 +8,13 @@ game.state.add('boot', {
         ctx = canvas.getContext('2d');
         canvas.width = 32;
         canvas.height = 32;
-        ctx.strokeStyle = '#ff0000';
-        ctx.fillStyle = '#ffff00';
+        ctx.strokeStyle = 'white';
+        ctx.fillStyle = '#8f0000';
         ctx.beginPath();
         ctx.arc(16.5, 16.5, 15, 0, Math.PI * 2);
-        ctx.stroke();
+        
         ctx.fill();
+        ctx.stroke();
 
         this.game.cache.addSpriteSheet('sheet', null, canvas, 32, 32, 1, 0, 0);
 
@@ -27,8 +28,6 @@ game.state.add('demo', {
 
     create: function () {
 
-        game.paused = true;
-
         var i = 0,
         count = 10,
         obj;
@@ -38,7 +37,7 @@ game.state.add('demo', {
             i += 1;
         }
 
-        obj = game.add.text(game.world.centerX, game.world.centerY, 'foo', {
+        obj = game.add.text(game.world.centerX, game.world.centerY, '', {
                 fill: 'white'
             });
         obj.name = 'text';
@@ -48,9 +47,15 @@ game.state.add('demo', {
             i: 0
         };
 
+        game.paused = true;
+
     },
 
-    paused: function () {},
+    paused: function () {
+
+        this.game.world.getByName('text').text = 'paused';
+
+    },
 
     update: function () {
 
