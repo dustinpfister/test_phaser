@@ -12,7 +12,7 @@ game.state.add('boot', {
         ctx.fillStyle = '#8f0000';
         ctx.beginPath();
         ctx.arc(16.5, 16.5, 15, 0, Math.PI * 2);
-        
+
         ctx.fill();
         ctx.stroke();
 
@@ -47,7 +47,11 @@ game.state.add('demo', {
             i: 0
         };
 
-        game.paused = true;
+        this.game.input.onDown.add(function () {
+
+            this.game.paused = !this.game.paused;
+
+        });
 
     },
 
@@ -76,6 +80,8 @@ game.state.add('demo', {
 
         this.game.data.i += 1;
         this.game.data.i %= 120;
+
+        this.game.world.getByName('text').text = '';
 
     }
 
