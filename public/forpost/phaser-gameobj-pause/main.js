@@ -42,6 +42,7 @@ game.state.add('demo', {
                 fill: 'white'
             });
         obj.name = 'text';
+        obj.anchor.set(0.5, 0.5);
 
         this.game.data = {
             i: 0
