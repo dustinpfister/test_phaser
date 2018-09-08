@@ -1,4 +1,24 @@
 
+// create sprites helper
+var createSprites = function () {
+    var i = 0,
+    count = 10,
+    obj;
+    // create sprites
+    while (i < count) {
+        obj = this.game.add.sprite(0, 0, 'sheet');
+        obj.name = 'block' + i;
+        i += 1;
+    }
+
+    obj = game.add.text(game.world.centerX, game.world.centerY, '', {
+            fill: 'white'
+        });
+    obj.name = 'text';
+    obj.anchor.set(0.5, 0.5);
+
+};
+
 // move sprites helper
 var moveSprites = function () {
 
@@ -55,22 +75,7 @@ game.state.add('demo', {
 
     create: function () {
 
-        var i = 0,
-        count = 10,
-        obj;
-
-        // create sprites
-        while (i < count) {
-            obj = this.game.add.sprite(0, 0, 'sheet');
-            obj.name = 'block' + i;
-            i += 1;
-        }
-
-        obj = game.add.text(game.world.centerX, game.world.centerY, '', {
-                fill: 'white'
-            });
-        obj.name = 'text';
-        obj.anchor.set(0.5, 0.5);
+        createSprites.call(this);
 
         this.game.data = {
             i: 0
