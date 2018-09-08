@@ -1,4 +1,22 @@
 
+var createSheet = function () {
+
+    var canvas = document.createElement('canvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = 32;
+    canvas.height = 32;
+    ctx.strokeStyle = 'white';
+    ctx.fillStyle = '#8f0000';
+    ctx.beginPath();
+    ctx.arc(16.5, 16.5, 15, 0, Math.PI * 2);
+
+    ctx.fill();
+    ctx.stroke();
+
+    this.game.cache.addSpriteSheet('sheet', null, canvas, 32, 32, 1, 0, 0);
+
+};
+
 // create sprites helper
 var createSprites = function () {
     var i = 0,
@@ -51,19 +69,7 @@ game.state.add('boot', {
 
     create: function () {
 
-        var canvas = document.createElement('canvas');
-        ctx = canvas.getContext('2d');
-        canvas.width = 32;
-        canvas.height = 32;
-        ctx.strokeStyle = 'white';
-        ctx.fillStyle = '#8f0000';
-        ctx.beginPath();
-        ctx.arc(16.5, 16.5, 15, 0, Math.PI * 2);
-
-        ctx.fill();
-        ctx.stroke();
-
-        this.game.cache.addSpriteSheet('sheet', null, canvas, 32, 32, 1, 0, 0);
+        createSheet.call(this);
 
         game.state.start('demo');
 
