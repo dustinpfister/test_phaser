@@ -24,7 +24,7 @@ var createSprites = function () {
     obj;
     // create sprites
     while (i < count) {
-        obj = this.game.add.sprite(0, 0, 'sheet');
+        obj = this.game.add.sprite(-32, -32, 'sheet');
         obj.name = 'block' + i;
         i += 1;
     }
@@ -71,7 +71,9 @@ game.state.add('boot', {
 
         createSheet.call(this);
 
-        game.state.start('demo');
+        createSprites.call(this);
+
+        game.state.start('demo', false, false);
 
     }
 
@@ -80,8 +82,6 @@ game.state.add('boot', {
 game.state.add('demo', {
 
     create: function () {
-
-        createSprites.call(this);
 
         this.game.data = {
             i: 0
