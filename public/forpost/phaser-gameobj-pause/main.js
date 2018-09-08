@@ -1,3 +1,30 @@
+
+// move sprites helper
+var moveSprites = function () {
+
+    var per = this.game.data.i / 120,
+    r = Math.PI * 2 * per,
+    i = 0,
+    count = 10,
+    sprite;
+
+    // move sprites around
+    while (i < count) {
+
+        a = Math.PI * 2 * (i / 10);
+
+        sprite = this.game.world.getByName('block' + i);
+        sprite.x = game.world.centerX - 16 + Math.cos(r + a) * 50;
+        sprite.y = game.world.centerY - 16 + Math.sin(r + a) * 50;
+        i += 1;
+
+    }
+
+    this.game.data.i += 1;
+    this.game.data.i %= 120;
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
@@ -68,26 +95,7 @@ game.state.add('demo', {
     // update will run if the game is not paused
     update: function () {
 
-        var per = this.game.data.i / 120,
-        r = Math.PI * 2 * per,
-        i = 0,
-        count = 10,
-        sprite;
-
-        // move sprites around
-        while (i < count) {
-
-            a = Math.PI * 2 * (i / 10);
-
-            sprite = this.game.world.getByName('block' + i);
-            sprite.x = game.world.centerX - 16 + Math.cos(r + a) * 50;
-            sprite.y = game.world.centerY - 16 + Math.sin(r + a) * 50;
-            i += 1;
-
-        }
-
-        this.game.data.i += 1;
-        this.game.data.i %= 120;
+        moveSprites.call(this);
 
         // display nothing if update is running
         this.game.world.getByName('text').text = '';
