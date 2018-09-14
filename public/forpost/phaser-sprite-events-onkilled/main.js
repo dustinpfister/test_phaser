@@ -7,13 +7,46 @@ Enemy.setup = function () {
     this.game.data = {
 
         maxEnemies: 5,
-        enemies: game.add.group(),
+        enemies: null,
         score: 0
 
     };
 
 };
 
+// The onKill method that will be called each time an enemy is killed
+Enemy.onKill = function (sprite) {
+
+    var game = this.game,
+    spriteSpeed = (sprite.data.dx + sprite.data.dy) / 8,
+    speedBonus = 175, // points bonus for speed.
+    perKill = 25; // points per kill
+
+    // score formula
+    game.data.score += perKill + Math.floor(spriteSpeed * speedBonus);
+
+};
+
+// What happens when the player clicks an enemy
+Enemy.onInputDown = function (enemy) {
+
+    enemy.data.hp -= 1;
+
+    if (enemy.data.hp === 1) {
+
+        enemy.frame = 1;
+
+    }
+
+    if (enemy.data.hp <= 0) {
+
+        enemy.kill();
+
+    }
+
+};
+
+// generate a data object for a sprite
 Enemy.genSpriteData = function () {
 
     return {
@@ -50,34 +83,24 @@ Enemy.createEnemyPool = function () {
 
     var i = 0,
     data = this.game.data;
+
+    // make data.enemies a new group
+    data.enemies = game.add.group();
+
+    // make a pool of enemies in the group
     while (i < data.maxEnemies) {
 
         var enemy = data.enemies.create(0, 0, 'sheet-block');
 
-        enemy.data = Enemy.genSpriteData();
-
+        // enemy starts out killed
         enemy.kill();
 
+        // attach onKilled event
         enemy.events.onKilled.add(Enemy.onKill, this);
 
+        // attach on input down event
         enemy.inputEnabled = true;
-        enemy.events.onInputDown.add(function (enemy) {
-
-            enemy.data.hp -= 1;
-
-            if (enemy.data.hp === 1) {
-
-                enemy.frame = 1;
-
-            }
-
-            if (enemy.data.hp <= 0) {
-
-                enemy.kill();
-
-            }
-
-        });
+        enemy.events.onInputDown.add(Enemy.onInputDown, this);
 
         i += 1;
 
@@ -92,23 +115,12 @@ Enemy.spawn = function (a) {
 
     var dead = enemies.getFirstDead(false, 0, 0, 'sheet-block', 0);
 
+    // if there is
     if (dead) {
 
         dead.data = Enemy.genSpriteData();
 
     }
-
-};
-
-Enemy.onKill = function (sprite) {
-
-    var game = this.game,
-    spriteSpeed = (sprite.data.dx + sprite.data.dy) / 8,
-    speedBonus = 175, // points bonus for speed.
-    perKill = 25; // points per kill
-
-    // score formula
-    game.data.score += perKill + Math.floor(spriteSpeed * speedBonus);
 
 };
 
