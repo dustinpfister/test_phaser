@@ -21,6 +21,12 @@ var Enemy = {
 
     },
 
+    spawn: function (a) {
+
+        console.log(this);
+
+    },
+
     onKill: function (sprite) {
 
         var game = sprite.game;
@@ -57,6 +63,8 @@ game.state.add('demo', {
             score: 0
 
         };
+
+        game.time.events.loop(1000, Enemy.spawn, this.game);
 
         // spawn loop
         game.time.events.loop(1000, function () {
