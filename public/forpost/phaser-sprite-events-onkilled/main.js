@@ -3,7 +3,7 @@ var Enemy = {};
 
 Enemy.setup = function () {
 
-    this.data = {
+    this.game.data = {
 
         maxEnemys: 5,
         enemys: game.add.group(),
@@ -35,7 +35,7 @@ Enemy.mkSheet = function (game) {
 
 Enemy.spawn = function (a) {
 
-    var data = this.data;
+    var data = this.game.data;
 
     if (data.enemys.length < data.maxEnemys) {
 
@@ -48,7 +48,7 @@ Enemy.spawn = function (a) {
 
         };
 
-        enemy.events.onKilled.add(Enemy.onKill);
+        enemy.events.onKilled.add(Enemy.onKill, this);
 
         enemy.inputEnabled = true;
         enemy.events.onInputDown.add(function (enemy) {
@@ -76,7 +76,9 @@ Enemy.spawn = function (a) {
 
 Enemy.onKill = function (sprite) {
 
-    var game = sprite.game;
+    //var game = sprite.game;
+
+    var game = this.game;
 
     game.data.score += 1;
 
@@ -116,10 +118,10 @@ game.state.add('demo', {
     create: function () {
 
         // setup game data object
-        Enemy.setup.call(this.game);
+        Enemy.setup.call(this);
 
         // call Enemy.spawn every second
-        game.time.events.loop(1000, Enemy.spawn, this.game);
+        game.time.events.loop(1000, Enemy.spawn, this);
 
         // text display object to show score
         var text = game.add.text(5, 5, '', {
