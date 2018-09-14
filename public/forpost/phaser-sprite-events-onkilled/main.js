@@ -49,7 +49,8 @@ game.state.add('demo', {
                 enemy.data = {
 
                     dx: Math.random() * 4 + 1,
-                    dy: Math.random() * 4 + 1
+                    dy: Math.random() * 4 + 1,
+                    hp: 2
 
                 };
 
@@ -62,8 +63,20 @@ game.state.add('demo', {
                 enemy.inputEnabled = true;
                 enemy.events.onInputDown.add(function (enemy) {
 
-                    enemy.kill();
-                    enemy.destroy();
+                    enemy.data.hp -= 1;
+
+                    if (enemy.data.hp === 1) {
+
+                        enemy.frame = 1;
+
+                    }
+
+                    if (enemy.data.hp <= 0) {
+
+                        enemy.kill();
+                        enemy.destroy();
+
+                    }
 
                 });
 
