@@ -23,7 +23,42 @@ var Enemy = {
 
     spawn: function (a) {
 
-        console.log(this);
+        var data = this.data;
+
+        if (data.enemys.length < data.maxEnemys) {
+
+            var enemy = data.enemys.create(-32, -32, 'sheet-block');
+            enemy.data = {
+
+                dx: Math.random() * 4 + 1,
+                dy: Math.random() * 4 + 1,
+                hp: 2
+
+            };
+
+            enemy.events.onKilled.add(Enemy.onKill);
+
+            enemy.inputEnabled = true;
+            enemy.events.onInputDown.add(function (enemy) {
+
+                enemy.data.hp -= 1;
+
+                if (enemy.data.hp === 1) {
+
+                    enemy.frame = 1;
+
+                }
+
+                if (enemy.data.hp <= 0) {
+
+                    enemy.kill();
+                    enemy.destroy();
+
+                }
+
+            });
+
+        }
 
     },
 
@@ -69,40 +104,42 @@ game.state.add('demo', {
         // spawn loop
         game.time.events.loop(1000, function () {
 
+            /*
             if (data.enemys.length < data.maxEnemys) {
 
-                var enemy = data.enemys.create(-32, -32, 'sheet-block');
-                enemy.data = {
+            var enemy = data.enemys.create(-32, -32, 'sheet-block');
+            enemy.data = {
 
-                    dx: Math.random() * 4 + 1,
-                    dy: Math.random() * 4 + 1,
-                    hp: 2
+            dx: Math.random() * 4 + 1,
+            dy: Math.random() * 4 + 1,
+            hp: 2
 
-                };
+            };
 
-                enemy.events.onKilled.add(Enemy.onKill);
+            enemy.events.onKilled.add(Enemy.onKill);
 
-                enemy.inputEnabled = true;
-                enemy.events.onInputDown.add(function (enemy) {
+            enemy.inputEnabled = true;
+            enemy.events.onInputDown.add(function (enemy) {
 
-                    enemy.data.hp -= 1;
+            enemy.data.hp -= 1;
 
-                    if (enemy.data.hp === 1) {
+            if (enemy.data.hp === 1) {
 
-                        enemy.frame = 1;
-
-                    }
-
-                    if (enemy.data.hp <= 0) {
-
-                        enemy.kill();
-                        enemy.destroy();
-
-                    }
-
-                });
+            enemy.frame = 1;
 
             }
+
+            if (enemy.data.hp <= 0) {
+
+            enemy.kill();
+            enemy.destroy();
+
+            }
+
+            });
+
+            }
+             */
 
         });
 
