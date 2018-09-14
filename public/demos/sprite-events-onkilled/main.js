@@ -40,6 +40,7 @@ game.state.add('demo', {
 
         };
 
+        // spawn loop
         game.time.events.loop(1000, function () {
 
             if (data.enemys.length < data.maxEnemys) {
@@ -59,15 +60,21 @@ game.state.add('demo', {
                 });
 
                 enemy.inputEnabled = true;
-                enemy.events.onInputDown.add(function () {
+                enemy.events.onInputDown.add(function (enemy) {
 
-                    console.log('cool');
+                    enemy.kill();
+                    enemy.destroy();
 
                 });
 
             }
 
         });
+
+        var text = game.add.text(5, 5, '', {
+                fill: 'white'
+            });
+        text.name = 'disp-score';
 
     },
 
@@ -81,7 +88,9 @@ game.state.add('demo', {
             enemy.x = Phaser.Math.wrap(enemy.x += enemy.data.dx, -32, game.world.width + 32);
             enemy.y = Phaser.Math.wrap(enemy.y += enemy.data.dy, -32, game.world.height + 32);
 
-        })
+        });
+
+        game.world.getByName('disp-score').text = 'score: ' + data.score;
 
     }
 
