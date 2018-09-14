@@ -32,15 +32,11 @@ Enemy.onInputDown = function (enemy) {
     enemy.data.hp -= 1;
 
     if (enemy.data.hp === 1) {
-
         enemy.frame = 1;
-
     }
 
     if (enemy.data.hp <= 0) {
-
         enemy.kill();
-
     }
 
 };
