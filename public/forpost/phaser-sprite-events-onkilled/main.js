@@ -1,4 +1,16 @@
 
+var Enemy = {
+
+    onKill: function (sprite) {
+
+        var game = sprite.game;
+
+        game.data.score += 1;
+
+    }
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
@@ -54,11 +66,7 @@ game.state.add('demo', {
 
                 };
 
-                enemy.events.onKilled.add(function () {
-
-                    data.score += 1;
-
-                });
+                enemy.events.onKilled.add(Enemy.onKill);
 
                 enemy.inputEnabled = true;
                 enemy.events.onInputDown.add(function (enemy) {
