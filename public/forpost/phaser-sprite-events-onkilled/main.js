@@ -42,8 +42,8 @@ Enemy.spawn = function (a) {
         var enemy = data.enemys.create(-32, -32, 'sheet-block');
         enemy.data = {
 
-            dx: Math.random() * 4 + 1,
-            dy: Math.random() * 4 + 1,
+            dx: Math.random() * 3.5 + 0.5,
+            dy: Math.random() * 3.5 + 0.5,
             hp: 2
 
         };
@@ -76,11 +76,13 @@ Enemy.spawn = function (a) {
 
 Enemy.onKill = function (sprite) {
 
-    //var game = sprite.game;
+    var game = this.game,
+    spriteSpeed = (sprite.data.dx + sprite.data.dy) / 8,
+    speedBonus = 175, // points bonus for speed.
+    perKill = 25; // points per kill
 
-    var game = this.game;
-
-    game.data.score += 1;
+    // score formula
+    game.data.score += perKill + Math.floor(spriteSpeed * speedBonus);
 
 };
 
