@@ -5,8 +5,8 @@ Enemy.setup = function () {
 
     this.game.data = {
 
-        maxEnemys: 5,
-        enemys: game.add.group(),
+        maxEnemies: 5,
+        enemies: game.add.group(),
         score: 0
 
     };
@@ -33,13 +33,14 @@ Enemy.mkSheet = function (game) {
 
 };
 
+// create a group of enemies
 Enemy.createEnemyPool = function () {
 
     var i = 0,
     data = this.game.data;
-    while (i < data.maxEnemys) {
+    while (i < data.maxEnemies) {
 
-        var enemy = data.enemys.create(0, 0, 'sheet-block');
+        var enemy = data.enemies.create(0, 0, 'sheet-block');
         enemy.data = {
 
             dx: Math.random() * 3.5 + 0.5,
@@ -80,9 +81,9 @@ Enemy.createEnemyPool = function () {
 // re-spawn a dead enemy
 Enemy.spawn = function (a) {
 
-    var enemys = this.game.data.enemys;
+    var enemies = this.game.data.enemies;
 
-    var dead = enemys.getFirstDead(false, 0, 0, 'sheet-block', 0);
+    var dead = enemies.getFirstDead(false, 0, 0, 'sheet-block', 0);
 
     if (dead) {
 
@@ -115,7 +116,7 @@ Enemy.update = function () {
     var data = this.game.data,
     game = this.game;
 
-    data.enemys.forEach(function (enemy) {
+    data.enemies.forEach(function (enemy) {
 
         enemy.x = Phaser.Math.wrap(enemy.x += enemy.data.dx, -32, game.world.width + 32);
         enemy.y = Phaser.Math.wrap(enemy.y += enemy.data.dy, -32, game.world.height + 32);
