@@ -35,7 +35,8 @@ game.state.add('demo', {
         var data = this.game.data = {
 
             maxEnemys: 5,
-            enemys: game.add.group()
+            enemys: game.add.group(),
+            score: 0
 
         };
 
@@ -46,10 +47,23 @@ game.state.add('demo', {
                 var enemy = data.enemys.create(-32, -32, 'sheet-block');
                 enemy.data = {
 
-                    dx: Math.random() * 4+1,
-                    dy: Math.random() * 4+1
+                    dx: Math.random() * 4 + 1,
+                    dy: Math.random() * 4 + 1
 
                 };
+
+                enemy.events.onKilled.add(function () {
+
+                    data.score += 1;
+
+                });
+
+                enemy.inputEnabled = true;
+                enemy.events.onInputDown.add(function () {
+
+                    console.log('cool');
+
+                });
 
             }
 
