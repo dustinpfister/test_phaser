@@ -33,13 +33,13 @@ Enemy.mkSheet = function (game) {
 
 };
 
-Enemy.spawn = function (a) {
+Enemy.createEnemyPool = function () {
 
-    var data = this.game.data;
+    var i = 0,
+    data = this.game.data;
+    while (i < data.maxEnemys) {
 
-    if (data.enemys.length < data.maxEnemys) {
-
-        var enemy = data.enemys.create(-32, -32, 'sheet-block');
+        var enemy = data.enemys.create(0, 0, 'sheet-block');
         enemy.data = {
 
             dx: Math.random() * 3.5 + 0.5,
@@ -47,6 +47,8 @@ Enemy.spawn = function (a) {
             hp: 2
 
         };
+
+        enemy.kill();
 
         enemy.events.onKilled.add(Enemy.onKill, this);
 
@@ -64,11 +66,33 @@ Enemy.spawn = function (a) {
             if (enemy.data.hp <= 0) {
 
                 enemy.kill();
-                enemy.destroy();
 
             }
 
         });
+
+        i += 1;
+
+    }
+
+};
+
+// re-spawn a dead enemy
+Enemy.spawn = function (a) {
+
+    var enemys = this.game.data.enemys;
+
+    var dead = enemys.getFirstDead(false, 0, 0, 'sheet-block', 0);
+
+    if (dead) {
+
+        dead.data = {
+
+            dx: Math.random() * 3.5 + 0.5,
+            dy: Math.random() * 3.5 + 0.5,
+            hp: 2
+
+        };
 
     }
 
@@ -106,7 +130,12 @@ game.state.add('boot', {
 
     create: function () {
 
+        // setup game data object
+        Enemy.setup.call(this);
+
         Enemy.mkSheet(this.game);
+
+        Enemy.createEnemyPool.call(this);
 
         // start demo, and do not clear the world
         game.state.start('demo', false, false);
@@ -118,9 +147,6 @@ game.state.add('boot', {
 game.state.add('demo', {
 
     create: function () {
-
-        // setup game data object
-        Enemy.setup.call(this);
 
         // call Enemy.spawn every second
         game.time.events.loop(1000, Enemy.spawn, this);
