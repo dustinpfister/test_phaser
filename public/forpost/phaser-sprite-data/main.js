@@ -13,6 +13,15 @@ Blocks.setup = function (game) {
 
 };
 
+Blocks.newSpriteDataObject = function (options) {
+
+    return {
+        dx: options.dx === undefined ? 0 : options.dx,
+        dy: options.dy === undefined ? 0 : options.dy
+    };
+
+};
+
 // make a sprite sheet
 Blocks.mkSheet = function (game) {
 
@@ -34,17 +43,6 @@ Blocks.mkSheet = function (game) {
 
 };
 
-Blocks.newDataObject = function (options) {
-
-    return {
-
-        dx: 1,
-        dy: 0
-
-    };
-
-};
-
 Blocks.createSprite = function (game, options) {
 
     options = options || {};
@@ -53,7 +51,7 @@ Blocks.createSprite = function (game, options) {
 
     var sprite = game.data.blocks.group.create(options.x, options.y, 'sheet-block');
 
-    sprite.data = Blocks.newDataObject(options);
+    sprite.data = Blocks.newSpriteDataObject(options);
 
 };
 
@@ -78,13 +76,36 @@ game.state.add('demo', {
     create: function () {
 
         Blocks.createSprite(game, {
-            x: 5,
-            y: 5
+            x: 32,
+            y: 32,
+            dy: 5
+        });
+
+        Blocks.createSprite(game, {
+            x: 32,
+            y: 32,
+            dx: 5
+        });
+
+        Blocks.createSprite(game, {
+            x: 32,
+            y: 32,
+            dx: 5,
+            dy: 5
         });
 
     },
 
-    update: function () {}
+    update: function () {
+
+        this.game.data.blocks.group.forEach(function (block) {
+
+            block.x = Phaser.Math.wrap(block.x += block.data.dx, -32, game.world.width + 32);
+            block.y = Phaser.Math.wrap(block.y += block.data.dy, -32, game.world.height + 32);
+
+        });
+
+    }
 
 });
 
