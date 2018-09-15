@@ -73,43 +73,13 @@ Enemy.mkSheet = function (game) {
 
 };
 
-/*
-// create a group of enemies
-Enemy.createEnemyPool = function () {
-
-var i = 0,
-data = this.game.data;
-
-// make data.enemies a new group
-data.enemies = game.add.group();
-
-// make a pool of enemies in the group
-while (i < data.maxEnemies) {
-
-var enemy = data.enemies.create(0, 0, 'sheet-block');
-
-// enemy starts out killed
-enemy.kill();
-
-// attach onKilled event
-enemy.events.onKilled.add(Enemy.onKill, this);
-
-// attach on input down event
-enemy.inputEnabled = true;
-enemy.events.onInputDown.add(Enemy.onInputDown, this);
-
-i += 1;
-
-}
-
-};
- */
-
 // re-spawn a dead enemy
 Enemy.spawn = function (a) {
 
     var data = this.game.data,
     enemies = data.enemies;
+
+    console.log(enemies.children.length);
 
     if (enemies.children.length < data.maxEnemies) {
 
@@ -121,21 +91,10 @@ Enemy.spawn = function (a) {
         // attach on input down event
         enemy.inputEnabled = true;
         enemy.events.onInputDown.add(Enemy.onInputDown, this);
-		
-		enemy.data = Enemy.genSpriteData();
+
+        enemy.data = Enemy.genSpriteData();
 
     }
-
-    /*
-    var dead = enemies.getFirstDead(false, 0, 0, 'sheet-block', 0);
-
-    // if there is
-    if (dead) {
-
-    dead.data = Enemy.genSpriteData();
-
-    }
-     */
 
 };
 
@@ -151,14 +110,13 @@ Enemy.update = function () {
         // step position based on current deltas
         enemy.x = Phaser.Math.wrap(enemy.x += enemy.data.dx, -32, game.world.width + 32);
         enemy.y = Phaser.Math.wrap(enemy.y += enemy.data.dy, -32, game.world.height + 32);
-		
-		/*
-		if(enemy.hp <= 0){
-			
-			enemy.destroy();
-			
-		}
-		*/
+
+        // call destroy
+        if (enemy.data.hp <= 0) {
+
+            enemy.destroy();
+
+        }
 
     });
 
