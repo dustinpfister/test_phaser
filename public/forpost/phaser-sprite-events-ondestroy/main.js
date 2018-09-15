@@ -37,7 +37,7 @@ game.state.add('demo', {
 
         var data = this.game.data;
 
-        Enemy.update.call(this);
+        Enemy.update(game);
 
         game.world.getByName('disp-score').text = 'score: ' + data.score;
 

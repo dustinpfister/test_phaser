@@ -97,10 +97,10 @@ Enemy.spawn = function (a) {
 };
 
 // What needs to happen for each frame tick
-Enemy.update = function () {
+Enemy.update = function (game) {
 
-    var data = this.game.data,
-    game = this.game;
+    var data = game.data,
+    game = game;
 
     // loop all enemies
     data.enemies.forEach(function (enemy) {
