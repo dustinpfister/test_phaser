@@ -1,6 +1,18 @@
 
 var Blocks = {};
 
+Blocks.setup = function (game) {
+
+    // create a data object for game if it is not there
+    game.data = game.data || {};
+
+    // create or overwrite game.data.blocks
+    game.data.blocks = {
+        group: game.add.group()
+    };
+
+};
+
 // make a sprite sheet
 Blocks.mkSheet = function (game) {
 
@@ -39,7 +51,7 @@ Blocks.createSprite = function (game, options) {
     options.x = options.x === undefined ? 0 : options.x;
     options.y = options.y === undefined ? 0 : options.y;
 
-    var sprite = game.add.sprite(options.x, options.y, 'sheet-block', 0);
+    var sprite = game.data.blocks.group.create(options.x, options.y, 'sheet-block');
 
     sprite.data = Blocks.newDataObject(options);
 
@@ -51,9 +63,11 @@ game.state.add('boot', {
 
     create: function () {
 
+        Blocks.setup(game);
+
         Blocks.mkSheet(game);
 
-        game.state.start('demo');
+        game.state.start('demo', false, false);
 
     }
 
@@ -63,7 +77,7 @@ game.state.add('demo', {
 
     create: function () {
 
-        Blocks.createSprite(this.game, {
+        Blocks.createSprite(game, {
             x: 5,
             y: 5
         });
