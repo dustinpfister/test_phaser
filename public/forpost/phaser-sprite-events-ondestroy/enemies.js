@@ -13,8 +13,8 @@ Enemy.setup = function (game) {
 
 };
 
-// The onKill method that will be called each time an enemy is killed
-Enemy.onKill = function (sprite) {
+// The onDestroy method that will be called each time an enemy is killed
+Enemy.onDestroy = function (sprite) {
 
     var game = this.game,
     spriteSpeed = (sprite.data.dx + sprite.data.dy) / 8,
@@ -79,14 +79,12 @@ Enemy.spawn = function (a) {
     var data = this.game.data,
     enemies = data.enemies;
 
-    console.log(enemies.children.length);
-
     if (enemies.children.length < data.maxEnemies) {
 
         var enemy = data.enemies.create(0, 0, 'sheet-block');
 
-        // attach onKilled event
-        enemy.events.onKilled.add(Enemy.onKill, this);
+        // attach onDestroy event
+        enemy.events.onDestroy.add(Enemy.onDestroy, this);
 
         // attach on input down event
         enemy.inputEnabled = true;
