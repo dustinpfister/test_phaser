@@ -8,11 +8,11 @@ var mkSheets = function (game) {
     canvas.width = 96;
     canvas.height = 32;
 
-    // blue box
+    // blue box (alive frame)
     ctx.fillStyle = '#0000ff';
     ctx.fillRect(0, 0, 32, 32);
 
-    // red box
+    // red box (death frame)
     ctx.fillStyle = '#ff0000';
     ctx.fillRect(32, 0, 32, 32);
 
@@ -23,10 +23,14 @@ var mkSheets = function (game) {
 // make a player sprite
 var mkPlayerSprite = function (game) {
 
+    // create player sprite, and attach name
     var player = game.add.sprite(0, 0, 'sheet-block', 0);
     player.name = 'player';
+
+    // set health to 100
     player.health = 100;
 
+    // what to do if the player is killed
     player.events.onKilled.add(function (player) {
 
         // set exits to true, but leave the alive value as is
