@@ -16,11 +16,24 @@ var mkSheets = function (game) {
     ctx.fillStyle = '#ff0000';
     ctx.fillRect(32, 0, 32, 32);
 
-    // bullet
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(64 + 8, 8, 8, 8);
-
     game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 3, 0, 0);
+
+};
+
+// make a player sprite
+var mkPlayerSprite = function (game) {
+
+    var player = game.add.sprite(0, 0, 'sheet-block', 0);
+    player.name = 'player';
+    player.health = 100;
+
+    player.events.onKilled.add(function (player) {
+
+        // set exits to true, but leave the alive value as is
+        player.exists = true;
+        player.frame = 1; // set to frame 1 (death frame);
+
+    });
 
 };
 
@@ -32,19 +45,19 @@ game.state.add('boot', {
 
         mkSheets(game);
 
-        game.state.start('demo', false, false);
+        mkPlayerSprite(game);
+
+        game.state.start('basic-demo', false, false);
 
     }
 
 });
 
-game.state.add('demo', {
+game.state.add('basic-demo', {
 
     create: function () {
 
-        var player = game.add.sprite(0, 0, 'sheet-block', 0);
-        player.name = 'player';
-        player.health = 100;
+        var player = game.world.getByName('player');
 
         console.log(player.health); // 100
         console.log(player.alive); // true
@@ -58,14 +71,12 @@ game.state.add('demo', {
 
         player.damage(50);
 
-        console.log(player.health); // 50
+        console.log(player.health); // 0
         console.log(player.alive); // false
-        console.log(player.exists); // false
+        console.log(player.exists); // true
 
 
-    },
-
-    update: function () {}
+    }
 
 });
 
