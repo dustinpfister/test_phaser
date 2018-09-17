@@ -35,8 +35,11 @@ Enemy.onInputDown = function (enemy) {
         enemy.frame = 1;
     }
 
+    // call destroy
     if (enemy.data.hp <= 0) {
-        enemy.kill();
+
+        enemy.destroy();
+
     }
 
 };
@@ -108,13 +111,6 @@ Enemy.update = function (game) {
         // step position based on current deltas
         enemy.x = Phaser.Math.wrap(enemy.x += enemy.data.dx, -32, game.world.width + 32);
         enemy.y = Phaser.Math.wrap(enemy.y += enemy.data.dy, -32, game.world.height + 32);
-
-        // call destroy
-        if (enemy.data.hp <= 0) {
-
-            enemy.destroy();
-
-        }
 
     });
 

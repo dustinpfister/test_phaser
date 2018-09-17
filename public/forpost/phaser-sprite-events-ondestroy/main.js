@@ -9,8 +9,6 @@ game.state.add('boot', {
 
         Enemy.mkSheet(this.game);
 
-        //Enemy.createEnemyPool.call(this);
-
         // start demo, and do not clear the world
         game.state.start('demo',false,false);
 
