@@ -129,7 +129,7 @@ game.state.add('boot', {
         game.scale.width = document.getElementById(game.parent).scrollWidth;
         game.scale.height = document.getElementById(game.parent).scrollHeight;
 
-        // start demo, and do not clear the world
+        // start demo
         game.state.start('demo');
 
     }
@@ -144,11 +144,6 @@ game.state.add('demo', {
 
         // spawn loop
         game.time.events.loop(1000, Blocks.spawn, this);
-
-        var text = game.add.text(5, 5, '', {
-                fill: 'white'
-            });
-        text.name = 'disp';
 
     },
 
