@@ -122,7 +122,12 @@ game.state.add('boot', {
 
         game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 2, 0, 0);
 
+        // scrolling
         game.scale.compatibility.scrollTo = false;
+        game.scale.pageAlignHorizontally = true;
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.width = document.getElementById(game.parent).scrollWidth;
+        game.scale.height = document.getElementById(game.parent).scrollHeight;
 
         // start demo, and do not clear the world
         game.state.start('demo');
