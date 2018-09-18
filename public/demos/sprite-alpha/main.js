@@ -1,6 +1,20 @@
 
 var Blocks = {};
 
+// setup the game.data object
+Blocks.setup = function (game) {
+
+    game.data = {
+
+        maxEnemies: 5,
+        enemies: game.add.group(),
+        score: 0
+
+    };
+
+};
+
+// setup a data object for a given sprite
 Blocks.setSpriteDataObject = function (game, sprite) {
 
     var data = sprite.data;
@@ -12,6 +26,37 @@ Blocks.setSpriteDataObject = function (game, sprite) {
     data.dx = Math.random() * 2 + 1;
     data.dy = Math.random() * 2 + 1;
 
+    // to be called on each frame tick
+    data.tick = function (game) {
+
+        if (this.sprite.alive) {
+
+            // sprites when alive the alpha value will get higher
+            // if it is closer to the center of the canvas
+
+            var d = Phaser.Math.distance(this.sprite.x + 16, this.sprite.y + 16, game.world.centerX, game.world.centerY);
+            d = Phaser.Math.clamp(d, 0, 100);
+
+            this.sprite.alpha = 1 - 0.75 * (d / 100);
+
+        } else {
+
+            // if dead a sprites alpha starts at 1
+            // and goes down two zero
+            this.i += 1;
+            this.sprite.alpha = 1 - this.i / this.i_max;
+
+            // destroy the sprite completely
+            // when done
+            if (this.i >= this.i_max) {
+                this.sprite.destroy();
+            }
+
+        }
+
+    };
+
+    // what to do when killed
     data.onDeath = function () {
 
         this.dx = 0;
@@ -20,32 +65,6 @@ Blocks.setSpriteDataObject = function (game, sprite) {
         this.sprite.exists = true;
         this.sprite.frame = 1;
         this.i = 0;
-
-    };
-
-    data.tick = function (game) {
-
-        if (this.sprite.alive) {
-
-            // sprites will become more visible as they approach the center
-            var d = Phaser.Math.distance(this.sprite.x + 16, this.sprite.y + 16, game.world.centerX, game.world.centerY);
-            d = Phaser.Math.clamp(d, 0, 100);
-
-            this.sprite.alpha = 1 - 0.75 * (d / 100);
-
-        } else {
-
-            this.i += 1;
-
-            this.sprite.alpha = 1 - this.i / this.i_max;
-
-            if (this.i >= this.i_max) {
-
-                this.sprite.destroy();
-
-            }
-
-        }
 
     };
 
@@ -58,30 +77,22 @@ Blocks.spawn = function (game) {
 
     if (data.enemies.length < data.maxEnemies) {
 
+        // create a new enemy
         var enemy = data.enemies.create(-32, -32, 'sheet-block');
 
+        // set health
         enemy.health = 1;
 
+        // setup a data object for the sprite
         Blocks.setSpriteDataObject(game, enemy);
 
+        // events
         enemy.events.onKilled.add(function (enemy) {
-
-            //data.score += 1;
-
-
             enemy.data.onDeath();
-
         });
-
         enemy.inputEnabled = true;
         enemy.events.onInputDown.add(function (enemy) {
-
-            //var per = enemy.health / 2;
-
-            //enemy.alpha = 0.2 + 0.8 * per;
-
             enemy.damage(1);
-
         });
 
     }
@@ -121,13 +132,7 @@ game.state.add('demo', {
 
     create: function () {
 
-        var data = this.game.data = {
-
-            maxEnemies: 5,
-            enemies: game.add.group(),
-            score: 0
-
-        };
+        Blocks.setup(game);
 
         // spawn loop
         game.time.events.loop(1000, Blocks.spawn, this);
@@ -146,18 +151,13 @@ game.state.add('demo', {
 
         data.enemies.forEach(function (enemy) {
 
-            //if (enemy.alive) {
-
             enemy.x = Phaser.Math.wrap(enemy.x += enemy.data.dx, -32, game.world.width + 32);
             enemy.y = Phaser.Math.wrap(enemy.y += enemy.data.dy, -32, game.world.height + 32);
 
             enemy.data.tick(game);
 
-            //}
-
         });
 
-        game.world.getByName('disp').text = 'enemies: ' + data.enemies.length;
     }
 
 });
