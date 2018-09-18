@@ -65,7 +65,45 @@ game.state.add('boot', {
 
         Blocks.mkSheet(game);
 
-        game.state.start('demo', false, false);
+        game.state.start('basic', false, false);
+
+    }
+
+});
+
+game.state.add('basic', {
+
+    create: function () {
+
+        var sprite = game.add.sprite(0, 0, 'sheet-block');
+        sprite.name = 'bx';
+
+        sprite.data.frame = 0;
+        sprite.data.frame_max = 50;
+        sprite.data.sprite = sprite;
+        sprite.data.game = game;
+
+        // step sprite movement
+        sprite.data.step = function () {
+
+            this.per = this.frame / this.frame_max;
+            this.bias = 1 - Math.abs(0.5 - this.per) / 0.5;
+
+            this.sprite.x = this.game.world.centerX - 16 - 100 + 200 * this.bias;
+            this.sprite.y = this.game.world.centerY - 16;
+
+            this.frame += 1;
+            this.frame %= this.frame_max;
+
+        };
+
+    },
+
+    update: function () {
+
+        var sprite = game.world.getByName('bx');
+
+        sprite.data.step();
 
     }
 
