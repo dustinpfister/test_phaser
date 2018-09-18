@@ -1,6 +1,42 @@
 
 var Blocks = {};
 
+Blocks.setSpriteDataObject = function (game, sprite) {
+
+    var data = sprite.data;
+
+    data.i = 0;
+    data.i_max = 50;
+    data.sprite = sprite;
+
+    data.dx = Math.random() * 2 + 1;
+    data.dy = Math.random() * 2 + 1;
+
+    data.onDeath = function () {
+
+        this.sprite.alpha = 1;
+        this.sprite.exists = true;
+        this.sprite.frame = 1;
+        this.i = 0;
+
+    };
+
+    data.tick = function () {
+
+        data.i += 1;
+
+        data.sprite.alpha = 1 - data.i / data.i_max;
+
+        if (data.i >= data.i_max) {
+
+            data.sprite.destroy();
+
+        }
+
+    };
+
+};
+
 // spawn another enemy
 Blocks.spawn = function (game) {
 
@@ -12,35 +48,44 @@ Blocks.spawn = function (game) {
 
         enemy.health = 5;
 
+        /*
         enemy.data = {
 
-            dx: Math.random() * 2 + 1,
-            dy: Math.random() * 2 + 1
+        dx: Math.random() * 2 + 1,
+        dy: Math.random() * 2 + 1
 
         };
+         */
 
-        enemy.events.onKilled.add(function () {
+        Blocks.setSpriteDataObject(game, enemy);
 
-            data.score += 1;
+        enemy.events.onKilled.add(function (enemy) {
+
+            //data.score += 1;
+
+            enemy.data.onDeath();
 
         });
 
         enemy.inputEnabled = true;
         enemy.events.onInputDown.add(function (enemy) {
 
-            enemy.damage(1);
-
             var per = enemy.health / 5;
 
             enemy.alpha = 0.2 + 0.8 * per;
 
+            enemy.damage(1);
+
+            /*
+
             if (!enemy.alive) {
 
-                enemy.exists = true;
-                enemy.alpha = 1;
-                enemy.frame = 1;
+            enemy.exists = true;
+            enemy.alpha = 1;
+            enemy.frame = 1;
 
             }
+             */
 
         });
 
