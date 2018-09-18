@@ -122,8 +122,10 @@ game.state.add('boot', {
 
         game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 2, 0, 0);
 
+        game.scale.compatibility.scrollTo = false;
+
         // start demo, and do not clear the world
-        game.state.start('demo', false, false);
+        game.state.start('demo');
 
     }
 
