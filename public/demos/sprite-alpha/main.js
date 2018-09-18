@@ -14,8 +14,8 @@ Blocks.spawn = function (game) {
 
         enemy.data = {
 
-            dx: Math.random() * 4 + 1,
-            dy: Math.random() * 4 + 1
+            dx: Math.random() * 2 + 1,
+            dy: Math.random() * 2 + 1
 
         };
 
@@ -33,6 +33,14 @@ Blocks.spawn = function (game) {
             var per = enemy.health / 5;
 
             enemy.alpha = 0.2 + 0.8 * per;
+
+            if (!enemy.alive) {
+
+                enemy.exists = true;
+                enemy.alpha = 1;
+                enemy.frame = 1;
+
+            }
 
         });
 
@@ -98,8 +106,12 @@ game.state.add('demo', {
 
         data.enemies.forEach(function (enemy) {
 
-            enemy.x = Phaser.Math.wrap(enemy.x += enemy.data.dx, -32, game.world.width + 32);
-            enemy.y = Phaser.Math.wrap(enemy.y += enemy.data.dy, -32, game.world.height + 32);
+            if (enemy.alive) {
+
+                enemy.x = Phaser.Math.wrap(enemy.x += enemy.data.dx, -32, game.world.width + 32);
+                enemy.y = Phaser.Math.wrap(enemy.y += enemy.data.dy, -32, game.world.height + 32);
+
+            }
 
         });
 
