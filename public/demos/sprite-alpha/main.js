@@ -14,6 +14,8 @@ Blocks.setSpriteDataObject = function (game, sprite) {
 
     data.onDeath = function () {
 
+        this.dx = 0;
+        this.dy = 0;
         this.sprite.alpha = 1;
         this.sprite.exists = true;
         this.sprite.frame = 1;
@@ -21,15 +23,27 @@ Blocks.setSpriteDataObject = function (game, sprite) {
 
     };
 
-    data.tick = function () {
+    data.tick = function (game) {
 
-        data.i += 1;
+        if (this.sprite.alive) {
 
-        data.sprite.alpha = 1 - data.i / data.i_max;
+            // sprites will become more visible as they approach the center
+            var d = Phaser.Math.distance(this.sprite.x + 16, this.sprite.y + 16, game.world.centerX, game.world.centerY);
+            d = Phaser.Math.clamp(d, 0, 100);
 
-        if (data.i >= data.i_max) {
+            this.sprite.alpha = 1 - 0.75 * (d / 100);
 
-            data.sprite.destroy();
+        } else {
+
+            this.i += 1;
+
+            this.sprite.alpha = 1 - this.i / this.i_max;
+
+            if (this.i >= this.i_max) {
+
+                this.sprite.destroy();
+
+            }
 
         }
 
@@ -46,22 +60,14 @@ Blocks.spawn = function (game) {
 
         var enemy = data.enemies.create(-32, -32, 'sheet-block');
 
-        enemy.health = 5;
-
-        /*
-        enemy.data = {
-
-        dx: Math.random() * 2 + 1,
-        dy: Math.random() * 2 + 1
-
-        };
-         */
+        enemy.health = 1;
 
         Blocks.setSpriteDataObject(game, enemy);
 
         enemy.events.onKilled.add(function (enemy) {
 
             //data.score += 1;
+
 
             enemy.data.onDeath();
 
@@ -70,22 +76,11 @@ Blocks.spawn = function (game) {
         enemy.inputEnabled = true;
         enemy.events.onInputDown.add(function (enemy) {
 
-            var per = enemy.health / 5;
+            //var per = enemy.health / 2;
 
-            enemy.alpha = 0.2 + 0.8 * per;
+            //enemy.alpha = 0.2 + 0.8 * per;
 
             enemy.damage(1);
-
-            /*
-
-            if (!enemy.alive) {
-
-            enemy.exists = true;
-            enemy.alpha = 1;
-            enemy.frame = 1;
-
-            }
-             */
 
         });
 
@@ -151,12 +146,14 @@ game.state.add('demo', {
 
         data.enemies.forEach(function (enemy) {
 
-            if (enemy.alive) {
+            //if (enemy.alive) {
 
-                enemy.x = Phaser.Math.wrap(enemy.x += enemy.data.dx, -32, game.world.width + 32);
-                enemy.y = Phaser.Math.wrap(enemy.y += enemy.data.dy, -32, game.world.height + 32);
+            enemy.x = Phaser.Math.wrap(enemy.x += enemy.data.dx, -32, game.world.width + 32);
+            enemy.y = Phaser.Math.wrap(enemy.y += enemy.data.dy, -32, game.world.height + 32);
 
-            }
+            enemy.data.tick(game);
+
+            //}
 
         });
 
