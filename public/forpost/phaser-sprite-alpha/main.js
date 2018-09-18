@@ -61,7 +61,6 @@ Blocks.setSpriteDataObject = function (game, sprite) {
 
         this.dx = 0;
         this.dy = 0;
-        this.sprite.alpha = 1;
         this.sprite.exists = true;
         this.sprite.frame = 1;
         this.i = 0;
@@ -112,11 +111,13 @@ game.state.add('boot', {
         canvas.height = 32;
 
         // blue frame
-        ctx.fillStyle = '#0000ff';
+        ctx.fillStyle = 'blue';
+        ctx.strokeStyle = 'white';
         ctx.fillRect(0, 0, 32, 32);
+        ctx.strokeRect(0, 0, 32, 32);
 
         // red frame
-        ctx.fillStyle = '#ff0000';
+        ctx.fillStyle = 'red';
         ctx.fillRect(32, 0, 32, 32);
 
         game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 2, 0, 0);
