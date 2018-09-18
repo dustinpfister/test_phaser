@@ -1,17 +1,17 @@
 
 var Blocks = {};
 
-
-
-
 // spawn another enemy
 Blocks.spawn = function (game) {
 
     var data = this.game.data;
 
-    if (data.enemys.length < data.maxEnemys) {
+    if (data.enemies.length < data.maxEnemies) {
 
-        var enemy = data.enemys.create(-32, -32, 'sheet-block');
+        var enemy = data.enemies.create(-32, -32, 'sheet-block');
+
+        enemy.health = 5;
+
         enemy.data = {
 
             dx: Math.random() * 4 + 1,
@@ -28,8 +28,11 @@ Blocks.spawn = function (game) {
         enemy.inputEnabled = true;
         enemy.events.onInputDown.add(function (enemy) {
 
-            enemy.kill();
-            enemy.destroy();
+            enemy.damage(1);
+
+            var per = enemy.health / 5;
+
+            enemy.alpha = 0.2 + 0.8 * per;
 
         });
 
@@ -72,15 +75,19 @@ game.state.add('demo', {
 
         var data = this.game.data = {
 
-            maxEnemys: 5,
-            enemys: game.add.group(),
+            maxEnemies: 5,
+            enemies: game.add.group(),
             score: 0
 
         };
 
         // spawn loop
-        game.time.events.loop(1000, Blocks.spawn,this);
+        game.time.events.loop(1000, Blocks.spawn, this);
 
+        var text = game.add.text(5, 5, '', {
+                fill: 'white'
+            });
+        text.name = 'disp';
 
     },
 
@@ -89,13 +96,14 @@ game.state.add('demo', {
         var data = this.game.data,
         game = this.game;
 
-        data.enemys.forEach(function (enemy) {
+        data.enemies.forEach(function (enemy) {
 
             enemy.x = Phaser.Math.wrap(enemy.x += enemy.data.dx, -32, game.world.width + 32);
             enemy.y = Phaser.Math.wrap(enemy.y += enemy.data.dy, -32, game.world.height + 32);
 
         });
 
+        game.world.getByName('disp').text = 'enemies: ' + data.enemies.length;
     }
 
 });
