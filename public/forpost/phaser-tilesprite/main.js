@@ -45,6 +45,28 @@ var mkSheet = function () {
 
 };
 
+var mkTileSprite = function (game) {
+
+    var tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'sheet-block', 0);
+    tile.name = 'tile';
+
+    tile.data.i = 0;
+    tile.data.i_max = 150;
+    tile.data.tick = function () {
+
+        this.per = this.i / this.i_max;
+
+        this.r = Math.PI * 2 * this.per;
+        this.x = Math.cos(this.r) * 64;
+        this.y = Math.sin(this.r) * 64;
+
+        this.i += 1;
+        this.i %= this.i_max;
+
+    };
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
@@ -53,24 +75,7 @@ game.state.add('boot', {
 
         mkSheet(game);
 
-        var tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'sheet-block', 0);
-        tile.name = 'tile';
-
-        tile.data.i = 0;
-        tile.data.i_max = 150;
-        tile.data.tick = function () {
-
-            this.per = this.i / this.i_max;
-            //this.bias = 1 - Math.abs(0.5 - this.per) / 0.5;
-
-            this.r = Math.PI * 2 * this.per;
-            this.x = Math.cos(this.r) * 64;
-            this.y = Math.sin(this.r) * 64;
-
-            this.i += 1;
-            this.i %= this.i_max;
-
-        };
+        mkTileSprite(game);
 
     },
 
