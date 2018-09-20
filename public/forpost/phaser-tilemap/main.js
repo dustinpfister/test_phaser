@@ -33,20 +33,41 @@ game.state.add('boot', {
         // make the sheet
         mkSheet(game);
 
-        // create a tilemap
-        var map = game.add.tilemap(null, 32, 32, 12, 8);
+        // CREATE A TILEMAP
+        var map = this.map = game.add.tilemap(null, 32, 32, 6, 6);
 
-        // add the Sheet I want to use
+        // ADD A SPRITE SHEET
         map.addTilesetImage('sheet-blocks');
 
-        // create a layer
-        map.create('my-layer', 12, 8, 32, 32);
+        // CREATE A LAYER
+        var layer = map.create('my-layer', 6, 6, 32, 32);
 
-        map.putTile(0, 0, 0);
-        map.putTile(1, 1, 1);
-        map.putTile(2, 2, 2);
+        // a layer is like a sprite
+        // many of the properties and methods are the same
+        layer.inputEnabled = true;
+        layer.fixedToCamera = false;
+        layer.x = 32;
+        layer.y = 32;
+        layer.events.onInputDown.add(function (layer, pt) {
+            var x = Math.floor((pt.x - layer.x) / 32),
+            y = Math.floor((pt.y - layer.y) / 32),
+            tile = map.getTile(x, y);
+            tile.index += 1;
+            tile.index = tile.index % 3;
+            map.putTile(tile.index, x, y);
+        });
 
-        console.log(map);
+        // SET INDEX DATA
+        // map.ForEach can be used to set all index values in
+        // an area
+        map.forEach(function (tile) {
+
+            tile.index = Math.floor(Math.random() * 2);
+
+        }, this, 0, 0, 6, 6);
+
+        // map.putTile can be used to set a single index
+        map.putTile(2, 0, 0);
 
     },
 
