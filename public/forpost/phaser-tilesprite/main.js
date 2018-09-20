@@ -17,7 +17,6 @@ var mkSheet = function () {
 
     // large circle in the center
     ctx.fillStyle = '#4a0000';
-
     ctx.lineWidth = 3;
     ctx.beginPath()
     ctx.arc(32, 32, 16, 0, Math.PI * 2)
@@ -26,14 +25,10 @@ var mkSheet = function () {
 
     // small circles at the corners
     ctx.fillStyle = '#ff0000';
-    var i = 0,
-    x,
-    y;
+    var i = 0,x,y;
     while (i < 4) {
-
         x = i % 2;
         y = Math.floor(i / 2);
-
         ctx.beginPath()
         ctx.arc(x * 64, y * 64, 4, 0, Math.PI * 2)
         ctx.fill();
@@ -41,10 +36,12 @@ var mkSheet = function () {
         i += 1;
     }
 
+    // add a single sheet to cache
     game.cache.addSpriteSheet('sheet-block', null, canvas, 64, 64, 1, 0, 0);
 
 };
 
+// make a tile sprite
 var mkTileSprite = function (game) {
 
     var tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'sheet-block', 0);
@@ -60,6 +57,9 @@ var mkTileSprite = function (game) {
         this.x = Math.cos(this.r) * 64;
         this.y = Math.sin(this.r) * 64;
 
+        // set tile position
+        tile.tilePosition.set(this.x, this.y);
+
         this.i += 1;
         this.i %= this.i_max;
 
@@ -73,19 +73,18 @@ game.state.add('boot', {
 
     create: function () {
 
+        // make the sheet
         mkSheet(game);
 
+        // make the tile sprite
         mkTileSprite(game);
 
     },
 
     update: function () {
 
-        var tile = game.world.getByName('tile');
-
-        tile.tilePosition.set(tile.data.x, tile.data.y);
-
-        tile.data.tick();
+        // just need to call by tick method
+        game.world.getByName('tile').data.tick();
 
     }
 
