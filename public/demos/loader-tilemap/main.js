@@ -1,27 +1,55 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+// load json and images
+var loadWorldData = function (game) {
+    game.load.tilemap('map-world1', '/demos/loader-tilemap/world1.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('image-blocks', '/img/sheet_blocks.png');
+};
+
+// load a give world number
+var loadWorld = function (game, worldNum) {
+
+    worldNum = worldNum || 1;
+
+    game.data = game.data || {};
+
+    var map = game.data.map = game.add.tilemap('map-world1');
+
+    map.addTilesetImage('blocks', 'image-blocks');
+
+    game.data.layer = map.createLayer('stage1');
+
+};
+
+var displayMapProperties = function (game, textObj) {
+
+    var props = game.data.map.properties;
+
+    textObj.text = 'world: ' + props.world + '\/' + props.stages
+
+};
+
 game.state.add('boot', {
 
     preload: function () {
 
-        game.load.tilemap('map-blocks', '/demos/loader-tilemap/first-map.json', null, Phaser.Tilemap.TILED_JSON);
-        game.load.image('image-blocks', '/img/sheet_blocks.png');
+        loadWorldData(game);
 
     },
 
     create: function () {
 
-        var map = game.add.tilemap('map-blocks');
+        // load World one
+        loadWorld(game, 1);
 
-        map.addTilesetImage('blocks', 'image-blocks');
+        // text display object
+        game.data.disp = game.add.text(10, 10,'', {
+                fill: 'white',
+                font: '15px courier'
+            });
+        displayMapProperties(game, game.data.disp);
 
-        var layer = map.createLayer('stage1');
-		
-		layer.resizeWorld();
-
-    },
-
-    update: function () {}
+    }
 
 });
 
