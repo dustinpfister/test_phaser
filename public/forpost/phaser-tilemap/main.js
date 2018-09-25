@@ -38,6 +38,40 @@ var createMap = function (game) {
 
 };
 
+// create a layer for the given map
+var createLayer = function (map) {
+
+    // CREATE A LAYER
+    var layer = map.create('my-layer', 6, 6, 32, 32);
+
+    // a layer is like a sprite
+    // many of the properties and methods are the same
+    layer.inputEnabled = true;
+    layer.fixedToCamera = false;
+    layer.x = 32;
+    layer.y = 32;
+    layer.events.onInputDown.add(function (layer, pt) {
+        var x = Math.floor((pt.x - layer.x) / 32),
+        y = Math.floor((pt.y - layer.y) / 32),
+        tile = map.getTile(x, y);
+        tile.index += 1;
+        tile.index = tile.index % 3;
+        map.putTile(tile.index, x, y);
+    });
+
+};
+
+// set random index data
+var setRandomMapIndexData = function (map) {
+
+    // map.ForEach can be used to set all index values in
+    // an area
+    map.forEach(function (tile) {
+        tile.index = Math.floor(Math.random() * 2);
+    }, this, 0, 0, 6, 6);
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
@@ -47,37 +81,14 @@ game.state.add('boot', {
         // make the sheet
         mkSheet(game);
 
+        // first create a map
         var map = createMap(game);
 
-        // CREATE A LAYER
-        var layer = map.create('my-layer', 6, 6, 32, 32);
+        // have at least one layer
+        createLayer(map);
 
-        // a layer is like a sprite
-        // many of the properties and methods are the same
-        layer.inputEnabled = true;
-        layer.fixedToCamera = false;
-        layer.x = 32;
-        layer.y = 32;
-        layer.events.onInputDown.add(function (layer, pt) {
-            var x = Math.floor((pt.x - layer.x) / 32),
-            y = Math.floor((pt.y - layer.y) / 32),
-            tile = map.getTile(x, y);
-            tile.index += 1;
-            tile.index = tile.index % 3;
-            map.putTile(tile.index, x, y);
-        });
-
-        // SET INDEX DATA
-        // map.ForEach can be used to set all index values in
-        // an area
-        map.forEach(function (tile) {
-
-            tile.index = Math.floor(Math.random() * 2);
-
-        }, this, 0, 0, 6, 6);
-
-        // map.putTile can be used to set a single index
-        map.putTile(2, 0, 0);
+        // some index data is needed
+        setRandomMapIndexData(map);
 
     },
 
