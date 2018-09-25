@@ -24,6 +24,20 @@ var mkSheet = function () {
 
 };
 
+// just create a new map, add a tile set image, and return a
+// reference to the map
+var createMap = function (game) {
+
+    // CREATE A TILEMAP
+    var map = this.map = game.add.tilemap(null, 32, 32, 6, 6);
+
+    // ADD A SPRITE SHEET
+    map.addTilesetImage('sheet-blocks');
+
+    return map;
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
@@ -33,11 +47,7 @@ game.state.add('boot', {
         // make the sheet
         mkSheet(game);
 
-        // CREATE A TILEMAP
-        var map = this.map = game.add.tilemap(null, 32, 32, 6, 6);
-
-        // ADD A SPRITE SHEET
-        map.addTilesetImage('sheet-blocks');
+        var map = createMap(game);
 
         // CREATE A LAYER
         var layer = map.create('my-layer', 6, 6, 32, 32);
