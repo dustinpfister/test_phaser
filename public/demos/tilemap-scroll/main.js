@@ -55,7 +55,7 @@ game.state.add('boot', {
     create: function () {
 
         game.world.resize(640, 480);
-        game.world.setBounds(0, 0, 640, 480);
+        //game.world.setBounds(0, 0, 640, 480);
 
         // load World one
         var map = loadWorld(game, 1);
@@ -78,8 +78,7 @@ game.state.add('boot', {
         guy.body.bounce.set(0.25);
         guy.body.linearDamping = 1;
         guy.x = 64;
-		guy.y = 32;
-        //guy.body.collideWorldBounds = true;
+        guy.y = 32;
 
         game.camera.follow(guy);
 
