@@ -25,7 +25,7 @@
             "name": "stage1",
             "opacity": 1,
             "properties": {
-                "time": "1000"
+                "start-index": "12"
             },
             "type": "tilelayer",
             "visible": true,
@@ -45,8 +45,8 @@
             "tileheight": 32,
             "tilewidth": 32,
             "tileproperties": {
-                "0": {
-                    "playerStart": "true"
+                "12": {
+                    "home": "true"
                 }
             }
         }
