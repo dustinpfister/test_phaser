@@ -1,8 +1,8 @@
 {
     "version": 1,
     "orientation": "orthogonal",
-    "width": 2,
-    "height": 2,
+    "width": 8,
+    "height": 6,
     "tileheight": 32,
     "tilewidth": 32,
     "properties": {
@@ -10,8 +10,18 @@
         "stages": 2
     },
     "layers": [{
-            "data": [0, 0, 1, 2],
-            "height": 2,
+            "data": [
+
+                1, 1, 1, 1, 0, 0, 0, 1,
+                0, 0, 0, 0, 0, 0, 0, 1,
+                1, 0, 0, 1, 1, 1, 0, 1,
+                1, 1, 0, 0, 1, 0, 0, 1,
+                1, 1, 1, 0, 0, 0, 1, 1,
+                1, 1, 1, 1, 0, 1, 1, 1
+
+            ],
+            "height": 6,
+            "width": 8,
             "name": "stage1",
             "opacity": 1,
             "properties": {
@@ -19,7 +29,6 @@
             },
             "type": "tilelayer",
             "visible": true,
-            "width": 2,
             "x": 0,
             "y": 0
         }
