@@ -63,8 +63,8 @@ game.state.add('boot', {
 
         map.setCollisionByExclusion([0])
 
-        stage.debug = true;
-        stage.fixedToCamera = true;
+        //stage.debug = true;
+        //stage.fixedToCamera = true;
 
         var guy = game.data.guy = game.add.sprite(0, 0, 'sheet-guy');
 
@@ -77,7 +77,8 @@ game.state.add('boot', {
         guy.body.gravity.set(0, 100);
         guy.body.bounce.set(0.25);
         guy.body.linearDamping = 1;
-        guy.y = 32;
+        guy.x = 64;
+		guy.y = 32;
         //guy.body.collideWorldBounds = true;
 
         game.camera.follow(guy);
@@ -111,7 +112,9 @@ game.state.add('boot', {
 
         if (cursors.left.isDown) {
             p.body.velocity.x = -150;
-        } else if (cursors.right.isDown) {
+        }
+
+        if (cursors.right.isDown) {
             p.body.velocity.x = 150;
         }
 
