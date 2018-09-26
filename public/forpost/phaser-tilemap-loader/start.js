@@ -1,3 +1,3 @@
 
 
-game.state.start('boot');
+game.state.start('basic');

@@ -15,7 +15,20 @@ var loadWorld = function (game, worldNum) {
 
     map.addTilesetImage('blocks', 'image-blocks');
 
-    game.data.layer = map.createLayer('stage1');
+    return map;
+
+};
+
+// create a stage from the map
+var createStage = function (game, stageNum) {
+
+    stageNum = stageNum || 1;
+
+    var map = game.data.map;
+
+    var stage = game.data.stage = map.createLayer('stage' + stageNum);
+
+    return stage;
 
 };
 
@@ -27,7 +40,6 @@ var displayMapProperties = function (game, textObj) {
     textObj.text = 'world: ' + props.world + '\/' + props.stages
 
 };
-
 
 game.state.add('basic', {
 
@@ -42,8 +54,10 @@ game.state.add('basic', {
         // load World one
         loadWorld(game, 1);
 
+        createStage(game, 1);
+
         // text display object
-        game.data.disp = game.add.text(10, 10,'', {
+        game.data.disp = game.add.text(10, 10, '', {
                 fill: 'white',
                 font: '15px courier'
             });
@@ -52,4 +66,3 @@ game.state.add('basic', {
     }
 
 });
-
