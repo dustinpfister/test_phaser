@@ -14,16 +14,21 @@ var loadWorld = function (game, worldNum) {
 
     map.addTilesetImage('blocks', 'image-blocks');
 
+    return map;
+
 };
 
+// load a stage from the current map
 loadStage = function (game, stageNum) {
 
     var map = game.data.map;
 
-    var layer = game.data.layer = map.createLayer('stage' + stageNum);
-    layer.fixedToCamera = false;
-    layer.x = 10;
-    layer.y = game.world.height - (layer.layer.heightInPixels)-10;
+    var stage = game.data.stage = map.createLayer('stage' + stageNum);
+    //stage.fixedToCamera = false;
+    //stage.x = 10;
+    //stage.y = game.world.height - (stage.layer.heightInPixels) - 10;
+
+    return stage;
 
 };
 
@@ -41,7 +46,7 @@ game.state.add('boot', {
     preload: function () {
 
         game.load.image('image-blocks', '/img/sheet_blocks.png');
-        game.load.image('image-guy', '/img/sheet_guy.png');
+        game.load.spritesheet('sheet-guy', '/img/sheet_guy.png', 32, 32, 1);
 
         loadWorldData(game);
 
@@ -50,8 +55,38 @@ game.state.add('boot', {
     create: function () {
 
         // load World one
-        loadWorld(game, 1);
-        loadStage(game, 1);
+        var map = loadWorld(game, 1);
+        var stage = loadStage(game, 1);
+
+        map.forEach(function (tile, i) {
+
+            if (tile.index === 1) {
+
+                map.setCollisionByIndex(i, true);
+
+            }
+
+        }, this, 0, 0, 8, 6);
+
+        stage.debug = true;
+
+        stage.resizeWorld();
+
+        var guy = game.data.guy = game.add.sprite(0, 0, 'sheet-guy');
+
+        // will be using physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        game.physics.enable([guy]);
+
+        //map.setCollision([0,1,2])
+
+
+        // guy physics settings
+        guy.body.gravity.set(0, 100);
+        guy.body.bounce.set(0.25);
+        guy.body.linearDamping = 1;
+        guy.body.collideWorldBounds = true;
 
         // text display object
         game.data.disp = game.add.text(10, 10, '', {
@@ -59,6 +94,32 @@ game.state.add('boot', {
                 font: '15px courier'
             });
         displayMapProperties(game, game.data.disp);
+
+        game.data.cursors = game.input.keyboard.createCursorKeys();
+
+    },
+
+    update: function () {
+
+        var p = game.data.guy,
+        layer = game.data.stage,
+        cursors = game.data.cursors;
+
+        game.physics.arcade.collide(p, layer);
+
+        p.body.velocity.x = 0;
+
+        if (cursors.up.isDown) {
+            if (p.body.onFloor()) {
+                p.body.velocity.y = -200;
+            }
+        }
+
+        if (cursors.left.isDown) {
+            p.body.velocity.x = -150;
+        } else if (cursors.right.isDown) {
+            p.body.velocity.x = 150;
+        }
 
     }
 
