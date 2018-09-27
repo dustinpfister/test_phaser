@@ -1,6 +1,6 @@
 // load json and images
 var loadWorldData = function (game) {
-    game.load.tilemap('map-world1', '/forpost/phaser-tilemap-loader/world2.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('map-world1', '/json/littleguy-world1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('image-blocks', '/img/sheet_blocks.png');
 };
 
