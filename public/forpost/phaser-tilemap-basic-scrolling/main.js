@@ -1,6 +1,6 @@
 // load json and images
 var loadWorldData = function (game) {
-    game.load.tilemap('map-world1', '/forpost/phaser-tilemap-basic-scrolling/world.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('map-world1', '/json/littleguy-world3.json', null, Phaser.Tilemap.TILED_JSON);
 };
 
 // load a give world number
@@ -27,6 +27,8 @@ loadStage = function (game, stageNum) {
     //stage.fixedToCamera = false;
     //stage.x = 10;
     //stage.y = game.world.height - (stage.layer.heightInPixels) - 10;
+	
+	stage.resizeWorld();
 
     return stage;
 
@@ -56,7 +58,7 @@ game.state.add('boot', {
 
     create: function () {
 
-        game.world.resize(640, 480);
+        //game.world.resize(640, 480);
         //game.world.setBounds(0, 0, 640, 480);
 
         // load World one
