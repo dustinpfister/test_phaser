@@ -1,8 +1,6 @@
-// load json and images
-var loadWorldData = function (game) {};
 
-// load a give world number
-var loadWorld = function (game, worldNum) {
+// create the map
+var createMap = function (game, worldNum) {
 
     worldNum = worldNum || 1;
 
@@ -16,8 +14,8 @@ var loadWorld = function (game, worldNum) {
 
 };
 
-// load a stage from the current map
-loadStage = function (game, stageNum) {
+// create the layer
+createLayer = function (game, stageNum) {
 
     var map = game.data.map;
 
@@ -63,18 +61,15 @@ game.state.add('boot', {
 
         game.load.image('image-blocks', '/img/sheet_blocks.png');
         game.load.spritesheet('sheet-guy', '/img/sheet_guy_16_32.png', 16, 32, 1);
-
         game.load.tilemap('map-world1', '/json/littleguy-world3.json', null, Phaser.Tilemap.TILED_JSON);
-
-        loadWorldData(game);
 
     },
 
     create: function () {
 
         // load World one
-        var map = loadWorld(game, 1);
-        var stage = loadStage(game, 1);
+        var map = createMap(game, 1);
+        var stage = createLayer(game, 1);
 
         map.setCollisionByExclusion([0]);
 
