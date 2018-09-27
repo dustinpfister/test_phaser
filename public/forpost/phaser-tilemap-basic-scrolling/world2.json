@@ -1,0 +1,61 @@
+{
+    "version": 1,
+    "orientation": "orthogonal",
+    "width": 16,
+    "height": 24,
+    "tileheight": 32,
+    "tilewidth": 32,
+    "properties": {
+        "world": 1,
+        "stages": 2
+    },
+    "layers": [{
+            "name": "stage1",
+            "width": 16,
+            "height": 12,
+            "data": [
+
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1,
+                1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1,
+                1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1,
+
+                1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
+                1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1,
+                1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1,
+                1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
+                1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+
+            ],
+            "opacity": 1,
+            "properties": {
+                "start-index": "12"
+            },
+            "type": "tilelayer",
+            "visible": true,
+            "x": 0,
+            "y": 0
+        }
+    ],
+    "tilesets": [{
+            "firstgid": 1,
+            "image": "sheet_blocks.png",
+            "imageheight": 32,
+            "imagewidth": 64,
+            "margin": 0,
+            "name": "blocks",
+            "properties": {},
+            "spacing": 0,
+            "tileheight": 32,
+            "tilewidth": 32,
+            "tileproperties": {
+                "12": {
+                    "home": "true"
+                }
+            }
+        }
+    ]
+}
