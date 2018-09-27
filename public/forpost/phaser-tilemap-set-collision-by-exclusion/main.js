@@ -1,10 +1,6 @@
-// load json and images
-var loadWorldData = function (game) {
-    game.load.tilemap('map-world1', '/forpost/phaser-tilemap-set-collision-by-exclusion/world.json', null, Phaser.Tilemap.TILED_JSON);
-};
 
-// load a give world number
-var loadWorld = function (game, worldNum) {
+// create the tilemap
+var createMap = function (game, worldNum) {
 
     worldNum = worldNum || 1;
 
@@ -19,14 +15,14 @@ var loadWorld = function (game, worldNum) {
 };
 
 // load a stage from the current map
-loadStage = function (game, stageNum) {
+createStage = function (game, stageNum) {
 
     var map = game.data.map;
 
     var stage = game.data.stage = map.createLayer('stage' + stageNum);
 
     // set collision by excluding only indexes of zero or -1
-    map.setCollisionByExclusion([0,-1]);
+    map.setCollisionByExclusion([0, -1]);
 
     return stage;
 
@@ -47,10 +43,12 @@ game.state.add('boot', {
 
     preload: function () {
 
+        // load images
         game.load.image('image-blocks', '/img/sheet_blocks.png');
         game.load.spritesheet('sheet-guy', '/img/sheet_guy_16_32.png', 16, 32, 1);
 
-        loadWorldData(game);
+        // load json
+        game.load.tilemap('map-world1', '/forpost/phaser-tilemap-set-collision-by-exclusion/world.json', null, Phaser.Tilemap.TILED_JSON);
 
     },
 
@@ -59,8 +57,8 @@ game.state.add('boot', {
         game.world.resize(640, 480);
 
         // load World one
-        var map = loadWorld(game, 1);
-        var stage = loadStage(game, 1);
+        var map = createMap(game, 1);
+        var stage = createStage(game, 1);
 
         var guy = game.data.guy = game.add.sprite(0, 0, 'sheet-guy');
 
