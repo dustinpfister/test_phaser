@@ -1,6 +1,6 @@
 // load json and images
 var loadWorldData = function (game) {
-    game.load.tilemap('map-world1', '/forpost/phaser-tilemap-setcollisionbyexclusion/world.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('map-world1', '/forpost/phaser-tilemap-set-collision-by-exclusion/world.json', null, Phaser.Tilemap.TILED_JSON);
 };
 
 // load a give world number
