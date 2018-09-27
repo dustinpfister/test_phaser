@@ -39,7 +39,10 @@
             ],
             "opacity": 1,
             "properties": {
-                "start-index": "12"
+                "startat": {
+                    "x": 4,
+                    "y": 1
+                }
             },
             "type": "tilelayer",
             "visible": true,

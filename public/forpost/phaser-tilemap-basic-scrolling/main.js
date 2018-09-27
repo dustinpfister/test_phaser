@@ -1,7 +1,5 @@
 // load json and images
-var loadWorldData = function (game) {
-    game.load.tilemap('map-world1', '/json/littleguy-world3.json', null, Phaser.Tilemap.TILED_JSON);
-};
+var loadWorldData = function (game) {};
 
 // load a give world number
 var loadWorld = function (game, worldNum) {
@@ -24,22 +22,36 @@ loadStage = function (game, stageNum) {
     var map = game.data.map;
 
     var stage = game.data.stage = map.createLayer('stage' + stageNum);
-    //stage.fixedToCamera = false;
-    //stage.x = 10;
-    //stage.y = game.world.height - (stage.layer.heightInPixels) - 10;
-	
-	stage.resizeWorld();
+
+    stage.resizeWorld();
 
     return stage;
 
 };
 
-// display the properties of a map
-var displayMapProperties = function (game, textObj) {
+// create the guy sprite
+var createGuy = function (game) {
 
-    var props = game.data.map.properties;
+    var map = game.data.map;
 
-    textObj.text = 'world: ' + props.world + '\/' + props.stages
+    // create guy Sprite
+    var guy = game.data.guy = game.add.sprite(0, 0, 'sheet-guy');
+
+    // enable physics for the guy
+    game.physics.enable([guy]);
+
+    // guy physics settings
+    guy.body.gravity.set(0, 100);
+    guy.body.bounce.set(0.25);
+    guy.body.linearDamping = 1;
+
+    // guy start location
+    var startAt = map.layer.properties.startat;
+    guy.x = startAt.x * 32;
+    guy.y = startAt.y * 32;
+
+    // have camera follow the guy
+    game.camera.follow(guy);
 
 };
 
@@ -52,14 +64,13 @@ game.state.add('boot', {
         game.load.image('image-blocks', '/img/sheet_blocks.png');
         game.load.spritesheet('sheet-guy', '/img/sheet_guy_16_32.png', 16, 32, 1);
 
+        game.load.tilemap('map-world1', '/json/littleguy-world3.json', null, Phaser.Tilemap.TILED_JSON);
+
         loadWorldData(game);
 
     },
 
     create: function () {
-
-        //game.world.resize(640, 480);
-        //game.world.setBounds(0, 0, 640, 480);
 
         // load World one
         var map = loadWorld(game, 1);
@@ -67,31 +78,10 @@ game.state.add('boot', {
 
         map.setCollisionByExclusion([0]);
 
-        //stage.debug = true;
-        //stage.fixedToCamera = true;
-
-        var guy = game.data.guy = game.add.sprite(0, 0, 'sheet-guy');
-
         // will be using physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        game.physics.enable([guy]);
-
-        // guy physics settings
-        guy.body.gravity.set(0, 150);
-        guy.body.bounce.set(0.25);
-        guy.body.linearDamping = 1;
-        guy.x = 64;
-        guy.y = 32;
-
-        game.camera.follow(guy);
-
-        // text display object
-        game.data.disp = game.add.text(10, 10, '', {
-                fill: 'white',
-                font: '15px courier'
-            });
-        displayMapProperties(game, game.data.disp);
+        createGuy(game);
 
         game.data.cursors = game.input.keyboard.createCursorKeys();
 
