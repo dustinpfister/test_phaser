@@ -1,6 +1,6 @@
 // load json and images
 var loadWorldData = function (game) {
-    game.load.tilemap('map-world1', '/forpost/phaser-tilemap-basic-scrolling/world2.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('map-world1', '/forpost/phaser-tilemap-basic-scrolling/world.json', null, Phaser.Tilemap.TILED_JSON);
 };
 
 // load a give world number
@@ -40,6 +40,8 @@ var displayMapProperties = function (game, textObj) {
     textObj.text = 'world: ' + props.world + '\/' + props.stages
 
 };
+
+var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
 

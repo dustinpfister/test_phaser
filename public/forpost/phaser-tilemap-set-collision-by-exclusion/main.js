@@ -8,8 +8,8 @@ createStage = function (game, stageNum) {
 
     // set collision by excluding only indexes of zero or -1
     map.setCollisionByExclusion([0, -1]);
-	
-	stage.cameraOffset.set(0,0);
+
+    stage.cameraOffset.set(0, 0);
 
     return stage;
 
