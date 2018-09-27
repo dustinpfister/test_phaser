@@ -1,4 +1,20 @@
 
+// load a stage from the current map
+createStage = function (game, stageNum) {
+
+    var map = game.data.map;
+
+    var stage = game.data.stage = map.createLayer('stage' + stageNum);
+
+    // set collision by excluding only indexes of zero or -1
+    map.setCollisionByExclusion([0, -1]);
+	
+	stage.cameraOffset.set(0,0);
+
+    return stage;
+
+};
+
 // create the tilemap
 var createMap = function (game, worldNum) {
 
@@ -11,20 +27,6 @@ var createMap = function (game, worldNum) {
     map.addTilesetImage('blocks', 'image-blocks');
 
     return map;
-
-};
-
-// load a stage from the current map
-createStage = function (game, stageNum) {
-
-    var map = game.data.map;
-
-    var stage = game.data.stage = map.createLayer('stage' + stageNum);
-
-    // set collision by excluding only indexes of zero or -1
-    map.setCollisionByExclusion([0, -1]);
-
-    return stage;
 
 };
 
@@ -95,13 +97,14 @@ game.state.add('boot', {
         layer = game.data.stage,
         cursors = game.data.cursors;
 
+        // check for collision
         game.physics.arcade.collide(guy, layer);
 
         guy.body.velocity.x = 0;
 
         if (cursors.up.isDown) {
             if (guy.body.onFloor()) {
-                guy.body.velocity.y = -200;
+                guy.body.velocity.y = -150;
             }
         }
 
