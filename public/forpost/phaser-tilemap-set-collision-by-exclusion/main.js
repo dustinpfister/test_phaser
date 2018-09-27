@@ -104,7 +104,7 @@ game.state.add('boot', {
 
         if (cursors.up.isDown) {
             if (guy.body.onFloor()) {
-                guy.body.velocity.y = -150;
+                guy.body.velocity.y = -125;
             }
         }
 
