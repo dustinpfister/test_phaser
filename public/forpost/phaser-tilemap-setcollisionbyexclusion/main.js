@@ -1,6 +1,6 @@
 // load json and images
 var loadWorldData = function (game) {
-    game.load.tilemap('map-world1', '/demos/tilemap-scroll/world2.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('map-world1', '/forpost/phaser-tilemap-setcollisionbyexclusion/world.json', null, Phaser.Tilemap.TILED_JSON);
 };
 
 // load a give world number
@@ -24,9 +24,9 @@ loadStage = function (game, stageNum) {
     var map = game.data.map;
 
     var stage = game.data.stage = map.createLayer('stage' + stageNum);
-    //stage.fixedToCamera = false;
-    //stage.x = 10;
-    //stage.y = game.world.height - (stage.layer.heightInPixels) - 10;
+
+    // set collision by excluding only indexes of zero or -1
+    map.setCollisionByExclusion([0,-1]);
 
     return stage;
 
@@ -40,6 +40,8 @@ var displayMapProperties = function (game, textObj) {
     textObj.text = 'world: ' + props.world + '\/' + props.stages
 
 };
+
+var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
 
@@ -55,16 +57,10 @@ game.state.add('boot', {
     create: function () {
 
         game.world.resize(640, 480);
-        //game.world.setBounds(0, 0, 640, 480);
 
         // load World one
         var map = loadWorld(game, 1);
         var stage = loadStage(game, 1);
-
-        map.setCollisionByExclusion([0]);
-
-        //stage.debug = true;
-        //stage.fixedToCamera = true;
 
         var guy = game.data.guy = game.add.sprite(0, 0, 'sheet-guy');
 
@@ -77,17 +73,14 @@ game.state.add('boot', {
         guy.body.gravity.set(0, 100);
         guy.body.bounce.set(0.25);
         guy.body.linearDamping = 1;
-        guy.x = 64;
-        guy.y = 32;
 
+        // guy start location
+        var startAt = map.layer.properties.startat;
+        guy.x = startAt.x * 32;
+        guy.y = startAt.y * 32;
+
+        // have camera follow the guy
         game.camera.follow(guy);
-
-        // text display object
-        game.data.disp = game.add.text(10, 10, '', {
-                fill: 'white',
-                font: '15px courier'
-            });
-        displayMapProperties(game, game.data.disp);
 
         game.data.cursors = game.input.keyboard.createCursorKeys();
 
@@ -105,15 +98,13 @@ game.state.add('boot', {
 
         if (cursors.up.isDown) {
             if (p.body.onFloor()) {
-                p.body.velocity.y = -125;
+                p.body.velocity.y = -200;
             }
         }
 
         if (cursors.left.isDown) {
             p.body.velocity.x = -150;
-        }
-
-        if (cursors.right.isDown) {
+        } else if (cursors.right.isDown) {
             p.body.velocity.x = 150;
         }
 
