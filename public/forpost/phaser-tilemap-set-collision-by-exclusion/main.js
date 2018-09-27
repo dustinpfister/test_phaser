@@ -68,7 +68,7 @@ game.state.add('boot', {
         game.load.spritesheet('sheet-guy', '/img/sheet_guy_16_32.png', 16, 32, 1);
 
         // load json
-        game.load.tilemap('map-world1', '/forpost/phaser-tilemap-set-collision-by-exclusion/world.json', null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap('map-world1', '/json/littleguy-world2.json', null, Phaser.Tilemap.TILED_JSON);
 
     },
 
