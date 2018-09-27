@@ -28,12 +28,29 @@ createStage = function (game, stageNum) {
 
 };
 
-// display the properties of a map
-var displayMapProperties = function (game, textObj) {
+// create the guy sprite
+var createGuy = function (game) {
 
-    var props = game.data.map.properties;
+    var map = game.data.map;
 
-    textObj.text = 'world: ' + props.world + '\/' + props.stages
+    // create guy Sprite
+    var guy = game.data.guy = game.add.sprite(0, 0, 'sheet-guy');
+
+    // enable physics for the guy
+    game.physics.enable([guy]);
+
+    // guy physics settings
+    guy.body.gravity.set(0, 100);
+    guy.body.bounce.set(0.25);
+    guy.body.linearDamping = 1;
+
+    // guy start location
+    var startAt = map.layer.properties.startat;
+    guy.x = startAt.x * 32;
+    guy.y = startAt.y * 32;
+
+    // have camera follow the guy
+    game.camera.follow(guy);
 
 };
 
@@ -41,6 +58,7 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
 
+    // load assets
     preload: function () {
 
         // load images
@@ -52,58 +70,45 @@ game.state.add('boot', {
 
     },
 
+    // create the world
     create: function () {
 
         game.world.resize(640, 480);
 
-        // load World one
+        // create map, and map layer
         var map = createMap(game, 1);
         var stage = createStage(game, 1);
 
-        var guy = game.data.guy = game.add.sprite(0, 0, 'sheet-guy');
-
-        // will be using physics
+        // I will be using physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        game.physics.enable([guy]);
-
-        // guy physics settings
-        guy.body.gravity.set(0, 100);
-        guy.body.bounce.set(0.25);
-        guy.body.linearDamping = 1;
-
-        // guy start location
-        var startAt = map.layer.properties.startat;
-        guy.x = startAt.x * 32;
-        guy.y = startAt.y * 32;
-
-        // have camera follow the guy
-        game.camera.follow(guy);
+        createGuy(game);
 
         game.data.cursors = game.input.keyboard.createCursorKeys();
 
     },
 
+    // update
     update: function () {
 
-        var p = game.data.guy,
+        var guy = game.data.guy,
         layer = game.data.stage,
         cursors = game.data.cursors;
 
-        game.physics.arcade.collide(p, layer);
+        game.physics.arcade.collide(guy, layer);
 
-        p.body.velocity.x = 0;
+        guy.body.velocity.x = 0;
 
         if (cursors.up.isDown) {
-            if (p.body.onFloor()) {
-                p.body.velocity.y = -200;
+            if (guy.body.onFloor()) {
+                guy.body.velocity.y = -200;
             }
         }
 
         if (cursors.left.isDown) {
-            p.body.velocity.x = -150;
+            guy.body.velocity.x = -150;
         } else if (cursors.right.isDown) {
-            p.body.velocity.x = 150;
+            guy.body.velocity.x = 150;
         }
 
     }
