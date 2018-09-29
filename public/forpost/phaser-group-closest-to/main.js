@@ -26,29 +26,32 @@ var mkSheet = function (game) {
 
 };
 
+var createEnemies = function (game) {
+
+    var enemies = game.data.enemies = game.add.group();
+    var i = 0,
+    enemy,
+    len = 15;
+    while (i < len) {
+        enemies.create(0, 0, 'sheet-blocks', 1);
+        i += 1;
+    }
+
+    enemies.scatter(new Phaser.Rectangle(0, 0, game.world.width - 32, game.world.height - 32));
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
 
     create: function () {
 
-        mkSheet(game);
-
         game.data = game.data || {};
 
-        var enemies = game.data.enemies = game.add.group();
-        var i = 0,
-        enemy,
-        len = 15;
-        while (i < len) {
+        mkSheet(game);
 
-            enemies.create(0, 0, 'sheet-blocks', 1);
-
-            i += 1;
-
-        }
-
-        enemies.scatter(new Phaser.Rectangle(0, 0, game.world.width - 32, game.world.height - 32));
+        createEnemies(game);
 
         var player = game.data.player = game.add.sprite(0, 0, 'sheet-blocks', 0);
 
