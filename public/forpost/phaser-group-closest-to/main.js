@@ -41,6 +41,12 @@ var createEnemies = function (game) {
 
 };
 
+var createPlayer = function () {
+
+    var player = game.data.player = game.add.sprite(0, 0, 'sheet-blocks', 0);
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
@@ -53,7 +59,7 @@ game.state.add('boot', {
 
         createEnemies(game);
 
-        var player = game.data.player = game.add.sprite(0, 0, 'sheet-blocks', 0);
+        createPlayer(game);
 
     },
 
