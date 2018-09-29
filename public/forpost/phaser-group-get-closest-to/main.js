@@ -10,6 +10,7 @@ var showClosest = function (game) {
 
 };
 
+// make a sprite sheet
 var mkSheet = function (game) {
 
     // basic block sprite sheet, made with canvas
@@ -37,6 +38,7 @@ var mkSheet = function (game) {
 
 };
 
+// create a group of enemies
 var createEnemies = function (game) {
 
     var enemies = game.data.enemies = game.add.group();
@@ -52,6 +54,7 @@ var createEnemies = function (game) {
 
 };
 
+// create a player sprite
 var createPlayer = function () {
 
     var player = game.data.player = game.add.sprite(0, 0, 'sheet-blocks', 0);
