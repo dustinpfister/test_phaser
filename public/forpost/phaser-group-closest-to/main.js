@@ -1,4 +1,15 @@
 
+// show the closest enemy in the enemies group
+var showClosest = function (game) {
+
+    var enemies = game.data.enemies,
+    closest = enemies.getClosestTo(game.data.player);
+
+    // set to selected frame
+    closest.frame = 2;
+
+};
+
 var mkSheet = function (game) {
 
     // basic block sprite sheet, made with canvas
@@ -44,6 +55,8 @@ var createEnemies = function (game) {
 var createPlayer = function () {
 
     var player = game.data.player = game.add.sprite(0, 0, 'sheet-blocks', 0);
+    player.x = game.world.centerX - 16;
+    player.y = game.world.centerY - 16;
 
 };
 
@@ -61,9 +74,9 @@ game.state.add('boot', {
 
         createPlayer(game);
 
-    },
+        showClosest(game);
 
-    update: function () {}
+    }
 
 });
 
