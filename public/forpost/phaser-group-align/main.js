@@ -15,25 +15,18 @@ game.state.add('boot', {
 
         // add text elements
         while (i < len) {
-
             text = game.add.text(0, 0, i, font);
-
             group.add(text);
-
             i += 1;
-
         }
 
+        // using group.align to align the text objects
         group.align(5, 5, 40, 40, Phaser.TOP_LEFT, 0);
-
-        console.log(group.width);
 
         group.x = game.world.centerX - group.width / 2;
         group.y = game.world.centerY - group.height / 2;
 
-    },
-
-    update: function () {}
+    }
 
 });
 
