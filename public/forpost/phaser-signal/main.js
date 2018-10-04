@@ -34,13 +34,29 @@ var onPlayerOutBounds = function (game) {
         if (player.health <= 0) {
 
             player.health = 0;
+
+            // call Signal.dispatch to fire the event
             game.data.onGameOver.dispatch(player);
 
         }
 
     });
 
-}
+};
+
+// make the player sprite
+var mkPlayerSprite = function (game) {
+
+    var player = game.data.player = game.add.sprite(0, 0, 'sheet-block', 0);
+
+    player.health = 100;
+
+    game.data.disp.text = 'health: ' + player.health;
+
+    game.physics.enable(player);
+    player.body.gravity.set(0, 100);
+
+};
 
 // make a sprite sheet
 var mkSheet = function (game) {
@@ -65,33 +81,31 @@ game.state.add('game', {
 
     create: function () {
 
+        // game data object to store game variables
         game.data = {};
 
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-
-        mkSheet(game);
-
+        // text display object
         var disp = game.data.disp = game.add.text(10, 10, '', {
                 fill: 'white',
                 font: '15px courier'
             });
 
+        // will be using physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        // make a sprite sheet
+        mkSheet(game);
+
+        // create on game over signal
         createOnGameOver(game);
 
-        var player = game.data.player = game.add.sprite(0, 0, 'sheet-block', 0);
+        // make player sprite
+        mkPlayerSprite(game);
 
-        player.health = 100;
-
-        disp.text = 'health: ' + player.health;
-
-        game.physics.enable(player);
-        player.body.gravity.set(0, 100);
-
+        // on player out of bounds
         onPlayerOutBounds(game);
 
-    },
-
-    update: function () {}
+    }
 
 });
 
