@@ -15,21 +15,41 @@ var mkSheet = function (game) {
 
 };
 
+var createOnGameOver = function (game) {
+
+    var onGameOver = game.data.onGameOver = new Phaser.Signal();
+
+    onGameOver.add(function () {
+
+        // display game over
+        game.data.disp.text = 'Game Over';
+
+        console.log('game over');
+
+    });
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('game', {
 
     create: function () {
 
-        mkSheet(game);
+        game.data = {};
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        var player = game.add.sprite(0, 0, 'sheet-block', 0);
-        var disp = game.add.text(10, 10, '', {
+        mkSheet(game);
+
+        var disp = game.data.disp = game.add.text(10, 10, '', {
                 fill: 'white',
                 font: '15px courier'
             });
+
+        createOnGameOver(game);
+
+        var player = game.add.sprite(0, 0, 'sheet-block', 0);
 
         player.health = 100;
 
@@ -37,17 +57,6 @@ game.state.add('game', {
 
         game.physics.enable(player);
         player.body.gravity.set(0, 100);
-
-        var onGameOver = new Phaser.Signal();
-
-        onGameOver.add(function () {
-
-            // display game over
-            disp.text = 'Game Over';
-
-            console.log('game over');
-
-        });
 
         // out of bounds signal
         player.checkWorldBounds = true;
@@ -63,7 +72,7 @@ game.state.add('game', {
             if (player.health <= 0) {
 
                 player.health = 0;
-                onGameOver.dispatch(player);
+                game.data.onGameOver.dispatch(player);
 
             }
 
