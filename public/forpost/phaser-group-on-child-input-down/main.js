@@ -3,7 +3,8 @@ var onBlockInputDown = function (block) {
 
     block.damage(1);
 
-    block.frame = 4 - Math.floor(block.health / 4 * 4);
+    block.frame = 5 - Math.floor(block.health / 5 * 5);
+    block.frame %= 5;
 
 };
 
