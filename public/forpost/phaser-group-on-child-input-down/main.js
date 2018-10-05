@@ -9,15 +9,33 @@ var onBlockInputDown = function (block) {
 
 var createGroup = function (game) {
 
-    var group = game.add.group();
+    var group = game.add.group(),
+    block,
+    i,
+    count = 25;
 
-    var block = group.create(0, 0, 'sheet-block', 0);
-    block.inputEnabled = true;
-    block.health = 5;
+    i = 0;
+    while (i < count) {
+        // create children
+        block = group.create(0, 0, 'sheet-block', 0);
 
+        // make sure input is enabled
+        block.inputEnabled = true;
+        block.health = 5;
+
+        i += 1;
+
+    }
+
+    group.align(5, 5, 34, 34);
+    group.x = 32;
+    group.y = 32;
+
+    // attach the OnBlcokInputDown handler for the group
+    // with onChildInputDown
     group.onChildInputDown.add(onBlockInputDown);
 
-}
+};
 
 // make a sprite sheet
 var mkSheet = function (game) {
