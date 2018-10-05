@@ -11,22 +11,19 @@ var createGroup = function (game) {
 
     var group = game.add.group(),
     block,
-    i,
+    i = 0,
     count = 25;
 
-    i = 0;
+    // create children
     while (i < count) {
-        // create children
         block = group.create(0, 0, 'sheet-block', 0);
-
         // make sure input is enabled
         block.inputEnabled = true;
         block.health = 5;
-
         i += 1;
-
     }
 
+    // align children, and move the group
     group.align(5, 5, 34, 34);
     group.x = 32;
     group.y = 32;
