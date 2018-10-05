@@ -1,4 +1,5 @@
 
+// the onBlockInputDown handler
 var onBlockInputDown = function (block) {
 
     block.damage(1);
@@ -8,6 +9,7 @@ var onBlockInputDown = function (block) {
 
 };
 
+// create the group
 var createGroup = function (game) {
 
     var group = game.add.group(),
