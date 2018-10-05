@@ -7,6 +7,11 @@ var onBlockInputDown = function (block) {
     block.frame = 5 - Math.floor(block.health / 5 * 5);
     block.frame %= 5;
 
+    // reset the group if they are all dead
+    if (block.parent.countLiving() === 0) {
+        resetGroup(block.parent);
+    }
+
 };
 
 // create the group
@@ -20,20 +25,31 @@ var createGroup = function (game) {
     // create children
     while (i < count) {
         block = group.create(0, 0, 'sheet-block', 0);
-        // make sure input is enabled
-        block.inputEnabled = true;
-        block.health = 5;
         i += 1;
     }
+
+    resetGroup(group);
+
+    // attach the OnBlcokInputDown handler for the group
+    // with onChildInputDown
+    group.onChildInputDown.add(onBlockInputDown);
+
+};
+
+var resetGroup = function (group) {
+
+    group.forEach(function (block) {
+
+        // make sure input is enabled
+        block.inputEnabled = true;
+        block.revive(5);
+
+    });
 
     // align children, and move the group
     group.align(5, 5, 34, 34);
     group.x = 32;
     group.y = 32;
-
-    // attach the OnBlcokInputDown handler for the group
-    // with onChildInputDown
-    group.onChildInputDown.add(onBlockInputDown);
 
 };
 
