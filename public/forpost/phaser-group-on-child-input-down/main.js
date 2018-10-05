@@ -1,4 +1,24 @@
 
+var onBlockInputDown = function (block) {
+
+    block.damage(1);
+
+    block.frame = 4 - Math.floor(block.health / 4 * 4);
+
+};
+
+var createGroup = function (game) {
+
+    var group = game.add.group();
+
+    var block = group.create(0, 0, 'sheet-block', 0);
+    block.inputEnabled = true;
+    block.health = 5;
+
+    group.onChildInputDown.add(onBlockInputDown);
+
+}
+
 // make a sprite sheet
 var mkSheet = function (game) {
 
@@ -37,19 +57,7 @@ game.state.add('demo', {
 
         mkSheet(game);
 
-        var group = game.add.group();
-
-        var block = group.create(0, 0, 'sheet-block', 0);
-        block.inputEnabled = true;
-        block.health = 5;
-
-        group.onChildInputDown.add(function (block) {
-
-            block.damage(1);
-
-            block.frame = 4 - Math.floor(block.health / 4 * 4);
-
-        });
+        createGroup(game);
 
     }
 
