@@ -23,9 +23,9 @@ createGridCanvas = function (opt) {
     canvas.width = opt.pxWidth;
     canvas.height = opt.pxHeight;
 
-    ctx.strokeStyle = '#ff0000';
-    ctx.fillStyle = '#8a0000';
-    ctx.lineWidth = 3;
+    ctx.strokeStyle = opt.strokeStyle || '#ff0000';
+    ctx.fillStyle = opt.fillStyle || '#8a0000';
+    ctx.lineWidth = opt.lineWidth || 3;
 
     var y = 0,
     x,
@@ -57,7 +57,11 @@ game.state.add('boot', {
 
     create: function () {
 
-        createGridCanvas();
+        createGridCanvas({
+
+            strokeStyle: '#00ff00'
+
+        });
 
         game.add.sprite(0, 0, 'grid');
 
