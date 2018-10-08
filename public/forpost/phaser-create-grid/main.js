@@ -20,6 +20,8 @@ createGridCanvas = function (opt) {
     var canvas = document.createElement('canvas'),
     ctx = canvas.getContext('2d');
 
+    ctx.strokeStyle = '#ff0000';
+
     var y = 0,
     x,
     w = opt.pxWidth / opt.cellWidth,
