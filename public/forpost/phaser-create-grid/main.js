@@ -17,11 +17,13 @@ createGridCanvas = function (opt) {
     opt.cellWidth = opt.cellWidth || 32;
     opt.cellHeight = opt.cellHeight || 24;
 
+    var canvas = document.createElement('canvas'),
+    ctx = canvas.getContext('2d');
+
     var y = 0,
     x,
     w = opt.pxWidth / opt.cellWidth,
     h = opt.pxHeight / opt.cellHeight;
-
     while (y < opt.cellHeight) {
 
         x = 0;
@@ -37,6 +39,10 @@ createGridCanvas = function (opt) {
 
     }
 
+    //game.cache.addSpriteSheet(opt.key, null, canvas, opt.pxWidth, opt.pxHeight, 1, 0, 0);
+
+    game.cache.addImage(opt.key, null, canvas);
+
 };
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
@@ -45,17 +51,19 @@ game.state.add('boot', {
 
     create: function () {
 
-	/*
+        createGridCanvas();
+
+        game.add.sprite(0, 0, 'grid');
+
+        /*
         createGrid(game, function (texture) {
 
-            game.add.sprite(0, 0, texture);
+        game.add.sprite(0, 0, texture);
 
         });
 
-		*/
-		
-		
-		
+         */
+
     }
 
 });
