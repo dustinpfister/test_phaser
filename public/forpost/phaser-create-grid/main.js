@@ -20,7 +20,12 @@ createGridCanvas = function (opt) {
     var canvas = document.createElement('canvas'),
     ctx = canvas.getContext('2d');
 
+    canvas.width = opt.pxWidth;
+    canvas.height = opt.pxHeight;
+
     ctx.strokeStyle = '#ff0000';
+    ctx.fillStyle = '#8a0000';
+    ctx.lineWidth = 3;
 
     var y = 0,
     x,
@@ -31,7 +36,8 @@ createGridCanvas = function (opt) {
         x = 0;
         while (x < opt.cellWidth) {
 
-            ctx.strokeRect(x, y, w, h);
+            ctx.fillRect(x * w, y * h, w, h);
+            ctx.strokeRect(x * w, y * h, w, h);
 
             x += 1;
 
@@ -40,8 +46,6 @@ createGridCanvas = function (opt) {
         y += 1;
 
     }
-
-    //game.cache.addSpriteSheet(opt.key, null, canvas, opt.pxWidth, opt.pxHeight, 1, 0, 0);
 
     game.cache.addImage(opt.key, null, canvas);
 
