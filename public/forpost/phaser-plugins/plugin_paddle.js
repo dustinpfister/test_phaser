@@ -27,19 +27,9 @@ var Plugin_paddle = function (game, opt) {
 
     };
 
-    // call once
-    plug.init = function (opt) {
+    // create sheet helper
+    var createSheet = function (game) {
 
-        // create or append game.data
-        game.data = game.data || {};
-        game.data.paddle = {};
-        game.data.ball = game.data.ball || null;
-
-        // start Arcade physics, should be the case by default but making sure
-        // this will also reset, but not re create Arcade physics
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-
-        // PADDLE SPRITE SHEET
         var canvas = document.createElement('canvas'),
         ctx = canvas.getContext('2d');
         canvas.width = 96;
@@ -47,6 +37,23 @@ var Plugin_paddle = function (game, opt) {
         ctx.fillStyle = 'blue';
         ctx.fillRect(0, 0, 96, 16);
         game.cache.addSpriteSheet('sheet-paddle', null, canvas, 96, 16, 1, 0, 0);
+
+    };
+
+    // call once
+    plug.init = function (opt) {
+
+        // create or append game.data
+        game.data = game.data || {};
+        game.data.paddle = {};
+        //game.data.ball = game.data.ball || null;
+
+        // start Arcade physics, should be the case by default but making sure
+        // this will also reset, but not re create Arcade physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        // PADDLE SPRITE SHEET
+        createSheet(game);
 
         // PADDLE SPRITE
         var x = game.world.width / 2,
