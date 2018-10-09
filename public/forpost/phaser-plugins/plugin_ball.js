@@ -3,16 +3,7 @@ var Plugin_ball = function (game, opt) {
 
     var plug = new Phaser.Plugin(game, game.plugins);
 
-    // call once
-    plug.init = function (opt) {
-
-        // create or append game.data
-        game.data = game.data || {};
-        game.data.ball = {};
-
-        // start Arcade physics, should be the case by default but making sure
-        // this will also reset, but not re create Arcade physics
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+    var createBallSheet = function (game) {
 
         // Ball SPRITE SHEET
         var canvas = document.createElement('canvas'),
@@ -23,6 +14,20 @@ var Plugin_ball = function (game, opt) {
         ctx.fillRect(0, 0, 16, 16);
         game.cache.addSpriteSheet('sheet-ball', null, canvas, 16, 16, 1, 0, 0);
 
+    };
+
+    // call once
+    plug.init = function (opt) {
+
+        // create or append game.data
+        game.data = game.data || {};
+        game.data.ball = {};
+
+        // start or reset Arcade physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        createBallSheet(game);
+
         // BALL SPRITE
         var x = game.world.width / 2,
         y = 32,
@@ -30,19 +35,10 @@ var Plugin_ball = function (game, opt) {
         ball.anchor.set(0.5, 0.5);
         // physics
         game.physics.enable(ball);
-        //ball.body.immovable = true;
         ball.body.collideWorldBounds = true;
         ball.checkWorldBounds = true;
-        //ball.body.drag.set(0, 0);
         ball.body.velocity.set(100, 50);
         ball.body.bounce.set(1);
-
-    };
-
-    // on each tick
-    plug.update = function () {
-
-        var ball = game.data.ball.sprite;
 
     };
 

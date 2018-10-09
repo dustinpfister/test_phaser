@@ -67,7 +67,7 @@ var Plugin_paddle = function (game, opt) {
         game.data.paddle = {};
 
         // start Arcade physics, should be the case by default but making sure
-        // this will also reset, but not re create Arcade physics
+        // this will also reset, but not re-create Arcade physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         // PADDLE SPRITE SHEET
