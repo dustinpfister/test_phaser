@@ -29,10 +29,12 @@ var Plugin_ball = function (game, opt) {
         ball = game.data.ball.sprite = game.add.sprite(x, y, 'sheet-ball');
         ball.anchor.set(0.5, 0.5);
         // physics
-        game.physics.enable(paddle);
+        game.physics.enable(ball);
         //ball.body.immovable = true;
         ball.body.collideWorldBounds = true;
         //ball.body.drag.set(0, 0);
+        ball.body.velocity.set(100, 50);
+        ball.body.bounce.set(1);
 
     };
 
@@ -40,7 +42,6 @@ var Plugin_ball = function (game, opt) {
     plug.update = function () {
 
         var ball = game.data.ball.sprite;
-
 
     };
 

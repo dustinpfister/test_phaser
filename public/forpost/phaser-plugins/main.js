@@ -5,9 +5,8 @@ game.state.add('demo', {
 
     create: function () {
 
-        Plugin_paddle(game, {
-            foo: 'bar'
-        });
+        Plugin_paddle(game, {});
+        Plugin_ball(game, {});
 
     }
 
