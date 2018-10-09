@@ -10,6 +10,12 @@ var myPlugin = function (game, opt) {
 
     };
 
+    plugin.update = function () {
+
+        console.log('tick');
+
+    };
+
     game.plugins.add(plugin, opt);
 
 };
