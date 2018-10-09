@@ -1,5 +1,5 @@
 
-var myPlugin = function (game, opt) {
+var myFirstPlugin = function (game, opt) {
 
     var plugin = new Phaser.Plugin(game, game.plugins);
 
@@ -26,21 +26,11 @@ game.state.add('demo', {
 
     create: function () {
 
-        myPlugin(game, {
+        myFirstPlugin(game, {
             foo: 'bar'
         });
 
-        /*
-        game.plugins.add(myPlugin, {
-        foo: 'bar'
-        });
-
-         */
-
-    },
-
-    // update loop
-    update: function () {}
+    }
 
 });
 
