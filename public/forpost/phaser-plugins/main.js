@@ -1,22 +1,37 @@
 
-var myFirstPlugin = function (game, opt) {
+var Plugin_paddle = function (game, opt) {
 
-    var plugin = new Phaser.Plugin(game, game.plugins);
+    var plug = new Phaser.Plugin(game, game.plugins);
 
-    plugin.init = function (opt) {
+    plug.init = function (opt) {
 
-        console.log('hello I am a plugin');
-        console.log(opt.foo); // 'bar'
+        // create or append game.data
+        game.data = game.data || {};
+        game.data.paddle = {};
+
+        // start Arcade physics, should be the case by default but making sure
+        // this will also reset, but not re create Arcade physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        // Paddle Sheet
+        var canvas = document.createElement('canvas'),
+        ctx = canvas.getContext('2d');
+        canvas.width = 96;
+        canvas.height = 16;
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(0, 0, 96, 16);
+        game.cache.addSpriteSheet('sheet-paddle', null, canvas, 96, 16, 1, 0, 0);
+
+        var paddle = game.data.paddle.sprite = game.add.sprite(32, 160, 'sheet-paddle');
+
+        game.physics.enable(paddle);
 
     };
 
-    plugin.update = function () {
+    plug.update = function () {};
 
-        console.log('tick');
-
-    };
-
-    game.plugins.add(plugin, opt);
+    // add the plugin to the game
+    game.plugins.add(plug, opt);
 
 };
 
@@ -26,7 +41,7 @@ game.state.add('demo', {
 
     create: function () {
 
-        myFirstPlugin(game, {
+        Plugin_paddle(game, {
             foo: 'bar'
         });
 
