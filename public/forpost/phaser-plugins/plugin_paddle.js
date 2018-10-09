@@ -3,25 +3,26 @@ var Plugin_paddle = function (game, opt) {
 
     var plug = new Phaser.Plugin(game, game.plugins);
 
+    // What to do when something collides with the paddle
     var onPaddleCollide = function (paddle, ball) {
 
         var max = paddle.width / 2 + ball.width / 2,
         fromCenter = Math.abs(ball.x - paddle.x),
-        dir = ball.x - paddle.x < 0 ? 1 : -1;
+        dir = ball.x - paddle.x < 0 ? 1 : -1,
         per = fromCenter / max,
         x = 0,
         y = 0,
-        aUp = -Math.PI / 2,
-        a = aUp;
+        a = 0;
 
         // clamp per
         per = Phaser.Math.clamp(per, 0, 1);
 
-        a = aUp - Math.PI / 180 * 45 * per * dir
+        // set angle
+        a = -Math.PI / 2 - Math.PI / 180 * 45 * per * dir;
 
-            x = Math.floor(Math.cos(a) * 200);
+        // set velocity
+        x = Math.floor(Math.cos(a) * 200);
         y = Math.floor(Math.sin(a) * 200);
-
         ball.body.velocity.set(x, y);
 
     };
