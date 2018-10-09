@@ -28,7 +28,7 @@ var Plugin_paddle = function (game, opt) {
     };
 
     // create sheet helper
-    var createSheet = function (game) {
+    var createPaddleSheet = function (game) {
 
         var canvas = document.createElement('canvas'),
         ctx = canvas.getContext('2d');
@@ -40,22 +40,9 @@ var Plugin_paddle = function (game, opt) {
 
     };
 
-    // call once
-    plug.init = function (opt) {
+    // create sprite helper
+    var createPaddleSprite = function (game) {
 
-        // create or append game.data
-        game.data = game.data || {};
-        game.data.paddle = {};
-        //game.data.ball = game.data.ball || null;
-
-        // start Arcade physics, should be the case by default but making sure
-        // this will also reset, but not re create Arcade physics
-        game.physics.startSystem(Phaser.Physics.ARCADE);
-
-        // PADDLE SPRITE SHEET
-        createSheet(game);
-
-        // PADDLE SPRITE
         var x = game.world.width / 2,
         y = game.world.height - 32,
         paddle = game.data.paddle.sprite = game.add.sprite(x, y, 'sheet-paddle');
@@ -65,11 +52,29 @@ var Plugin_paddle = function (game, opt) {
         paddle.body.immovable = true;
         paddle.body.collideWorldBounds = true;
         paddle.body.drag.set(180, 0);
-
         paddle.body.collideWorldBounds = true;
-
+        // collision
         paddle.body.onCollide = new Phaser.Signal();
         paddle.body.onCollide.add(onPaddleCollide);
+
+    };
+
+    // called once to set things up
+    plug.init = function (opt) {
+
+        // create or append game.data
+        game.data = game.data || {};
+        game.data.paddle = {};
+
+        // start Arcade physics, should be the case by default but making sure
+        // this will also reset, but not re create Arcade physics
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        // PADDLE SPRITE SHEET
+        createPaddleSheet(game);
+
+        // PADDLE SPRITE
+        createPaddleSprite(game);
 
     };
 
@@ -81,10 +86,9 @@ var Plugin_paddle = function (game, opt) {
         paddle = game.data.paddle.sprite,
         ball = game.data.ball;
 
+        // if there is a ball, check for collision
         if (ball) {
-
             game.physics.arcade.collide(ball.sprite, paddle);
-
         }
 
         // set velocity based on keyboard
