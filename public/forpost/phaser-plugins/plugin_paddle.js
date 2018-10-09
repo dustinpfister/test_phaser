@@ -29,7 +29,6 @@ var Plugin_paddle = function (game, opt) {
 
     // create sheet helper
     var createPaddleSheet = function (game) {
-
         var canvas = document.createElement('canvas'),
         ctx = canvas.getContext('2d');
         canvas.width = 96;
@@ -37,7 +36,6 @@ var Plugin_paddle = function (game, opt) {
         ctx.fillStyle = 'blue';
         ctx.fillRect(0, 0, 96, 16);
         game.cache.addSpriteSheet('sheet-paddle', null, canvas, 96, 16, 1, 0, 0);
-
     };
 
     // create sprite helper
