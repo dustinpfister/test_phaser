@@ -3,6 +3,29 @@ var Plugin_paddle = function (game, opt) {
 
     var plug = new Phaser.Plugin(game, game.plugins);
 
+    var onPaddleCollide = function (paddle, ball) {
+
+        var max = paddle.width / 2 + ball.width / 2,
+        fromCenter = Math.abs(ball.x - paddle.x),
+        dir = ball.x - paddle.x < 0 ? 1 : -1;
+        per = fromCenter / max,
+        x = 0,
+        y = 0,
+        aUp = -Math.PI / 2,
+        a = aUp;
+
+        // clamp per
+        per = Phaser.Math.clamp(per, 0, 1);
+
+        a = aUp - Math.PI / 180 * 45 * per * dir
+
+            x = Math.floor(Math.cos(a) * 200);
+        y = Math.floor(Math.sin(a) * 200);
+
+        ball.body.velocity.set(x, y);
+
+    };
+
     // call once
     plug.init = function (opt) {
 
@@ -38,28 +61,7 @@ var Plugin_paddle = function (game, opt) {
         paddle.body.collideWorldBounds = true;
 
         paddle.body.onCollide = new Phaser.Signal();
-        paddle.body.onCollide.add(function (paddle,ball) {
-
-            var max = paddle.width / 2 + ball.width / 2,
-            fromCenter = Math.abs(ball.x - paddle.x),
-            dir = ball.x - paddle.x < 0 ? 1 : -1;
-            per = fromCenter / max,
-            x = 0,
-            y = 0,
-            aUp = -Math.PI / 2,
-            a = aUp;
-
-            // clamp per
-            per = Phaser.Math.clamp(per, 0, 1);
-
-            a = aUp - Math.PI / 180 * 45 * per * dir
-
-            x = Math.floor(Math.cos(a) * 200);
-            y = Math.floor(Math.sin(a) * 200);
-
-            ball.body.velocity.set(x, y);
-
-        });
+        paddle.body.onCollide.add(onPaddleCollide);
 
     };
 
@@ -84,7 +86,6 @@ var Plugin_paddle = function (game, opt) {
         if (kb.isDown(39)) {
             paddle.body.velocity.set(200, 0);
         }
-
 
     };
 
