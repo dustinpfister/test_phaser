@@ -32,6 +32,7 @@ var Plugin_ball = function (game, opt) {
         game.physics.enable(ball);
         //ball.body.immovable = true;
         ball.body.collideWorldBounds = true;
+        ball.checkWorldBounds = true;
         //ball.body.drag.set(0, 0);
         ball.body.velocity.set(100, 50);
         ball.body.bounce.set(1);
