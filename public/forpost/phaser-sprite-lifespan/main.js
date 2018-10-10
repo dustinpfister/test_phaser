@@ -77,6 +77,18 @@ var alphaEffect = function (game) {
 
 };
 
+var createButton = function (game) {
+
+    var button = game.data.button = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet-ball', 1);
+    button.width = 128;
+    button.height = 128;
+    button.anchor.set(0.5, 0.5);
+    button.inputEnabled = true;
+    button.events.onInputDown.add(lanuchBalls);
+    game.world.moveDown(button);
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('boot', {
@@ -85,14 +97,7 @@ game.state.add('boot', {
 
         createBallSheet(game);
         createBallSpritePool(game);
-
-        var button = game.data.button = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet-ball', 1);
-        button.width = 128;
-        button.height = 128;
-        button.anchor.set(0.5, 0.5);
-        button.inputEnabled = true;
-        button.events.onInputDown.add(lanuchBalls);
-        game.world.moveDown(button);
+        createButton(game);
 
     },
 
