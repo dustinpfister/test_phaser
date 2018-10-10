@@ -1,5 +1,5 @@
 
-var lanuchBalls = function () {
+var launchBalls = function () {
 
     var ballPool = game.data.ballPool,
     button = game.data.button;
@@ -84,7 +84,7 @@ var createButton = function (game) {
     button.height = 128;
     button.anchor.set(0.5, 0.5);
     button.inputEnabled = true;
-    button.events.onInputDown.add(lanuchBalls);
+    button.events.onInputDown.add(launchBalls);
     game.world.moveDown(button);
 
 };
