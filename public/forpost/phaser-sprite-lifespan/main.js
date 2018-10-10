@@ -35,7 +35,7 @@ var createBallSheet = function (game) {
     ctx.arc(8, 8, 6, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = '#ff0000';
+    ctx.fillStyle = '#8f0000';
     ctx.beginPath();
     ctx.closePath();
     ctx.arc(24, 8, 6, 0, Math.PI * 2);
@@ -56,13 +56,26 @@ var lanuchBalls = function () {
         ball.x = button.x;
         ball.y = button.y;
         ball.body.velocity.set(-100 + Math.floor(200 * Math.random()), Math.floor(-50 - 150 * Math.random()));
+        ball.alpha = 1;
 
         // setting lifespan to 500 - 3000ms
         ball.lifespan = 500 + Math.floor(2500 * Math.random());
 
+    });
+
+};
+
+var alphaEffect = function (game) {
+
+    var ballPool = game.data.ballPool;
+
+    ballPool.forEachAlive(function (ball) {
+
+        ball.alpha = ball.lifespan / 3000;
+
     })
 
-}
+};
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
@@ -80,6 +93,12 @@ game.state.add('boot', {
         button.inputEnabled = true;
         button.events.onInputDown.add(lanuchBalls);
         game.world.moveDown(button);
+
+    },
+
+    update: function () {
+
+        alphaEffect(game);
 
     }
 
