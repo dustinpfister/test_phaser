@@ -53,6 +53,12 @@ game.state.add('boot', {
         button.width = 128;
         button.height = 128;
         button.anchor.set(0.5, 0.5);
+        button.inputEnabled = true;
+        button.events.onInputDown.add(function (button) {
+
+            console.log(button);
+
+        });
 
     }
 
