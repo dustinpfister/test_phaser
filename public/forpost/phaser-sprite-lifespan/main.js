@@ -1,4 +1,37 @@
 
+var lanuchBalls = function () {
+
+    var ballPool = game.data.ballPool,
+    button = game.data.button;
+
+    ballPool.forEachDead(function (ball) {
+
+        // revive and set some values
+        ball.revive();
+        ball.x = button.x;
+        ball.y = button.y;
+        ball.body.velocity.set(-100 + Math.floor(200 * Math.random()), Math.floor(-50 - 150 * Math.random()));
+        ball.alpha = 1;
+
+        // setting lifespan to 500 - 3000ms
+        ball.lifespan = 500 + Math.floor(2500 * Math.random());
+
+    });
+
+};
+
+var alphaEffect = function (game) {
+
+    var ballPool = game.data.ballPool;
+
+    ballPool.forEachAlive(function (ball) {
+
+        ball.alpha = ball.lifespan / 3000;
+
+    })
+
+};
+
 var createBallSpritePool = function (game) {
 
     game.data = game.data || {};
@@ -42,39 +75,6 @@ var createBallSheet = function (game) {
     ctx.fill();
 
     game.cache.addSpriteSheet('sheet-ball', null, canvas, 16, 16, 2, 0, 0);
-};
-
-var lanuchBalls = function () {
-
-    var ballPool = game.data.ballPool,
-    button = game.data.button;
-
-    ballPool.forEachDead(function (ball) {
-
-        // revive and set some values
-        ball.revive();
-        ball.x = button.x;
-        ball.y = button.y;
-        ball.body.velocity.set(-100 + Math.floor(200 * Math.random()), Math.floor(-50 - 150 * Math.random()));
-        ball.alpha = 1;
-
-        // setting lifespan to 500 - 3000ms
-        ball.lifespan = 500 + Math.floor(2500 * Math.random());
-
-    });
-
-};
-
-var alphaEffect = function (game) {
-
-    var ballPool = game.data.ballPool;
-
-    ballPool.forEachAlive(function (ball) {
-
-        ball.alpha = ball.lifespan / 3000;
-
-    })
-
 };
 
 var createButton = function (game) {
