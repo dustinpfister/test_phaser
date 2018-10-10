@@ -14,7 +14,7 @@ var createBallSpritePool = function (game) {
         sprite.kill();
 
         game.physics.enable(sprite);
-        sprite.body.gravity.set(0, 100);
+        sprite.body.gravity.set(0, 200);
 
         i += 1;
     }
@@ -51,14 +51,14 @@ var lanuchBalls = function () {
 
     ballPool.forEachDead(function (ball) {
 
+        // revive and set some values
         ball.revive();
         ball.x = button.x;
         ball.y = button.y;
+        ball.body.velocity.set(-100 + Math.floor(200 * Math.random()), Math.floor(-50 - 150 * Math.random()));
 
-        ball.body.velocity.set(50, Math.floor(-50 - 150 * Math.random()));
-
-        // setting lifespan to one second
-        ball.lifespan = 1000;
+        // setting lifespan to 500 - 3000ms
+        ball.lifespan = 500 + Math.floor(2500 * Math.random());
 
     })
 
