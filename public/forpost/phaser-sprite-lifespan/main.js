@@ -7,7 +7,11 @@ var createBallSpritePool = function (game) {
     i = 0,
     len = 10;
     while (i < len) {
-        ballPool.create(0, 0, 'sheet-ball', 0);
+
+        // sprites start out dead, but will be revived
+        var sprite = ballPool.create(0, 0, 'sheet-ball', 0);
+        sprite.kill();
+
         i += 1;
     }
 
