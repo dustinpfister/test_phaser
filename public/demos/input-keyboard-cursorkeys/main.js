@@ -1,4 +1,30 @@
 
+
+var moveSpriteWithCursors = function (game,sprite) {
+
+    var cursors = game.data.cursors;
+
+    if (cursors.up.isDown) {
+        sprite.y -= 10;
+    }
+
+    if (cursors.down.isDown) {
+        sprite.y += 10;
+    }
+
+    if (cursors.left.isDown) {
+        sprite.x -= 10;
+    }
+
+    if (cursors.right.isDown) {
+        sprite.x += 10;
+    }
+
+    sprite.y = Phaser.Math.wrap(sprite.y, -32, game.world.height + 32);
+    sprite.x = Phaser.Math.wrap(sprite.x, -32, game.world.width + 32);
+
+};
+
 var createBallSheet = function (game) {
 
     var canvas = document.createElement('canvas');
@@ -24,7 +50,18 @@ game.state.add('boot', {
 
         createBallSheet(game);
 
-        var sprite = game.add.sprite(0, 0, 'sheet-ball');
+        game.data = {};
+        var sprite = game.data.sprite = game.add.sprite(0, 0, 'sheet-ball');
+
+        game.data.cursors = game.input.keyboard.createCursorKeys();
+
+        console.log(game.data.cursors);
+
+    },
+
+    update: function () {
+
+        moveSpriteWithCursors(game,  game.data.sprite);
 
     }
 
