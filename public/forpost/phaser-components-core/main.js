@@ -13,20 +13,33 @@ var mkSheet = function (game) {
     ctx.fillStyle = '#0000ff';
     ctx.fillRect(0, 0, 32, 32);
 
-    game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 32, 3, 0, 0);
+    game.cache.addSpriteSheet('__default', null, canvas, 32, 32, 0, 0, 0);
 
 };
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-game.state.add('game', {
+game.state.add('components', {
 
     create: function () {
 
         game.data = {};
 
+        // make a simple sheet
+        mkSheet(game);
+
+        var sprite = game.add.sprite(0, 0);
+
+        console.log(game.cache);
+
+        console.log(sprite.components);
+
+        var gfx = game.add.graphics();
+
+        console.log(gfx.components);
+
     }
 
 });
 
-game.state.start('game');
+game.state.start('components');
