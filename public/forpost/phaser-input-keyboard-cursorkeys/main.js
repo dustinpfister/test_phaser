@@ -7,6 +7,7 @@ var moveSpriteWithCursors = function (game, sprite) {
     // create cursors
     if (!game.data.cursors) {
         game.data.cursors = game.input.keyboard.createCursorKeys();
+        console.log(game.data.cursors);
     }
 
     var cursors = game.data.cursors;
