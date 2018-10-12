@@ -28,15 +28,17 @@ game.state.add('components', {
         // make a simple sheet
         mkSheet(game);
 
-        var sprite = game.add.sprite(0, 0);
+        var sprite = game.add.sprite(0, 0),
+        textStyle = {
+            fill: 'white',
+            font: '10px courier'
+        };
 
-        console.log(game.cache);
+        Object.keys(sprite.components).forEach(function (componentName, i) {
 
-        console.log(sprite.components);
+            var text = game.add.text(0, i * 10, componentName, textStyle);
 
-        var gfx = game.add.graphics();
-
-        console.log(gfx.components);
+        });
 
     }
 
