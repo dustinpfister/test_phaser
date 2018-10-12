@@ -60,6 +60,15 @@ game.state.add('exists', {
             sprite.exists = true;
 
             sprite.inputEnabled = true;
+            game.physics.enable(sprite);
+            sprite.body.gravity.set(0, 100);
+            sprite.checkWorldBounds = true;
+            sprite.body.collideWorldBounds = true;
+            sprite.body.bounce.set(1);
+
+            sprite.events.onInputDown.add(function (sprite) {
+                sprite.exists = false;
+            });
 
             group.add(sprite);
 
