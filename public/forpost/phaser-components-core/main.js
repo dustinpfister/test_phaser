@@ -57,7 +57,7 @@ game.state.add('exists', {
         while (i < len) {
 
             var sprite = game.make.sprite(0, 0, 'blocks', 0);
-            sprite.exists = false;
+            sprite.exists = true;
 
             sprite.inputEnabled = true;
 
@@ -66,6 +66,8 @@ game.state.add('exists', {
             i += 1;
 
         }
+
+        group.scatter(new Phaser.Rectangle(0, 0, game.world.width - 32, game.world.height - 32));
 
     }
 });
