@@ -13,12 +13,33 @@ var mkSheet = function (game) {
     ctx.fillStyle = '#0000ff';
     ctx.fillRect(0, 0, 32, 32);
 
-    game.cache.addSpriteSheet('__default', null, canvas, 32, 32, 0, 0, 0);
+    // blue box (player)
+    ctx.fillStyle = '#ff0000';
+    ctx.fillRect(32, 0, 32, 32);
+
+    game.cache.addSpriteSheet('blocks', null, canvas, 32, 32, 2, 0, 0);
 
 };
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+game.state.add('animations', {
+
+    create: function () {
+
+        mkSheet(game);
+
+        var sprite = game.add.sprite(0, 0, 'blocks');
+
+        sprite.animations.add('flash', [0, 1], 8, true);
+
+        sprite.animations.play('flash');
+
+    }
+
+});
+
+// for the components property
 game.state.add('components', {
 
     create: function () {
@@ -44,4 +65,4 @@ game.state.add('components', {
 
 });
 
-game.state.start('components');
+game.state.start('animations');
