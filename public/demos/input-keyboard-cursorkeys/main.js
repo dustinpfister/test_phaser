@@ -1,6 +1,13 @@
 
 
-var moveSpriteWithCursors = function (game,sprite) {
+var moveSpriteWithCursors = function (game, sprite) {
+
+    game.data = game.data || {};
+
+    // create cursors
+    if (!game.data.cursors) {
+        game.data.cursors = game.input.keyboard.createCursorKeys();
+    }
 
     var cursors = game.data.cursors;
 
@@ -48,20 +55,17 @@ game.state.add('boot', {
 
     create: function () {
 
+        game.data = {};
+
         createBallSheet(game);
 
-        game.data = {};
         var sprite = game.data.sprite = game.add.sprite(0, 0, 'sheet-ball');
-
-        game.data.cursors = game.input.keyboard.createCursorKeys();
-
-        console.log(game.data.cursors);
 
     },
 
     update: function () {
 
-        moveSpriteWithCursors(game,  game.data.sprite);
+        moveSpriteWithCursors(game, game.data.sprite);
 
     }
 
