@@ -56,27 +56,41 @@ game.state.add('exists', {
         len = 10;
         while (i < len) {
 
+            // make a sprite, and have sprite.exists = false
             var sprite = game.make.sprite(0, 0, 'blocks', 0);
-            sprite.exists = true;
+            sprite.exists = false;
 
-            sprite.inputEnabled = true;
+            // some physics
             game.physics.enable(sprite);
             sprite.body.gravity.set(0, 100);
             sprite.checkWorldBounds = true;
             sprite.body.collideWorldBounds = true;
             sprite.body.bounce.set(1);
 
+            // input enabled, set exists = false if clicked
+            sprite.inputEnabled = true;
             sprite.events.onInputDown.add(function (sprite) {
                 sprite.exists = false;
             });
 
+            // add to group
             group.add(sprite);
 
             i += 1;
 
         }
 
+        // scatter the group
         group.scatter(new Phaser.Rectangle(0, 0, game.world.width - 32, game.world.height - 32));
+
+        // set a sprite that has exists === false set back to true
+        // every second
+        game.time.events.loop(1000, function () {
+            var sprite = group.getFirst('exists', false);
+            if (sprite) {
+                sprite.exists = true;
+            }
+        });
 
     }
 });
