@@ -26,16 +26,16 @@ game.state.add('properties', {
         sprite.anchor.set(0.5, 0.5);
 
         // x,y,width, and height properties from PIXI.Sprite
-        console.log(sprite.x, sprite.y); // 32 32
-        console.log(sprite.width, sprite.height); // 32 32
+        console.log('pos: ', sprite.x, sprite.y); // 32 32
+        console.log('size: ', sprite.width, sprite.height); // 32 32
 
         // Bound Component properties
         console.log('center pos: ',sprite.centerX, sprite.centerY); // 32 32
         console.log('offset: ', sprite.offsetX, sprite.offsetY); // 16 16
-        console.log(sprite.top); // 16
-        console.log(sprite.bottom); // 46
-        console.log(sprite.left); // 16
-        console.log(sprite.right); // 48
+        console.log('top', sprite.top); // 16
+        console.log('bottom: ', sprite.bottom); // 46
+        console.log('left: ', sprite.left); // 16
+        console.log('right: ', sprite.right); // 48
 
     }
 });
