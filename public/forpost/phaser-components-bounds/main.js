@@ -8,13 +8,16 @@ var mkSheet = function (game) {
     canvas.width = 32;
     canvas.height = 32;
     ctx.fillStyle = '#0000ff';
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 3;
     ctx.fillRect(0, 0, 32, 32);
+    ctx.strokeRect(1, 1, 30, 30);
     game.cache.addSpriteSheet('blocks', null, canvas, 32, 32, 1, 0, 0);
 };
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-// exists
+// properties demo
 game.state.add('properties', {
     create: function () {
 
@@ -22,7 +25,7 @@ game.state.add('properties', {
 
         var sprite = game.make.sprite(32, 32, 'blocks');
 
-        // setting anchor to 0.5 0.5 
+        // setting anchor to 0.5 0.5
         sprite.anchor.set(0.5, 0.5);
 
         // x,y,width, and height properties from PIXI.Sprite
@@ -30,7 +33,7 @@ game.state.add('properties', {
         console.log('size: ', sprite.width, sprite.height); // 32 32
 
         // Bound Component properties
-        console.log('center pos: ',sprite.centerX, sprite.centerY); // 32 32
+        console.log('center pos: ', sprite.centerX, sprite.centerY); // 32 32
         console.log('offset: ', sprite.offsetX, sprite.offsetY); // 16 16
         console.log('top', sprite.top); // 16
         console.log('bottom: ', sprite.bottom); // 46
@@ -40,4 +43,23 @@ game.state.add('properties', {
     }
 });
 
-game.state.start('properties');
+// alignIn method
+game.state.add('alignin', {
+
+    create: function () {
+
+        mkSheet(game);
+
+        var sprite1 = game.add.sprite(32, 32, 'blocks');
+
+        var sprite2 = game.add.sprite(0, 0, 'blocks');
+
+        sprite2.alignIn(sprite1, Phaser.BOTTOM_RIGHT, 16, 16);
+
+        console.log(sprite2.x, sprite2.y); // 48 48
+
+    }
+
+});
+
+game.state.start('alignin');
