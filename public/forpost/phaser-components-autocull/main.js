@@ -25,16 +25,31 @@ var mkSheet = function (game) {
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-game.state.add('demo', {
+game.state.add('incamera', {
 
     create: function () {
 
+        game.data = game.data || {};
+
+        var data = game.data;
+
         mkSheet(game);
 
-        var sprite = game.add.sprite(0, 0, 'sheet', 1);
+        var ship = game.data.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet', 0);
+        ship.anchor.set(0.5, 0.5);
+
+    },
+
+    update: function () {
+
+        var ship = game.data.ship;
+
+        ship.x += 5;
+
+        ship.x = Phaser.Math.wrap(ship.x, -320, 640);
 
     }
 
 });
 
-game.state.start('demo');
+game.state.start('incamera');
