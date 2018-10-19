@@ -4,8 +4,9 @@ var updatePointer = function (game) {
     var ship = game.data.ship,
     pointer = game.data.pointer;
 
-    // default to an invisible pointer
+    // default to an invisible pointer, and a viable ship;
     pointer.visible = false;
+    ship.renderable = true;
 
     // using ship.inCamera to toggle displaying the pointer
     if (!ship.inCamera) {
@@ -14,6 +15,7 @@ var updatePointer = function (game) {
                 y: ship.centerY
             }) / Math.PI * 180;
         pointer.visible = true;
+        ship.renderable = false;
     }
 
 };
@@ -29,13 +31,13 @@ var mkSheet = function (game) {
 
     // red box
     ctx.fillStyle = '#ff0000';
-    ctx.fillRect(0, 0, 32, 32);
+    ctx.fillRect(0, 0, 31, 31);
 
     // triangle
     ctx.beginPath();
-    ctx.moveTo(34, 2);
+    ctx.moveTo(34, 8);
     ctx.lineTo(62, 16);
-    ctx.lineTo(34, 30);
+    ctx.lineTo(34, 24);
     ctx.closePath();
     ctx.fill();
     game.cache.addSpriteSheet('sheet', null, canvas, 32, 32, 2, 0, 0);
