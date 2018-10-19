@@ -14,9 +14,6 @@ var mkSheet = function (game) {
 
     // triangle
     ctx.beginPath();
-    //ctx.moveTo(48, 2);
-    //ctx.lineTo(62, 30);
-    //ctx.lineTo(34, 30);
     ctx.moveTo(34, 2);
     ctx.lineTo(62, 16);
     ctx.lineTo(34, 30);
@@ -40,6 +37,8 @@ game.state.add('incamera', {
 
         var ship = game.data.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet', 0);
         ship.anchor.set(0.5, 0.5);
+        ship.data.dx = 5;
+        ship.data.dy = 2;
 
         var pointer = game.data.pointer = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet', 1);
         pointer.anchor.set(0.5, 0.5);
@@ -54,13 +53,18 @@ game.state.add('incamera', {
 
         pointer.visible = false;
         if (!ship.inCamera) {
-            pointer.angle = new Phaser.Point(pointer.centerX, pointer.centerY).angle(ship) / Math.PI * 180;
+            pointer.angle = new Phaser.Point(pointer.centerX, pointer.centerY).angle({
+                    x: ship.centerX,
+                    y: ship.centerY
+                }) / Math.PI * 180;
             pointer.visible = true;
         }
 
-        ship.x += 5;
+        ship.x += ship.data.dx;
+        ship.y += ship.data.dy;
 
         ship.x = Phaser.Math.wrap(ship.x, -320, 640);
+        ship.y = Phaser.Math.wrap(ship.y, -240, 480);
 
     }
 
