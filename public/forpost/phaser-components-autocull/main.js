@@ -4,7 +4,10 @@ var updatePointer = function (game) {
     var ship = game.data.ship,
     pointer = game.data.pointer;
 
+    // default to an invisible pointer
     pointer.visible = false;
+
+    // using ship.inCamera to toggle displaying the pointer
     if (!ship.inCamera) {
         pointer.angle = new Phaser.Point(pointer.centerX, pointer.centerY).angle({
                 x: ship.centerX,
@@ -51,6 +54,7 @@ game.state.add('incamera', {
 
         mkSheet(game);
 
+        // create the ship, and pointer
         var ship = game.data.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet', 0);
         ship.anchor.set(0.5, 0.5);
         ship.data.dx = 5;
@@ -64,14 +68,14 @@ game.state.add('incamera', {
 
     update: function () {
 
-        var ship = game.data.ship,
-        pointer = game.data.pointer;
+        var ship = game.data.ship;
 
+        // update pointer
         updatePointer(game);
 
+        // update ship
         ship.x += ship.data.dx;
         ship.y += ship.data.dy;
-
         ship.x = Phaser.Math.wrap(ship.x, -320, 640);
         ship.y = Phaser.Math.wrap(ship.y, -240, 480);
 
