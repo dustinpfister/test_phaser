@@ -1,4 +1,20 @@
 
+var updatePointer = function (game) {
+
+    var ship = game.data.ship,
+    pointer = game.data.pointer;
+
+    pointer.visible = false;
+    if (!ship.inCamera) {
+        pointer.angle = new Phaser.Point(pointer.centerX, pointer.centerY).angle({
+                x: ship.centerX,
+                y: ship.centerY
+            }) / Math.PI * 180;
+        pointer.visible = true;
+    }
+
+};
+
 // make a sprite sheet
 var mkSheet = function (game) {
 
@@ -51,14 +67,7 @@ game.state.add('incamera', {
         var ship = game.data.ship,
         pointer = game.data.pointer;
 
-        pointer.visible = false;
-        if (!ship.inCamera) {
-            pointer.angle = new Phaser.Point(pointer.centerX, pointer.centerY).angle({
-                    x: ship.centerX,
-                    y: ship.centerY
-                }) / Math.PI * 180;
-            pointer.visible = true;
-        }
+        updatePointer(game);
 
         ship.x += ship.data.dx;
         ship.y += ship.data.dy;
