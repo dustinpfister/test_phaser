@@ -24,9 +24,9 @@ game.state.add('animations', {
         var sprite = game.add.sprite(0, 0, 'blocks');
         sprite.animations.add('flash', [0, 1], 8, true);
         sprite.animations.play('flash');
-		
-		console.log( game.add.graphics(0,0).animations );
-		
+
+        console.log(game.add.graphics(0, 0).animations);
+
     }
 });
 
@@ -44,6 +44,8 @@ game.state.add('components', {
         Object.keys(sprite.components).forEach(function (componentName, i) {
             var text = game.add.text(0, i * 10, componentName, textStyle);
         });
+
+        console.log(sprite.components);
     }
 });
 
@@ -98,4 +100,4 @@ game.state.add('exists', {
     }
 });
 
-game.state.start('animations');
+game.state.start('components');
