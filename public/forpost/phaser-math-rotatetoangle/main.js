@@ -8,20 +8,20 @@ game.state.add('demo', {
 
         var data = game.data;
 
-        var guy = data.guy = game.add.sprite(0, 0, 'sheet-guy');
+        var ship = data.ship = game.add.sprite(32, 32, 'sheet-guy');
+        ship.anchor.set(0.5, 0.5);
 
-        game.physics.enable(guy);
-        guy.body.gravity.set(0, 200);
-        guy.body.collideWorldBounds = true;
+        var angle = 0;
+        angle = Phaser.Math.rotateToAngle(angle, angle + Math.PI);
 
-        data.cursors = game.input.keyboard.createCursorKeys();
+        console.log(ship.rotation);
+        ship.rotation = Phaser.Math.rotateToAngle(ship.rotati, Math.PI, 0.005);
+        ship.rotation = Phaser.Math.rotateToAngle(0, Math.PI, 0.005);
 
-        // making jumps event driven
-        data.cursors.up.onDown.add(function () {
-            if (guy.body.onFloor()) {
-                guy.body.velocity.y = -150;
-            }
-        });
+        ship.rotation = Phaser.Math.rotateToAngle(0, Math.PI, 0.005);
+
+        ship.rotation = Phaser.Math.rotateToAngle(0, Math.PI, 0.005);
+        console.log(ship.rotation);
 
     },
 
@@ -29,18 +29,9 @@ game.state.add('demo', {
 
         var data = game.data,
         cursors = data.cursors,
-        guy = data.guy;
+        ship = data.ship;
 
-        guy.body.velocity.x = 0;
-
-        //  polling for left and right movement
-        if (cursors.left.isDown) {
-            guy.body.velocity.x = -150;
-        }
-
-        if (cursors.right.isDown) {
-            guy.body.velocity.x = 150;
-        }
+        ship.rotation = Phaser.Math.rotateToAngle(ship.rotation, Math.PI, 0.05);
 
     }
 
