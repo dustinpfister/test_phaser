@@ -50,6 +50,10 @@ game.state.add('demo', {
 
         ship.rotation = Phaser.Math.rotateToAngle(ship.rotation, ship.data.targetRadian, 0.05);
 
+        if (ship.rotation === ship.data.targetRadian) {
+            ship.data.targetRadian = Math.PI * 2 * Math.random();
+        }
+
     }
 
 });
