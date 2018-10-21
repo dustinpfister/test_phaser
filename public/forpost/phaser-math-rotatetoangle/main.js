@@ -37,6 +37,7 @@ game.state.add('demo', {
         mkSheet(game);
 
         var ship = data.ship = game.add.sprite(32, 32, 'sheet', 1);
+        ship.data.targetRadian = Math.PI;
         ship.anchor.set(0.5, 0.5);
 
     },
@@ -47,7 +48,7 @@ game.state.add('demo', {
         cursors = data.cursors,
         ship = data.ship;
 
-        ship.rotation = Phaser.Math.rotateToAngle(ship.rotation, -Math.PI/2, 0.05);
+        ship.rotation = Phaser.Math.rotateToAngle(ship.rotation, ship.data.targetRadian, 0.05);
 
     }
 
