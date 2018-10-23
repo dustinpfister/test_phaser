@@ -16,17 +16,26 @@ var Plugin_runner = function (game, opt) {
 
     // GUY SPRITE
     var createGuySprite = function (game) {
-        var x = game.world.width / 2,
-        y = game.world.height-32,
-        guy = game.data.runner.guy = game.add.sprite(x, y, 'sheet-guy');
+
+        var runner = game.data.runner,
+        x = game.world.width / 2,
+        y = game.world.height - 32,
+        guy = runner.guy = game.add.sprite(x, y, 'sheet-guy');
         guy.anchor.set(0.5, 0.5);
 
         // physics
         game.physics.enable(guy);
         guy.body.collideWorldBounds = true;
         guy.checkWorldBounds = true;
-        //guy.body.velocity.set(100, 50);
-        //guy.body.bounce.set(1);
+        guy.body.gravity.set(0, 150);
+
+        // making jumps event driven
+        runner.cursors.up.onDown.add(function () {
+            if (guy.body.onFloor()) {
+                guy.body.velocity.y = -100;
+            }
+        });
+
     };
 
     // call once
@@ -34,7 +43,9 @@ var Plugin_runner = function (game, opt) {
 
         // create or append game.data
         game.data = game.data || {};
-        game.data.runner = {};
+        var runner = game.data.runner = {};
+
+        runner.cursors = game.input.keyboard.createCursorKeys();
 
         // start or reset Arcade physics
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -44,12 +55,15 @@ var Plugin_runner = function (game, opt) {
         createGuySprite(game);
 
     };
-	
-	plug.update = function(){
-		
-		
-		
-	};
+
+    //
+    plug.update = function () {
+
+        var runner = game.data.runner,
+        guy = runner.guy,
+        cursors = runner.cursors;
+
+    };
 
     // add the plugin to the game
     game.plugins.add(plug, opt);
