@@ -49,6 +49,22 @@ var Plugin_runner = function (game, opt) {
 
     };
 
+    var createPlatfromPool = function (game) {
+
+        var i = 0,
+        len = 5,plat;
+
+        var platPool = game.add.group();
+        while (i < len) {
+
+            plat = platPool.create(0, 0, 'sheet-platfrom');
+
+            i += 1;
+
+        }
+
+    };
+
     // call once
     plug.init = function (opt) {
 
@@ -68,6 +84,7 @@ var Plugin_runner = function (game, opt) {
         createPlatformSheet(game);
 
         createGuySprite(game);
+        createPlatfromPool(game);
 
     };
 
