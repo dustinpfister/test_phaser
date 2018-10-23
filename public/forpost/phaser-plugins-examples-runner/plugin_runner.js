@@ -30,15 +30,22 @@ var Plugin_runner = function (game, opt) {
         guy.body.gravity.set(0, 150);
 
         // making jumps event driven
-        runner.cursors.up.onDown.add(function () {
-
-            if (guy.body.touching.down || guy.body.onFloor()) {
-                guy.body.velocity.y = -150;
-            }
-
-        });
+        runner.cursors.up.onDown.add(guyJump, this);
 
     };
+
+    // the player wants to jump
+    var guyJump = function () {
+
+        var guy = this.game.data.runner.guy;
+
+        if (guy.body.touching.down || guy.body.onFloor()) {
+
+            guy.body.velocity.y = -175;
+
+        }
+
+    }
 
     // call once
     plug.init = function (opt) {
