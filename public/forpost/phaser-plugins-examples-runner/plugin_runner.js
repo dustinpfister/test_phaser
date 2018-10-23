@@ -29,6 +29,7 @@ var Plugin_runner = function (game, opt) {
 
         // making jumps event driven
         runner.cursors.up.onDown.add(guyJump, this);
+        game.input.onDown.add(guyJump, this);
 
     };
 
@@ -65,16 +66,18 @@ var Plugin_runner = function (game, opt) {
 
     };
 
+    /*
     // what to do for each tick
     plug.update = function () {
 
-        var runner = game.data.runner,
-        guy = runner.guy,
-        cursors = runner.cursors;
+    var runner = game.data.runner,
+    guy = runner.guy,
+    cursors = runner.cursors;
 
-        //game.physics.arcade.collide(runner.platPool, guy);
+    //game.physics.arcade.collide(runner.platPool, guy);
 
     };
+     */
 
     // add the plugin to the game
     game.plugins.add(plug, opt);
