@@ -43,7 +43,7 @@ var Plugin_runner = function (game, opt) {
         // making jumps event driven
         runner.cursors.up.onDown.add(function () {
             if (guy.body.onFloor()) {
-                guy.body.velocity.y = -100;
+                guy.body.velocity.y = -150;
             }
         });
 
@@ -63,6 +63,7 @@ var Plugin_runner = function (game, opt) {
         }
 
         runner.lastPlatDist = 0;
+        runner.platfrom_delta = 5;
 
         console.log(platPool);
 
@@ -86,7 +87,7 @@ var Plugin_runner = function (game, opt) {
         // For All Alive
         platPool.forEachAlive(function (plat) {
             // move
-            plat.x -= 5;
+            plat.x -= runner.platfrom_delta;
             // kill if old
             if (plat.x + plat.width <= 0) {
                 plat.kill();
@@ -94,7 +95,7 @@ var Plugin_runner = function (game, opt) {
 
         });
 
-        runner.lastPlatDist += 5;
+        runner.lastPlatDist += runner.platfrom_delta;
 
     };
 
