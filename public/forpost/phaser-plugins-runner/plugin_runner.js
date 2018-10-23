@@ -60,13 +60,20 @@ var Plugin_runner = function (game, opt) {
             i += 1;
         }
 
+        console.log(platPool.getFirstDead());
+
     };
 
     var updatePlatfroms = function (game) {
 
-        var platPool = game.data.runner.platPool;
+        var platPool = game.data.runner.platPool,
+        plat;
 
-        if (platPool.countDead() > 0) {}
+        if (platPool.countDead() > 0) {
+            plat = platPool.getFirstDead();
+            plat.revive();
+            plat.x = game.world.width;
+        }
 
     };
 
