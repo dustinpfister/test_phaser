@@ -51,7 +51,7 @@ var Plugin_runner = function (game, opt) {
 
     };
 
-    // Create a Pool Of Platfroms
+    // Create a Pool Of Platforms
     var createPlatfromPool = function (game) {
         var i = 0,
         len = 5,
@@ -69,7 +69,7 @@ var Plugin_runner = function (game, opt) {
             i += 1;
         }
 
-        runner.lastPlatDist = 0;
+        runner.platform_lastPlatDist = 0;
         runner.platfrom_delta = 1;
 
         console.log(platPool);
@@ -84,12 +84,12 @@ var Plugin_runner = function (game, opt) {
         plat;
 
         // revive
-        if (platPool.countDead() > 0 && runner.lastPlatDist >= 64) {
+        if (platPool.countDead() > 0 && runner.platform_lastPlatDist >= 64) {
             plat = platPool.getFirstDead();
             plat.revive();
             plat.x = game.world.width;
             plat.y = game.world.height - 32 - Math.floor(Math.random() * 100);
-            runner.lastPlatDist = 0;
+            runner.platform_lastPlatDist = 0;
         };
 
         // For All Alive
@@ -104,7 +104,7 @@ var Plugin_runner = function (game, opt) {
 
         });
 
-        runner.lastPlatDist += runner.platfrom_delta;
+        runner.platform_lastPlatDist += runner.platfrom_delta;
 
     };
 
@@ -146,18 +146,6 @@ var Plugin_runner = function (game, opt) {
         cursors = runner.cursors;
 
         game.physics.arcade.collide(runner.platPool, guy);
-
-        /*
-        guy.body.velocity.x = 0;
-        //  polling for left and right movement
-        if (cursors.left.isDown) {
-        guy.body.velocity.x = -150;
-        }
-
-        if (cursors.right.isDown) {
-        guy.body.velocity.x = 150;
-        }
-         */
 
     };
 
