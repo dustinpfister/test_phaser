@@ -105,7 +105,7 @@ var Plugin_platforms = function (game, opt) {
         guy = runner.guy,
         cursors = runner.cursors;
 
-        //game.physics.arcade.collide(runner.platPool, guy);
+        game.physics.arcade.collide(runner.platPool, guy);
 
     };
 

@@ -1,8 +1,6 @@
 
 var Plugin_runner = function (game, opt) {
 
-    var plug = new Phaser.Plugin(game, game.plugins);
-
     // Guy SPRITE SHEET
     var createGuySheet = function (game) {
         var canvas = document.createElement('canvas'),
@@ -45,7 +43,10 @@ var Plugin_runner = function (game, opt) {
 
         }
 
-    }
+    };
+
+    // The plugin Object
+    var plug = new Phaser.Plugin(game, game.plugins);
 
     // call once
     plug.init = function (opt) {
@@ -64,14 +65,14 @@ var Plugin_runner = function (game, opt) {
 
     };
 
-    //
+    // what to do for each tick
     plug.update = function () {
 
         var runner = game.data.runner,
         guy = runner.guy,
         cursors = runner.cursors;
 
-        game.physics.arcade.collide(runner.platPool, guy);
+        //game.physics.arcade.collide(runner.platPool, guy);
 
     };
 
