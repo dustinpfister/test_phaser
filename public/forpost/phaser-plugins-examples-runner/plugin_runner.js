@@ -55,9 +55,7 @@ var Plugin_runner = function (game, opt) {
         // create or append game.data
         game.data = game.data || {};
 
-        var runner = game.data.runner = {
-            distance: 0
-        };
+        var runner = game.data.runner = {};
 
         runner.cursors = game.input.keyboard.createCursorKeys();
 
