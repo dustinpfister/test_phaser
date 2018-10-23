@@ -10,8 +10,8 @@ var Plugin_runner = function (game, opt) {
         canvas.width = 16;
         canvas.height = 32;
         ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, 32, 64);
-        game.cache.addSpriteSheet('sheet-guy', null, canvas, 32, 64, 1, 0, 0);
+        ctx.fillRect(0, 0, 16, 32);
+        game.cache.addSpriteSheet('sheet-guy', null, canvas, 16, 32, 1, 0, 0);
     };
 
     // create a platform sheet
@@ -20,8 +20,8 @@ var Plugin_runner = function (game, opt) {
         ctx = canvas.getContext('2d');
         canvas.width = 64;
         canvas.height = 16;
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, 64, 16);
+        ctx.strokeStyle = 'white';
+        ctx.strokeRect(0, 0, 64, 16);
         game.cache.addSpriteSheet('sheet-platfrom', null, canvas, 64, 16, 1, 0, 0);
     };
 
@@ -42,9 +42,11 @@ var Plugin_runner = function (game, opt) {
 
         // making jumps event driven
         runner.cursors.up.onDown.add(function () {
-            //if (guy.body.onFloor()) {
+
+            if (guy.body.touching.down || guy.body.onFloor()) {
             guy.body.velocity.y = -150;
-            //}
+            }
+
         });
 
     };
@@ -57,6 +59,7 @@ var Plugin_runner = function (game, opt) {
         runner = game.data.runner,
         platPool = runner.platPool = game.add.group();
         while (i < len) {
+
             plat = platPool.create(0, 0, 'sheet-platfrom');
             plat.kill();
 
@@ -67,7 +70,7 @@ var Plugin_runner = function (game, opt) {
         }
 
         runner.lastPlatDist = 0;
-        runner.platfrom_delta = 5;
+        runner.platfrom_delta = 1;
 
         console.log(platPool);
 
@@ -125,7 +128,7 @@ var Plugin_runner = function (game, opt) {
         createGuySprite(game);
         createPlatfromPool(game);
 
-        game.time.events.loop(100, function () {
+        game.time.events.loop(33, function () {
 
             runner.distnace += 10;
 
