@@ -14,6 +14,17 @@ var Plugin_runner = function (game, opt) {
         game.cache.addSpriteSheet('sheet-guy', null, canvas, 32, 64, 1, 0, 0);
     };
 
+    // create a platform sheet
+    var createPlatformSheet = function (game) {
+        var canvas = document.createElement('canvas'),
+        ctx = canvas.getContext('2d');
+        canvas.width = 64;
+        canvas.height = 16;
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, 64, 16);
+        game.cache.addSpriteSheet('sheet-platfrom', null, canvas, 64, 16, 1, 0, 0);
+    };
+
     // GUY SPRITE
     var createGuySprite = function (game) {
 
@@ -43,7 +54,10 @@ var Plugin_runner = function (game, opt) {
 
         // create or append game.data
         game.data = game.data || {};
-        var runner = game.data.runner = {};
+        var runner = game.data.runner = {
+
+            distance: 0
+        };
 
         runner.cursors = game.input.keyboard.createCursorKeys();
 
@@ -51,6 +65,7 @@ var Plugin_runner = function (game, opt) {
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         createGuySheet(game);
+        createPlatformSheet(game);
 
         createGuySprite(game);
 
@@ -63,16 +78,17 @@ var Plugin_runner = function (game, opt) {
         guy = runner.guy,
         cursors = runner.cursors;
 
+        /*
         guy.body.velocity.x = 0;
-
         //  polling for left and right movement
         if (cursors.left.isDown) {
-            guy.body.velocity.x = -150;
+        guy.body.velocity.x = -150;
         }
 
         if (cursors.right.isDown) {
-            guy.body.velocity.x = 150;
+        guy.body.velocity.x = 150;
         }
+         */
 
     };
 
