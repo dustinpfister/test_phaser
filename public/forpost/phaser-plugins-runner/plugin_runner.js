@@ -50,18 +50,23 @@ var Plugin_runner = function (game, opt) {
     };
 
     var createPlatfromPool = function (game) {
-
         var i = 0,
-        len = 5,plat;
-
-        var platPool = game.add.group();
+        len = 5,
+        plat;
+        var platPool = game.data.runner.platPool = game.add.group();
         while (i < len) {
-
             plat = platPool.create(0, 0, 'sheet-platfrom');
-
+            plat.kill();
             i += 1;
-
         }
+
+    };
+
+    var updatePlatfroms = function (game) {
+
+        var platPool = game.data.runner.platPool;
+
+        if (platPool.countDead() > 0) {}
 
     };
 
@@ -71,7 +76,6 @@ var Plugin_runner = function (game, opt) {
         // create or append game.data
         game.data = game.data || {};
         var runner = game.data.runner = {
-
             distance: 0
         };
 
@@ -85,6 +89,14 @@ var Plugin_runner = function (game, opt) {
 
         createGuySprite(game);
         createPlatfromPool(game);
+
+        game.time.events.loop(100, function () {
+
+            runner.distnace += 10;
+
+            updatePlatfroms(game);
+
+        });
 
     };
 
