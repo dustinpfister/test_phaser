@@ -3,7 +3,6 @@ var Plugin_platforms = function (game, opt) {
 
     var plug = new Phaser.Plugin(game, game.plugins);
 
-
     // create a platform sheet
     var createPlatformSheet = function (game) {
         var canvas = document.createElement('canvas'),
@@ -20,11 +19,14 @@ var Plugin_platforms = function (game, opt) {
         var i = 0,
         len = 5,
         plat,
-        runner = game.data.runner,
-        platPool = runner.platPool = game.add.group();
+        platforms = game.data.platforms,
+        pool = platforms.pool = game.add.group();
+		
+		console.log(pool);
+		
         while (i < len) {
 
-            plat = platPool.create(0, 0, 'sheet-platfrom');
+            plat = pool.create(0, 0, 'sheet-platfrom');
 
             plat.kill();
 
@@ -38,34 +40,28 @@ var Plugin_platforms = function (game, opt) {
             i += 1;
         }
 
-        runner.platform_lastPlatDist = 0;
-        runner.delta = 5;
-
-        console.log(platPool);
-
     };
 
     var updatePlatfroms = function (game) {
 
-        var runner = game.data.runner,
-        platPool = runner.platPool,
-        guy = runner.guy,
+        var platforms = game.data.platforms,
+        platPool = platforms.pool,
         plat;
 
         // revive
-        if (platPool.countDead() > 0 && runner.platform_lastPlatDist >= 96) {
+        if (platPool.countDead() > 0 && platforms.lastPlatDist >= 96) {
             plat = platPool.getFirstDead();
             plat.revive();
             plat.x = game.world.width;
             plat.y = game.world.height - 32 - Math.floor(Math.random() * 100);
-            runner.platform_lastPlatDist = 0;
+            platforms.lastPlatDist = 0;
         };
 
         // For All Alive
         platPool.forEachAlive(function (plat) {
 
             // move
-            plat.x -= runner.delta;
+            plat.x -= platforms.delta;
 
             // kill if old
             if (plat.x + plat.width <= 0) {
@@ -74,7 +70,7 @@ var Plugin_platforms = function (game, opt) {
 
         });
 
-        runner.platform_lastPlatDist += runner.delta;
+        platforms.lastPlatDist += platforms.delta;
 
     };
 
@@ -83,14 +79,18 @@ var Plugin_platforms = function (game, opt) {
 
         // create or append game.data
         game.data = game.data || {};
-        var runner = game.data.runner;
+
+        //var runner = game.data.runner;
+        var platforms = game.data.platforms = {};
+        platforms.lastPlatDist = 0;
+        platforms.delta = 5;
 
         createPlatformSheet(game);
         createPlatfromPool(game);
 
         game.time.events.loop(33, function () {
 
-            runner.distnace += runner.delta;
+            //runner.distnace += runner.delta;
 
             updatePlatfroms(game);
 
@@ -98,14 +98,17 @@ var Plugin_platforms = function (game, opt) {
 
     };
 
-    //
+    // what to do for each tick
     plug.update = function () {
 
         var runner = game.data.runner,
-        guy = runner.guy,
-        cursors = runner.cursors;
+        platforms = game.data.platforms;
 
-        game.physics.arcade.collide(runner.platPool, guy);
+        if (runner) {
+
+        game.physics.arcade.collide(platforms.pool, runner.guy);
+
+        }
 
     };
 
