@@ -6,6 +6,7 @@ game.state.add('demo', {
     create: function () {
 
         Plugin_runner(game, {});
+        Plugin_platforms(game, {});
 
     }
 
