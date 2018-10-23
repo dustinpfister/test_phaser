@@ -18,11 +18,11 @@ var Plugin_runner = function (game, opt) {
     var createPlatformSheet = function (game) {
         var canvas = document.createElement('canvas'),
         ctx = canvas.getContext('2d');
-        canvas.width = 64;
+        canvas.width = 96;
         canvas.height = 16;
         ctx.strokeStyle = 'white';
-        ctx.strokeRect(0, 0, 64, 16);
-        game.cache.addSpriteSheet('sheet-platfrom', null, canvas, 64, 16, 1, 0, 0);
+        ctx.strokeRect(0, 0, 96, 16);
+        game.cache.addSpriteSheet('sheet-platfrom', null, canvas, 96, 16, 1, 0, 0);
     };
 
     // GUY SPRITE
@@ -39,12 +39,13 @@ var Plugin_runner = function (game, opt) {
         guy.body.collideWorldBounds = true;
         guy.checkWorldBounds = true;
         guy.body.gravity.set(0, 150);
+        //guy.body.immovable = true;
 
         // making jumps event driven
         runner.cursors.up.onDown.add(function () {
 
             if (guy.body.touching.down || guy.body.onFloor()) {
-            guy.body.velocity.y = -150;
+                guy.body.velocity.y = -150;
             }
 
         });
@@ -61,16 +62,21 @@ var Plugin_runner = function (game, opt) {
         while (i < len) {
 
             plat = platPool.create(0, 0, 'sheet-platfrom');
+
             plat.kill();
 
             game.physics.enable(plat);
             plat.body.immovable = true;
 
+            plat.body.checkCollision.left = false;
+            plat.body.checkCollision.right = false;
+            plat.body.checkCollision.down = false;
+
             i += 1;
         }
 
         runner.platform_lastPlatDist = 0;
-        runner.platfrom_delta = 1;
+        runner.platfrom_delta = 10;
 
         console.log(platPool);
 
@@ -84,7 +90,7 @@ var Plugin_runner = function (game, opt) {
         plat;
 
         // revive
-        if (platPool.countDead() > 0 && runner.platform_lastPlatDist >= 64) {
+        if (platPool.countDead() > 0 && runner.platform_lastPlatDist >= 96) {
             plat = platPool.getFirstDead();
             plat.revive();
             plat.x = game.world.width;
