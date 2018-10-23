@@ -74,16 +74,23 @@ var Plugin_runner = function (game, opt) {
             plat = platPool.getFirstDead();
             plat.revive();
             plat.x = game.world.width;
-            plat.y = game.world.height - Math.floor(game.world.height / 2 * Math.random()) + 32;
+            plat.y = game.world.height - 32 - Math.floor(Math.random() * 100);
         }
 
+        // For All Alive
         platPool.forEachAlive(function (plat) {
 
+            // move
             plat.x -= 10;
 
-        });
+            // kill if old
+            if (plat.x + plat.width <= 0) {
 
-        // move alive
+                plat.kill();
+
+            }
+
+        });
 
     };
 
