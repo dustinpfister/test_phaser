@@ -63,6 +63,17 @@ var Plugin_runner = function (game, opt) {
         guy = runner.guy,
         cursors = runner.cursors;
 
+        guy.body.velocity.x = 0;
+
+        //  polling for left and right movement
+        if (cursors.left.isDown) {
+            guy.body.velocity.x = -150;
+        }
+
+        if (cursors.right.isDown) {
+            guy.body.velocity.x = 150;
+        }
+
     };
 
     // add the plugin to the game
