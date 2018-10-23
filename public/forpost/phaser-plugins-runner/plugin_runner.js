@@ -60,7 +60,7 @@ var Plugin_runner = function (game, opt) {
             i += 1;
         }
 
-        console.log(platPool.getFirstDead());
+        console.log(platPool);
 
     };
 
@@ -69,11 +69,21 @@ var Plugin_runner = function (game, opt) {
         var platPool = game.data.runner.platPool,
         plat;
 
+        // revive
         if (platPool.countDead() > 0) {
             plat = platPool.getFirstDead();
             plat.revive();
             plat.x = game.world.width;
+            plat.y = game.world.height - Math.floor(game.world.height / 2 * Math.random()) + 32;
         }
+
+        platPool.forEachAlive(function (plat) {
+
+            plat.x -= 10;
+
+        });
+
+        // move alive
 
     };
 
