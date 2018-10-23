@@ -66,19 +66,6 @@ var Plugin_runner = function (game, opt) {
 
     };
 
-    /*
-    // what to do for each tick
-    plug.update = function () {
-
-    var runner = game.data.runner,
-    guy = runner.guy,
-    cursors = runner.cursors;
-
-    //game.physics.arcade.collide(runner.platPool, guy);
-
-    };
-     */
-
     // add the plugin to the game
     game.plugins.add(plug, opt);
 
