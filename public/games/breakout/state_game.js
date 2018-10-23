@@ -66,9 +66,9 @@ game.state.add('game', {
             // clamp per
             per = Phaser.Math.clamp(per, 0, 1);
 
-            a = aUp - Math.PI / 180 * 75 * per * dir
+            a = aUp - Math.PI / 180 * 75 * per * dir;
 
-                x = Math.floor(Math.cos(a) * 200);
+            x = Math.floor(Math.cos(a) * 200);
             y = Math.floor(Math.sin(a) * 200);
 
             console.log(x, y);

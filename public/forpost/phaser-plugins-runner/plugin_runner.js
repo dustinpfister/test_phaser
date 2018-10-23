@@ -42,9 +42,9 @@ var Plugin_runner = function (game, opt) {
 
         // making jumps event driven
         runner.cursors.up.onDown.add(function () {
-            if (guy.body.onFloor()) {
-                guy.body.velocity.y = -150;
-            }
+            //if (guy.body.onFloor()) {
+            guy.body.velocity.y = -150;
+            //}
         });
 
     };
@@ -59,6 +59,10 @@ var Plugin_runner = function (game, opt) {
         while (i < len) {
             plat = platPool.create(0, 0, 'sheet-platfrom');
             plat.kill();
+
+            game.physics.enable(plat);
+            plat.body.immovable = true;
+
             i += 1;
         }
 
@@ -73,6 +77,7 @@ var Plugin_runner = function (game, opt) {
 
         var runner = game.data.runner,
         platPool = runner.platPool,
+        guy = runner.guy,
         plat;
 
         // revive
@@ -88,6 +93,7 @@ var Plugin_runner = function (game, opt) {
         platPool.forEachAlive(function (plat) {
             // move
             plat.x -= runner.platfrom_delta;
+
             // kill if old
             if (plat.x + plat.width <= 0) {
                 plat.kill();
@@ -135,6 +141,8 @@ var Plugin_runner = function (game, opt) {
         var runner = game.data.runner,
         guy = runner.guy,
         cursors = runner.cursors;
+
+        game.physics.arcade.collide(runner.platPool, guy);
 
         /*
         guy.body.velocity.x = 0;
