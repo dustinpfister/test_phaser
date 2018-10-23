@@ -49,16 +49,20 @@ var Plugin_runner = function (game, opt) {
 
     };
 
+    // Create a Pool Of Platfroms
     var createPlatfromPool = function (game) {
         var i = 0,
         len = 5,
-        plat;
-        var platPool = game.data.runner.platPool = game.add.group();
+        plat,
+        runner = game.data.runner,
+        platPool = runner.platPool = game.add.group();
         while (i < len) {
             plat = platPool.create(0, 0, 'sheet-platfrom');
             plat.kill();
             i += 1;
         }
+
+        runner.lastPlatDist = 0;
 
         console.log(platPool);
 
@@ -66,31 +70,31 @@ var Plugin_runner = function (game, opt) {
 
     var updatePlatfroms = function (game) {
 
-        var platPool = game.data.runner.platPool,
+        var runner = game.data.runner,
+        platPool = runner.platPool,
         plat;
 
         // revive
-        if (platPool.countDead() > 0) {
+        if (platPool.countDead() > 0 && runner.lastPlatDist >= 64) {
             plat = platPool.getFirstDead();
             plat.revive();
             plat.x = game.world.width;
             plat.y = game.world.height - 32 - Math.floor(Math.random() * 100);
-        }
+            runner.lastPlatDist = 0;
+        };
 
         // For All Alive
         platPool.forEachAlive(function (plat) {
-
             // move
-            plat.x -= 10;
-
+            plat.x -= 5;
             // kill if old
             if (plat.x + plat.width <= 0) {
-
                 plat.kill();
-
             }
 
         });
+
+        runner.lastPlatDist += 5;
 
     };
 
