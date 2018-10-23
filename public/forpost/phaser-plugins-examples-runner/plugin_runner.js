@@ -39,7 +39,6 @@ var Plugin_runner = function (game, opt) {
         guy.body.collideWorldBounds = true;
         guy.checkWorldBounds = true;
         guy.body.gravity.set(0, 150);
-        //guy.body.immovable = true;
 
         // making jumps event driven
         runner.cursors.up.onDown.add(function () {
@@ -76,7 +75,7 @@ var Plugin_runner = function (game, opt) {
         }
 
         runner.platform_lastPlatDist = 0;
-        runner.platfrom_delta = 10;
+        runner.delta = 10;
 
         console.log(platPool);
 
@@ -100,8 +99,9 @@ var Plugin_runner = function (game, opt) {
 
         // For All Alive
         platPool.forEachAlive(function (plat) {
+
             // move
-            plat.x -= runner.platfrom_delta;
+            plat.x -= runner.delta;
 
             // kill if old
             if (plat.x + plat.width <= 0) {
@@ -110,7 +110,7 @@ var Plugin_runner = function (game, opt) {
 
         });
 
-        runner.platform_lastPlatDist += runner.platfrom_delta;
+        runner.platform_lastPlatDist += runner.delta;
 
     };
 
@@ -136,7 +136,7 @@ var Plugin_runner = function (game, opt) {
 
         game.time.events.loop(33, function () {
 
-            runner.distnace += 10;
+            runner.distnace += runner.delta;
 
             updatePlatfroms(game);
 
