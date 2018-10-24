@@ -21,9 +21,7 @@ var Plugin_platforms = function (game, opt) {
         plat,
         platforms = game.data.platforms,
         pool = platforms.pool = game.add.group();
-		
-		console.log(pool);
-		
+
         while (i < len) {
 
             plat = pool.create(0, 0, 'sheet-platfrom');
