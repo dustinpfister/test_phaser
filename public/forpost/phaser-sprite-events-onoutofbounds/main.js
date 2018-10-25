@@ -18,12 +18,32 @@ game.state.add('demo', {
 
         createEnemySheet(game);
 
-        var enemy = game.add.sprite(0, 0, 'sheet-enemy');
+        var data = game.data = game.data || {
+            health: 100
+        };
+
+        var enemy = data.enemy = game.add.sprite(game.world.centerX, game.world.height, 'sheet-enemy');
         enemy.anchor.set(0.5, 0.5);
+
+        // set checkWorldBounds, and attach a handler
+        enemy.checkWorldBounds = true;
+        enemy.events.onOutOfBounds.add(function () {
+            enemy.y = game.world.height;
+            game.data.health -= 10;
+            if (game.data.health <= 0) {
+                game.data.gameOver = true;
+            }
+        });
 
     },
 
-    update: function () {}
+    update: function () {
+
+        var enemy = game.data.enemy;
+
+        enemy.y -= 1;
+
+    }
 
 });
 
