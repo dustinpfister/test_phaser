@@ -1,4 +1,18 @@
 
+var onOutOfBounds = function (enemy) {
+
+    var game = this.game;
+
+    if (enemy.y <= 0) {
+        enemy.y = game.world.height+32;
+        game.data.health -= 25;
+        if (game.data.health <= 0) {
+            game.data.gameOver = true;
+        }
+    }
+
+};
+
 // Guy SPRITE SHEET
 var createEnemySheet = function (game) {
     var canvas = document.createElement('canvas'),
@@ -22,26 +36,30 @@ game.state.add('demo', {
             health: 100
         };
 
-        var enemy = data.enemy = game.add.sprite(game.world.centerX, game.world.height, 'sheet-enemy');
+        var enemy = data.enemy = game.add.sprite(game.world.centerX, game.world.height+32, 'sheet-enemy');
         enemy.anchor.set(0.5, 0.5);
 
         // set checkWorldBounds, and attach a handler
         enemy.checkWorldBounds = true;
-        enemy.events.onOutOfBounds.add(function () {
-            enemy.y = game.world.height;
-            game.data.health -= 10;
-            if (game.data.health <= 0) {
-                game.data.gameOver = true;
-            }
-        });
+        enemy.events.onOutOfBounds.add(onOutOfBounds, this);
+
+        var tx = data.tx = game.add.text(10, 10, '', {
+                fill: 'white',
+                font: '15px courier'
+            });
 
     },
 
     update: function () {
 
-        var enemy = game.data.enemy;
+        var data = game.data,
+        enemy = data.enemy,
+        tx = data.tx;
 
-        enemy.y -= 1;
+        tx.text = 'health: ' + data.health;
+        if (!data.gameOver) {
+            enemy.y -= 10;
+        }
 
     }
 
