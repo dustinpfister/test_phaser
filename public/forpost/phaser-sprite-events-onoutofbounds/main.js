@@ -4,7 +4,7 @@ var onOutOfBounds = function (enemy) {
     var game = this.game;
 
     if (enemy.y <= 0) {
-        enemy.y = game.world.height+32;
+        enemy.y = game.world.height + 32;
         game.data.health -= 25;
         if (game.data.health <= 0) {
             game.data.gameOver = true;
@@ -33,10 +33,11 @@ game.state.add('demo', {
         createEnemySheet(game);
 
         var data = game.data = game.data || {
-            health: 100
+            health: 100,
+            gameOver: false
         };
 
-        var enemy = data.enemy = game.add.sprite(game.world.centerX, game.world.height+32, 'sheet-enemy');
+        var enemy = data.enemy = game.add.sprite(game.world.centerX, game.world.height + 32, 'sheet-enemy');
         enemy.anchor.set(0.5, 0.5);
 
         // set checkWorldBounds, and attach a handler
@@ -47,6 +48,15 @@ game.state.add('demo', {
                 fill: 'white',
                 font: '15px courier'
             });
+
+        game.input.onDown.add(function () {
+
+            if (data.gameOver) {
+                data.health = 100;
+                data.gameOver = false;
+            }
+
+        });
 
     },
 
@@ -59,6 +69,8 @@ game.state.add('demo', {
         tx.text = 'health: ' + data.health;
         if (!data.gameOver) {
             enemy.y -= 10;
+        } else {
+            tx.text = 'game over';
         }
 
     }
