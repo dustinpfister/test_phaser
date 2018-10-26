@@ -5,6 +5,7 @@ var onOutOfBounds = function (enemy) {
 
     if (enemy.y <= 0) {
         enemy.y = game.world.height + 32;
+        enemy.kill();
         game.data.health -= 10;
         if (game.data.health <= 0) {
             game.data.gameOver = true;
@@ -17,10 +18,10 @@ var createEnemySprite = function (game) {
 
     var data = game.data;
 
-    data.enemys = game.add.group();
+    data.enemies = game.add.group();
 
     var i = 0,
-    len = 5;
+    len = 4;
     while (i < len) {
 
         // create the enemy sprite
@@ -32,7 +33,9 @@ var createEnemySprite = function (game) {
         enemy.checkWorldBounds = true;
         enemy.events.onOutOfBounds.add(onOutOfBounds, this);
 
-        data.enemys.add(enemy);
+        enemy.kill();
+
+        data.enemies.add(enemy);
 
         i += 1;
 
@@ -82,6 +85,19 @@ game.state.add('demo', {
                 font: '15px courier'
             });
 
+        // enemy spawn loop
+        game.time.events.loop(1000, function () {
+
+            var dead = data.enemies.getFirstDead();
+
+            if (dead) {
+
+                dead.revive();
+
+            }
+
+        });
+
     },
 
     update: function () {
@@ -94,8 +110,8 @@ game.state.add('demo', {
         if (data.gameOver) {
             tx.text = 'game over: click to reset';
         } else {
-            // move alive enemys by pixels per second going by elapsed game time
-            data.enemys.forEachAlive(function (enemy) {
+            // move alive enemies by pixels per second going by elapsed game time
+            data.enemies.forEachAlive(function (enemy) {
                 enemy.y -= game.time.elapsed / 1000 * data.enemyPPS;
             });
         }
