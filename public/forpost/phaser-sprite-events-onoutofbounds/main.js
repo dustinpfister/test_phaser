@@ -14,7 +14,7 @@ var onOutOfBounds = function (enemy) {
 
 };
 
-var createEnemySprite = function (game) {
+var createEnemySpritePool = function (game) {
 
     var data = game.data;
 
@@ -64,12 +64,12 @@ game.state.add('demo', {
             health: 100,
             gameOver: false,
             lt: game.time.physicsElapsedMS,
-            enemyPPS: 32 // enemy pixles per second
+            enemyPPS: 32, // enemy pixles per second
+            enemySpawnPer: 0.25
         };
 
         createEnemySheet(game);
-
-        createEnemySprite(game);
+        createEnemySpritePool(game);
 
         // reset game if it is over
         game.input.onDown.add(function () {
@@ -88,9 +88,10 @@ game.state.add('demo', {
         // enemy spawn loop
         game.time.events.loop(1000, function () {
 
-            var dead = data.enemies.getFirstDead();
+            var dead = data.enemies.getFirstDead(),
+            roll = Math.random();
 
-            if (dead) {
+            if (dead && roll < data.enemySpawnPer) {
 
                 dead.revive();
 
