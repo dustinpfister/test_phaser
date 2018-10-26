@@ -13,6 +13,20 @@ var onOutOfBounds = function (enemy) {
 
 };
 
+var createEnemySprite = function (game) {
+
+    var data = game.data;
+
+    // create the enemy sprite
+    var enemy = data.enemy = game.add.sprite(game.world.centerX, game.world.height + 32, 'sheet-enemy');
+    enemy.anchor.set(0.5, 0.5);
+
+    // set checkWorldBounds, and attach a handler
+    enemy.checkWorldBounds = true;
+    enemy.events.onOutOfBounds.add(onOutOfBounds, this);
+
+};
+
 // Guy SPRITE SHEET
 var createEnemySheet = function (game) {
     var canvas = document.createElement('canvas'),
@@ -30,8 +44,6 @@ game.state.add('demo', {
 
     create: function () {
 
-        createEnemySheet(game);
-
         var data = game.data = game.data || {
             health: 100,
             gameOver: false,
@@ -39,28 +51,23 @@ game.state.add('demo', {
             enemyPPS: 32 // enemy pixles per second
         };
 
-        console.log(game.time.physicsElapsedMS);
+        createEnemySheet(game);
 
-        var enemy = data.enemy = game.add.sprite(game.world.centerX, game.world.height + 32, 'sheet-enemy');
-        enemy.anchor.set(0.5, 0.5);
+        createEnemySprite(game);
 
-        // set checkWorldBounds, and attach a handler
-        enemy.checkWorldBounds = true;
-        enemy.events.onOutOfBounds.add(onOutOfBounds, this);
-
-        var tx = data.tx = game.add.text(10, 10, '', {
-                fill: 'white',
-                font: '15px courier'
-            });
-
+        // reset game if it is over
         game.input.onDown.add(function () {
-
             if (data.gameOver) {
                 data.health = 100;
                 data.gameOver = false;
             }
-
         });
+
+        // text object
+        var tx = data.tx = game.add.text(10, 10, '', {
+                fill: 'white',
+                font: '15px courier'
+            });
 
     },
 
@@ -71,13 +78,11 @@ game.state.add('demo', {
         tx = data.tx;
 
         tx.text = 'health: ' + data.health;
-        if (!data.gameOver) {
-            //enemy.y -= 1;
-
-            enemy.y -= game.time.elapsed / 1000 * data.enemyPPS;
-
+        if (data.gameOver) {
+            tx.text = 'game over: click to reset';
         } else {
-            tx.text = 'game over';
+            // move enemy by pixels per second going by elapsed game time
+            enemy.y -= game.time.elapsed / 1000 * data.enemyPPS;
         }
 
     }
