@@ -104,18 +104,13 @@ var Plugin_missiles = function (game, opt) {
 
         data.missiles = game.add.group();
         while (i < len) {
-
             sprite = game.make.sprite(0, 0, 'sheet-missile');
-
             sprite.data = new Missile(sprite);
-
             data.missiles.add(sprite);
-
             i += 1;
-
         }
 
-        data.missiles.children[0].data.launch();
+        //data.missiles.children[0].data.launch();
 
     };
 
@@ -135,10 +130,9 @@ var Plugin_missiles = function (game, opt) {
 
     plug.update = function () {
 
+        // step all alive missiles
         game.data.missiles.forEachAlive(function (missile) {
-
             missile.data.step();
-
         });
 
     };
