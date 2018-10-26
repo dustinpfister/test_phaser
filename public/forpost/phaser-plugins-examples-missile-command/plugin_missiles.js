@@ -1,6 +1,17 @@
 
 var Plugin_missiles = function (game, opt) {
 
+    var createMissileSheet = function (game) {
+        var canvas = document.createElement('canvas'),
+        ctx = canvas.getContext('2d');
+        canvas.width = 8;
+        canvas.height = 8;
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, 8, 8);
+        game.cache.addSpriteSheet('sheet-missile', null, canvas, 8, 8, 1, 0, 0);
+    };
+
+    // MISSILE CLASS
     var Missile = function (sprite) {
 
         this.sprite = sprite;
@@ -52,26 +63,23 @@ var Plugin_missiles = function (game, opt) {
         var sprite = this.sprite,
         per;
 
+        // if the missile has launched, but has not yet exploded
         if (this.launched && !this.explode) {
-
-
             this.time += sprite.game.time.elapsed;
-
             if (this.time >= this.flightTime) {
-
                 this.time = this.flightTime;
                 this.explode = true;
-
             }
         }
 
+        // always set position based on current time over flight time
         per = this.time / this.flightTime;
-
         sprite.x = this.pointStart.x + Math.cos(this.angle) * (this.distance * per);
         sprite.y = this.pointStart.y + Math.sin(this.angle) * (this.distance * per);
 
     };
 
+    // CREATE MISSILE POOL
     var createMissilePool = function (game) {
 
         var data = game.data,
@@ -96,7 +104,7 @@ var Plugin_missiles = function (game, opt) {
 
     };
 
-    // The plugin Object
+    // PLUGIN OBJECT
     var plug = new Phaser.Plugin(game, game.plugins);
 
     // call once
@@ -105,6 +113,7 @@ var Plugin_missiles = function (game, opt) {
         // create or append game.data
         game.data = game.data || {};
 
+        createMissileSheet(game);
         createMissilePool(game);
 
     };
