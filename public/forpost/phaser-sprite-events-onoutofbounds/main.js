@@ -43,6 +43,21 @@ var createEnemySpritePool = function (game) {
 
 };
 
+// spawn enemies
+var enemySpawn = function () {
+
+    var data = this.game.data
+    dead = data.enemies.filter(function (enemy) {
+            return !enemy.alive;
+        }),
+    roll = Math.random();
+
+    if (dead.list.length > 0 && roll < data.enemySpawnPer) {
+        var i = Math.floor(Math.random() * dead.list.length);
+        dead.list[i].revive();
+    }
+};
+
 // Guy SPRITE SHEET
 var createEnemySheet = function (game) {
     var canvas = document.createElement('canvas'),
@@ -86,26 +101,7 @@ game.state.add('demo', {
             });
 
         // enemy spawn loop
-        game.time.events.loop(1000, function () {
-
-            //var dead = data.enemies.getFirstDead(),
-            var dead = data.enemies.filter(function (enemy) {
-                    return !enemy.alive;
-                }),
-            roll = Math.random();
-
-            if (dead.list.length > 0 && roll < data.enemySpawnPer) {
-
-                //dead.getRandom().revive();
-
-                var i = Math.floor(Math.random() * dead.list.length);
-                dead.list[i].revive();
-
-                //dead.revive();
-
-            }
-
-        });
+        game.time.events.loop(1000, enemySpawn, this);
 
     },
 
