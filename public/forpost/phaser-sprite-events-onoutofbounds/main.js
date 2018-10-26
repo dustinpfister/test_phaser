@@ -20,11 +20,12 @@ var createEnemySprite = function (game) {
     data.enemys = game.add.group();
 
     var i = 0,
-    len = 1;
+    len = 5;
     while (i < len) {
 
         // create the enemy sprite
-        var enemy = data.enemy = game.make.sprite(game.world.centerX, game.world.height + 32, 'sheet-enemy');
+        var space = game.world.width / len;
+        var enemy = data.enemy = game.make.sprite(space * i + space / 2, game.world.height + 32, 'sheet-enemy');
         enemy.anchor.set(0.5, 0.5);
 
         // set checkWorldBounds, and attach a handler
@@ -93,9 +94,10 @@ game.state.add('demo', {
         if (data.gameOver) {
             tx.text = 'game over: click to reset';
         } else {
-            // move enemy by pixels per second going by elapsed game time
-            //enemy.y -= game.time.elapsed / 1000 * data.enemyPPS;
-            data.enemys.children[0].y -= game.time.elapsed / 1000 * data.enemyPPS;
+            // move alive enemys by pixels per second going by elapsed game time
+            data.enemys.forEachAlive(function (enemy) {
+                enemy.y -= game.time.elapsed / 1000 * data.enemyPPS;
+            });
         }
 
     }
