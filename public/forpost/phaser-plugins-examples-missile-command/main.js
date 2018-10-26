@@ -7,7 +7,7 @@ game.state.add('demo', {
 
         Plugin_missiles(game, {});
 
-        var missile = game.data.missiles.children[0];
+        var missile = game.data.missiles.group.children[0];
 
         missile.data.set('p', 160, 240, 100, 50);
         missile.data.launch();

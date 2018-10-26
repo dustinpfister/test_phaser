@@ -64,7 +64,7 @@ var Plugin_missiles = function (game, opt) {
 
     };
 
-    Missile.prototype.step = function () {
+    Missile.prototype.update = function () {
 
         var sprite = this.sprite,
         per;
@@ -102,11 +102,11 @@ var Plugin_missiles = function (game, opt) {
         missile
         len = 10;
 
-        data.missiles = game.add.group();
+        data.missiles.group = game.add.group();
         while (i < len) {
             sprite = game.make.sprite(0, 0, 'sheet-missile');
             sprite.data = new Missile(sprite);
-            data.missiles.add(sprite);
+            data.missiles.group.add(sprite);
             i += 1;
         }
 
@@ -123,6 +123,8 @@ var Plugin_missiles = function (game, opt) {
         // create or append game.data
         game.data = game.data || {};
 
+        game.data.missiles = {};
+
         createMissileSheet(game);
         createMissilePool(game);
 
@@ -131,8 +133,8 @@ var Plugin_missiles = function (game, opt) {
     plug.update = function () {
 
         // step all alive missiles
-        game.data.missiles.forEachAlive(function (missile) {
-            missile.data.step();
+        game.data.missiles.group.forEachAlive(function (missile) {
+            missile.data.update();
         });
 
     };
