@@ -88,12 +88,20 @@ game.state.add('demo', {
         // enemy spawn loop
         game.time.events.loop(1000, function () {
 
-            var dead = data.enemies.getFirstDead(),
+            //var dead = data.enemies.getFirstDead(),
+            var dead = data.enemies.filter(function (enemy) {
+                    return !enemy.alive;
+                }),
             roll = Math.random();
 
-            if (dead && roll < data.enemySpawnPer) {
+            if (dead.list.length > 0 && roll < data.enemySpawnPer) {
 
-                dead.revive();
+                //dead.getRandom().revive();
+
+                var i = Math.floor(Math.random() * dead.list.length);
+                dead.list[i].revive();
+
+                //dead.revive();
 
             }
 
