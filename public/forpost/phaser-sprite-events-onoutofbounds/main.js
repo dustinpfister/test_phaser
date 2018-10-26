@@ -33,6 +33,16 @@ var createEnemySpritePool = function (game) {
         enemy.checkWorldBounds = true;
         enemy.events.onOutOfBounds.add(onOutOfBounds, this);
 
+        enemy.data.PPS = 32;
+
+        enemy.inputEnabled = true;
+        enemy.events.onInputDown.add(function (enemy) {
+
+            enemy.y = game.world.height + 32;
+            enemy.kill();
+
+        });
+
         enemy.kill();
 
         data.enemies.add(enemy);
@@ -46,15 +56,17 @@ var createEnemySpritePool = function (game) {
 // spawn enemies
 var enemySpawn = function () {
 
-    var data = this.game.data
+    var data = this.game.data,
     dead = data.enemies.filter(function (enemy) {
             return !enemy.alive;
         }),
+    enemy,
     roll = Math.random();
 
     if (dead.list.length > 0 && roll < data.enemySpawnPer) {
-        var i = Math.floor(Math.random() * dead.list.length);
-        dead.list[i].revive();
+        enemy = dead.list[Math.floor(Math.random() * dead.list.length)];
+        enemy.data.PPS = 16 + Math.floor(32 * Math.random());
+        enemy.revive();
     }
 };
 
@@ -101,7 +113,7 @@ game.state.add('demo', {
             });
 
         // enemy spawn loop
-        game.time.events.loop(1000, enemySpawn, this);
+        game.time.events.loop(500, enemySpawn, this);
 
     },
 
@@ -117,7 +129,7 @@ game.state.add('demo', {
         } else {
             // move alive enemies by pixels per second going by elapsed game time
             data.enemies.forEachAlive(function (enemy) {
-                enemy.y -= game.time.elapsed / 1000 * data.enemyPPS;
+                enemy.y -= game.time.elapsed / 1000 * enemy.data.PPS;
             });
         }
 
