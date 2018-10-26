@@ -14,10 +14,6 @@ var Plugin_missiles = function (game, opt) {
         var sprite = this.sprite;
 
         this.faction = faction || 'a';
-        //this.sx = sx === undefined ? 0 : sx;
-        //this.sy = sy === undefined ? 0 : sy;
-        //this.tx = tx === undefined ? 320 : tx;
-        //this.ty = ty === undefined ? 240 : ty;
 
         this.pointStart = new Phaser.Point(sx, sy);
         this.pointTarget = new Phaser.Point(tx, ty);
@@ -25,9 +21,9 @@ var Plugin_missiles = function (game, opt) {
         this.angle = this.pointStart.angle(this.pointTarget);
         this.distance = this.pointStart.distance(this.pointTarget);
 
-        this.ticks = 100;
-        this.currentTick = 0;
-        //this.distancePerTick = this.distance / this.ticks;
+        // time and flight time
+        this.time = 0;
+        this.flightTime = 15 * 1000;
 
         this.launched = false;
         this.explode = false;
@@ -46,6 +42,7 @@ var Plugin_missiles = function (game, opt) {
     Missile.prototype.launch = function () {
 
         this.launched = true;
+        this.time = 0;
         this.sprite.revive();
 
     };
@@ -56,13 +53,19 @@ var Plugin_missiles = function (game, opt) {
         per;
 
         if (this.launched && !this.explode) {
-            this.currentTick += 1;
-            if (this.currentTick >= this.ticks) {
+
+
+            this.time += sprite.game.time.elapsed;
+
+            if (this.time >= this.flightTime) {
+
+                this.time = this.flightTime;
                 this.explode = true;
+
             }
         }
 
-        per = this.currentTick / this.ticks;
+        per = this.time / this.flightTime;
 
         sprite.x = this.pointStart.x + Math.cos(this.angle) * (this.distance * per);
         sprite.y = this.pointStart.y + Math.sin(this.angle) * (this.distance * per);
