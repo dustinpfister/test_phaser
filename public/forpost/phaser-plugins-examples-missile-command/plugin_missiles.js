@@ -123,7 +123,29 @@ var Plugin_missiles = function (game, opt) {
         // create or append game.data
         game.data = game.data || {};
 
-        game.data.missiles = {};
+        game.data.missiles = {
+
+            getExploded: function (faction) {
+
+                faction = faction || '*';
+
+                var missiles = game.data.missiles.group;
+
+               return missiles.filter(function (missile) {
+
+                    if (faction === '*') {
+
+                        return missile.data.explode;
+
+                    }
+
+                    return missile.data.explode && missile.data.faction === faction;
+
+                });
+
+            }
+
+        };
 
         createMissileSheet(game);
         createMissilePool(game);

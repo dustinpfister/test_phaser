@@ -12,6 +12,28 @@ game.state.add('demo', {
         missile.data.set('p', 160, 240, 100, 50);
         missile.data.launch();
 
+        game.data.tx = game.add.text(10, 10, '', {
+                fill: 'white',
+                font: '15px courier'
+            });
+
+        console.log(game.data.missiles.getExploded('*'));
+
+    },
+
+    update: function () {
+
+        var tx = game.data.tx,
+        exploded = game.data.missiles.getExploded('*').list;
+
+        tx.text = '';
+
+        if (exploded.length) {
+
+            tx.text = 'exploded: ' + exploded.length;
+
+        }
+
     }
 
 });
