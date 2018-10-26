@@ -1,8 +1,7 @@
 
+// what to do when an enemy does out of bounds
 var onOutOfBounds = function (enemy) {
-
     var game = this.game;
-
     if (enemy.y <= 0) {
         enemy.y = game.world.height + 32;
         enemy.kill();
@@ -14,16 +13,15 @@ var onOutOfBounds = function (enemy) {
 
 };
 
+// create a pool of enemies
 var createEnemySpritePool = function (game) {
 
-    var data = game.data;
-
+    var data = game.data,
+    i = 0,
+    len = 4;
     data.enemies = game.add.group();
 
-    var i = 0,
-    len = 4;
     while (i < len) {
-
         // create the enemy sprite
         var space = game.world.width / len;
         var enemy = data.enemy = game.make.sprite(space * i + space / 2, game.world.height + 32, 'sheet-enemy');
@@ -33,22 +31,17 @@ var createEnemySpritePool = function (game) {
         enemy.checkWorldBounds = true;
         enemy.events.onOutOfBounds.add(onOutOfBounds, this);
 
-        enemy.data.PPS = 32;
-
+        // the player can kill an enemy without loosing health
         enemy.inputEnabled = true;
         enemy.events.onInputDown.add(function (enemy) {
-
             enemy.y = game.world.height + 32;
             enemy.kill();
-
         });
 
+        enemy.data.PPS = 32;
         enemy.kill();
-
         data.enemies.add(enemy);
-
         i += 1;
-
     }
 
 };
@@ -95,6 +88,7 @@ game.state.add('demo', {
             enemySpawnPer: 0.25
         };
 
+        // create enemy sprite sheet and sprite pool
         createEnemySheet(game);
         createEnemySpritePool(game);
 
