@@ -15,7 +15,7 @@ var Plugin_missiles = function (game, opt) {
     var Missile = function (sprite) {
 
         this.sprite = sprite;
-        this.set('a', 0, 0, 320, 240);
+        this.set('a', 0, 0, 300, 220);
 
     };
 
@@ -33,11 +33,15 @@ var Plugin_missiles = function (game, opt) {
         this.distance = this.pointStart.distance(this.pointTarget);
 
         // time and flight time
-        this.time = 0;
-        this.flightTime = 15 * 1000;
-
         this.launched = false;
+        this.time = 0;
+        this.flightTime = 5 * 1000;
+
+        // explode
         this.explode = false;
+        this.blastRadius = 32;
+        this.blastTime = 0;
+        this.blastTimeTotal = 3000;
 
         sprite.x = this.pointStart.x;
         sprite.y = this.pointTarget.y;
@@ -53,7 +57,9 @@ var Plugin_missiles = function (game, opt) {
     Missile.prototype.launch = function () {
 
         this.launched = true;
+        this.explode = false;
         this.time = 0;
+        this.bastTime = 0;
         this.sprite.revive();
 
     };
@@ -69,6 +75,15 @@ var Plugin_missiles = function (game, opt) {
             if (this.time >= this.flightTime) {
                 this.time = this.flightTime;
                 this.explode = true;
+            }
+        }
+
+        // if the missile exploded
+        if (this.explode) {
+            this.blastTime += sprite.game.time.elapsed;
+            if (this.blastTime >= this.blastTimeTotal) {
+                this.blastTime = this.blastTimeTotal
+                    sprite.kill();
             }
         }
 
