@@ -17,13 +17,25 @@ var createEnemySprite = function (game) {
 
     var data = game.data;
 
-    // create the enemy sprite
-    var enemy = data.enemy = game.add.sprite(game.world.centerX, game.world.height + 32, 'sheet-enemy');
-    enemy.anchor.set(0.5, 0.5);
+    data.enemys = game.add.group();
 
-    // set checkWorldBounds, and attach a handler
-    enemy.checkWorldBounds = true;
-    enemy.events.onOutOfBounds.add(onOutOfBounds, this);
+    var i = 0,
+    len = 1;
+    while (i < len) {
+
+        // create the enemy sprite
+        var enemy = data.enemy = game.make.sprite(game.world.centerX, game.world.height + 32, 'sheet-enemy');
+        enemy.anchor.set(0.5, 0.5);
+
+        // set checkWorldBounds, and attach a handler
+        enemy.checkWorldBounds = true;
+        enemy.events.onOutOfBounds.add(onOutOfBounds, this);
+
+        data.enemys.add(enemy);
+
+        i += 1;
+
+    }
 
 };
 
@@ -82,7 +94,8 @@ game.state.add('demo', {
             tx.text = 'game over: click to reset';
         } else {
             // move enemy by pixels per second going by elapsed game time
-            enemy.y -= game.time.elapsed / 1000 * data.enemyPPS;
+            //enemy.y -= game.time.elapsed / 1000 * data.enemyPPS;
+            data.enemys.children[0].y -= game.time.elapsed / 1000 * data.enemyPPS;
         }
 
     }
