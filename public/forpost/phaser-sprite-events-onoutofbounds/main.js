@@ -5,7 +5,7 @@ var onOutOfBounds = function (enemy) {
 
     if (enemy.y <= 0) {
         enemy.y = game.world.height + 32;
-        game.data.health -= 25;
+        game.data.health -= 10;
         if (game.data.health <= 0) {
             game.data.gameOver = true;
         }
@@ -34,8 +34,12 @@ game.state.add('demo', {
 
         var data = game.data = game.data || {
             health: 100,
-            gameOver: false
+            gameOver: false,
+            lt: game.time.physicsElapsedMS,
+            enemyPPS: 32 // enemy pixles per second
         };
+
+        console.log(game.time.physicsElapsedMS);
 
         var enemy = data.enemy = game.add.sprite(game.world.centerX, game.world.height + 32, 'sheet-enemy');
         enemy.anchor.set(0.5, 0.5);
@@ -68,7 +72,10 @@ game.state.add('demo', {
 
         tx.text = 'health: ' + data.health;
         if (!data.gameOver) {
-            enemy.y -= 10;
+            //enemy.y -= 1;
+
+            enemy.y -= game.time.elapsed / 1000 * data.enemyPPS;
+
         } else {
             tx.text = 'game over';
         }
