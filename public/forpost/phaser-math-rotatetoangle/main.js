@@ -1,8 +1,22 @@
 
 var positionTarget = function (target, ship) {
-
     target.x = game.world.centerX + Math.cos(ship.data.targetRadian) * 100;
     target.y = game.world.centerY + Math.sin(ship.data.targetRadian) * 100;
+};
+
+var mkSprites = function (game) {
+
+    var data = game.data;
+
+    // ship
+    var ship = data.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet', 1);
+    ship.data.targetRadian = Math.PI;
+    ship.anchor.set(0.5, 0.5);
+
+    // target
+    var target = data.target = game.add.sprite(0, 0, 'sheet', 0);
+    target.anchor.set(0.5, 0.5);
+    positionTarget(target, ship);
 
 };
 
@@ -39,22 +53,9 @@ game.state.add('demo', {
 
         game.data = game.data || {};
 
-        var data = game.data;
-
         mkSheet(game);
 
-        // ship
-        var ship = data.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet', 1);
-        ship.data.targetRadian = Math.PI;
-        ship.anchor.set(0.5, 0.5);
-
-        // target
-        var target = data.target = game.add.sprite(0, 0, 'sheet', 0);
-        target.anchor.set(0.5, 0.5);
-        //target.x = game.world.centerX + Math.cos(ship.data.targetRadian) * 100;
-        //target.y = game.world.centerY + Math.sin(ship.data.targetRadian) * 100;
-
-        positionTarget(target, ship);
+        mkSprites(game);
 
     },
 
