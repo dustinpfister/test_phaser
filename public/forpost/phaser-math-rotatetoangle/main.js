@@ -1,4 +1,19 @@
 
+var rotateToTarget = function (game) {
+
+    var data = game.data,
+    ship = data.ship,
+    target = data.target;
+
+    ship.rotation = Phaser.Math.rotateToAngle(ship.rotation, ship.data.targetRadian, 0.05);
+
+    if (ship.rotation === ship.data.targetRadian) {
+        ship.data.targetRadian = Math.PI * 2 * Math.random();
+        positionTarget(target, ship);
+    }
+
+};
+
 var positionTarget = function (target, ship) {
     target.x = game.world.centerX + Math.cos(ship.data.targetRadian) * 100;
     target.y = game.world.centerY + Math.sin(ship.data.targetRadian) * 100;
@@ -61,17 +76,7 @@ game.state.add('demo', {
 
     update: function () {
 
-        var data = game.data,
-        cursors = data.cursors,
-        ship = data.ship,
-        target = data.target;
-
-        ship.rotation = Phaser.Math.rotateToAngle(ship.rotation, ship.data.targetRadian, 0.05);
-
-        if (ship.rotation === ship.data.targetRadian) {
-            ship.data.targetRadian = Math.PI * 2 * Math.random();
-            positionTarget(target, ship);
-        }
+        rotateToTarget(game);
 
     }
 
