@@ -1,4 +1,11 @@
-// make a sprite sheet
+
+var positionTarget = function (target, ship) {
+
+    target.x = game.world.centerX + Math.cos(ship.data.targetRadian) * 100;
+    target.y = game.world.centerY + Math.sin(ship.data.targetRadian) * 100;
+
+};
+
 // make a sprite sheet
 var mkSheet = function (game) {
 
@@ -8,7 +15,7 @@ var mkSheet = function (game) {
     canvas.width = 96;
     canvas.height = 32;
 
-    // red box
+    // target
     ctx.fillStyle = '#ff0000';
     ctx.fillRect(0, 0, 31, 31);
 
@@ -36,9 +43,18 @@ game.state.add('demo', {
 
         mkSheet(game);
 
-        var ship = data.ship = game.add.sprite(32, 32, 'sheet', 1);
+        // ship
+        var ship = data.ship = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet', 1);
         ship.data.targetRadian = Math.PI;
         ship.anchor.set(0.5, 0.5);
+
+        // target
+        var target = data.target = game.add.sprite(0, 0, 'sheet', 0);
+        target.anchor.set(0.5, 0.5);
+        //target.x = game.world.centerX + Math.cos(ship.data.targetRadian) * 100;
+        //target.y = game.world.centerY + Math.sin(ship.data.targetRadian) * 100;
+
+        positionTarget(target, ship);
 
     },
 
@@ -46,12 +62,14 @@ game.state.add('demo', {
 
         var data = game.data,
         cursors = data.cursors,
-        ship = data.ship;
+        ship = data.ship,
+        target = data.target;
 
         ship.rotation = Phaser.Math.rotateToAngle(ship.rotation, ship.data.targetRadian, 0.05);
 
         if (ship.rotation === ship.data.targetRadian) {
             ship.data.targetRadian = Math.PI * 2 * Math.random();
+            positionTarget(target, ship);
         }
 
     }
