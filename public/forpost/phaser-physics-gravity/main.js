@@ -14,6 +14,30 @@ var makeBall = function (game) {
 
 };
 
+var createBallGroup = function (game) {
+
+    var group = game.data.group = game.add.group(),
+    per,
+    ball;
+
+    var i = 0,
+    len = 5;
+    while (i < len) {
+
+        per = i / len;
+        ball = makeBall(game);
+
+        ball.x = 50 + 250 * per;
+        ball.y = 100;
+
+        group.add(ball);
+
+        i += 1;
+
+    }
+
+};
+
 var createBallSheet = function (game) {
     var canvas = document.createElement('canvas');
     ctx = canvas.getContext('2d');
@@ -34,27 +58,44 @@ game.state.add('ball-bounce', {
 
     create: function () {
 
+        game.data = {};
+
         createBallSheet(game);
 
-        var group = game.add.group(),
-        per,
-        ball;
+        createBallGroup(game);
 
-        var i = 0,
-        len = 5;
-        while (i < len) {
+    },
 
-            per = i / len;
-            ball = makeBall(game);
+    update: function () {
 
-            ball.x = 50 + 250 * per;
-            ball.y = 100;
+        // clear gravity of all balls
+        game.data.group.forEach(function (ball) {
 
-            group.add(ball);
+            ball.body.gravity.set(0, 0);
 
-            i += 1;
+        });
 
-        }
+        // clear gravity of all balls
+        game.data.group.forEach(function (ball1) {
+
+            // clear gravity of all balls
+            game.data.group.forEach(function (ball2) {
+
+                var d = ball1.position.distance(ball2),
+                a = ball1.position.angle(ball2);
+
+                if (d <= 150) {
+
+                    var per = d / 150;
+
+                    ball1.body.gravity.x += Math.cos(a) * (10) * (1-per);
+                    ball1.body.gravity.y += Math.sin(a) * (10) * (1-per);
+
+                }
+
+            });
+
+        });
 
     }
 
