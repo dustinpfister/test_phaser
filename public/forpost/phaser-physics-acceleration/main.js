@@ -1,4 +1,5 @@
 
+// a method to update acceleration based an angle and distance to a center point
 var updateAcceleration = function (game) {
 
     var ball = game.data.ball,
@@ -6,7 +7,8 @@ var updateAcceleration = function (game) {
     angle = ball.position.angle(pointCenter) - Math.PI / 2,
     distance = ball.position.distance(pointCenter);
 
-    ball.body.acceleration.set(Math.cos(angle) * distance + 1, Math.sin(angle) * distance + 1);
+    // update acceleration
+    ball.body.acceleration.set(Math.cos(angle) * distance/2 + 1, Math.sin(angle) * distance/2 + 1);
 
 };
 
@@ -20,14 +22,8 @@ var createBall = function (game) {
     // enable physics
     game.physics.enable(ball);
 
-    // set some values for gravity, bounce, and drag
-    ball.body.gravity.set(0, 0);
+    // set some values
     ball.body.bounce.set(1, 1);
-    ball.body.drag.set(0, 0);
-    ball.body.acceleration.set(0, 0);
-
-    //ball.fixedToCamera = true;
-
     ball.body.collideWorldBounds = true;
 
 };
@@ -57,19 +53,24 @@ game.state.add('ball-bounce', {
             tickMax: 100
         };
 
-        //game.world.resize(640, 480);
-
         createBallSheet(game);
-
         createBall(game);
 
-        //updateAcceleration(game);
+        game.data.tx = game.add.text(10, 10, '', {
+                fill: 'white',
+                font: '10px courier'
+            });
 
     },
 
     update: function () {
 
+        var ball = game.data.ball;
+
         updateAcceleration(game);
+
+        game.data.tx.text = 'speed: ' + ball.body.speed.toFixed(2) +
+            ', acc (x,y): ' + ball.body.acceleration.x.toFixed(2) + ',' + ball.body.acceleration.y.toFixed(2);
 
     }
 
