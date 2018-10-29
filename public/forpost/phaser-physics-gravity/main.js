@@ -21,7 +21,7 @@ var createBallGroup = function (game) {
     ball;
 
     var i = 0,
-    len = 5;
+    len = 2;
     while (i < len) {
 
         per = i / len;
@@ -29,6 +29,7 @@ var createBallGroup = function (game) {
 
         ball.x = 50 + 250 * per;
         ball.y = 100;
+        ball.data.i = i;
 
         group.add(ball);
 
@@ -64,6 +65,16 @@ game.state.add('ball-bounce', {
 
         createBallGroup(game);
 
+        // clear gravity of all balls
+        game.data.group.forEach(function (ball) {
+
+            console.log(ball.body.gravity);
+
+        });
+
+        //var ball = game.data.group.children[0];
+        //ball.body.gravity.set(0, 0);
+
     },
 
     update: function () {
@@ -82,14 +93,14 @@ game.state.add('ball-bounce', {
             game.data.group.forEach(function (ball2) {
 
                 var d = ball1.position.distance(ball2),
-                a = ball1.position.angle(ball2);
+                a = ball2.position.angle(ball1);
 
-                if (d <= 150) {
+                if (d <= 200 && ball2.data.i != ball1.data.i) {
 
-                    var per = d / 150;
+                    var per = d / 200;
 
-                    ball1.body.gravity.x += Math.cos(a) * (10) * (1-per);
-                    ball1.body.gravity.y += Math.sin(a) * (10) * (1-per);
+                    ball1.body.gravity.x -= Math.cos(a) * 20 * (1 - per);
+                    ball1.body.gravity.y -= Math.sin(a) * 20 * (1 - per);
 
                 }
 
