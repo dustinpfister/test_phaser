@@ -88,16 +88,6 @@ game.state.add('ball-bounce', {
 
         createBallGroup(game);
 
-        // clear gravity of all balls
-        game.data.group.forEach(function (ball) {
-
-            console.log(ball.body.gravity);
-
-        });
-
-        //var ball = game.data.group.children[0];
-        //ball.body.gravity.set(0, 0);
-
     },
 
     update: function () {
