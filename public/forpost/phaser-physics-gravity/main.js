@@ -1,18 +1,16 @@
-var createBall = function (game) {
+var makeBall = function (game) {
 
     game.data = game.data || {};
 
-    var ball = game.data.ball = game.add.sprite(game.world.centerX, 0, 'sheet-ball', 0);
+    var ball = game.data.ball = game.make.sprite(game.world.centerX, 0, 'sheet-ball', 0);
     ball.anchor.set(0.5, 0.5);
 
     // enable physics
     game.physics.enable(ball);
 
-    // set some values for gravity, bounce, and drag
-    ball.body.gravity.set(0, 100);
-    ball.body.bounce.set(1, 1);
-    ball.body.drag.set(10, 10);
     ball.body.collideWorldBounds = true;
+
+    return ball;
 
 };
 
@@ -38,7 +36,25 @@ game.state.add('ball-bounce', {
 
         createBallSheet(game);
 
-        createBall(game);
+        var group = game.add.group(),
+        per,
+        ball;
+
+        var i = 0,
+        len = 5;
+        while (i < len) {
+
+            per = i / len;
+            ball = makeBall(game);
+
+            ball.x = 50 + 250 * per;
+            ball.y = 100;
+
+            group.add(ball);
+
+            i += 1;
+
+        }
 
     }
 
