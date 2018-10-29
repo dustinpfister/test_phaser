@@ -1,3 +1,26 @@
+
+var updateGravity = function (game) {
+
+    // clear gravity of all balls
+    game.data.group.forEach(function (ball) {
+        ball.body.gravity.set(0, 0);
+    });
+
+    // set gravity between balls
+    game.data.group.forEach(function (ball1) {
+        game.data.group.forEach(function (ball2) {
+            var d = ball1.position.distance(ball2),
+            a = ball2.position.angle(ball1);
+            if (d <= 200 && ball2.data.i != ball1.data.i) {
+                var per = d / 200;
+                ball1.body.gravity.x -= Math.cos(a) * 20 * (1 - per);
+                ball1.body.gravity.y -= Math.sin(a) * 20 * (1 - per);
+            }
+        });
+    });
+
+};
+
 var makeBall = function (game) {
 
     game.data = game.data || {};
@@ -79,34 +102,7 @@ game.state.add('ball-bounce', {
 
     update: function () {
 
-        // clear gravity of all balls
-        game.data.group.forEach(function (ball) {
-
-            ball.body.gravity.set(0, 0);
-
-        });
-
-        // clear gravity of all balls
-        game.data.group.forEach(function (ball1) {
-
-            // clear gravity of all balls
-            game.data.group.forEach(function (ball2) {
-
-                var d = ball1.position.distance(ball2),
-                a = ball2.position.angle(ball1);
-
-                if (d <= 200 && ball2.data.i != ball1.data.i) {
-
-                    var per = d / 200;
-
-                    ball1.body.gravity.x -= Math.cos(a) * 20 * (1 - per);
-                    ball1.body.gravity.y -= Math.sin(a) * 20 * (1 - per);
-
-                }
-
-            });
-
-        });
+        updateGravity(game);
 
     }
 
