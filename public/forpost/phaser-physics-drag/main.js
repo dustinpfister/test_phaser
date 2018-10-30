@@ -10,8 +10,9 @@ var launchBall = function (game) {
     ball.y = cannon.centerY;
     ball.revive();
 
-    var power = launch.distance / 200 * 500;
+    var power = launch.distance / 200 * 200;
 
+    launch.active = true;
     game.camera.follow(ball);
     gfx.clear();
 
@@ -21,10 +22,38 @@ var launchBall = function (game) {
 
 };
 
+var drawGridLines = function () {
+
+    var launch = game.data.launch,
+    ball = game.data.ball,
+    gfx = launch.gfx;
+
+    var sx = -ball.x % 32,
+    sy = Math.abs(ball.y - game.height) % 32;
+
+    gfx.clear();
+    gfx.lineStyle(3, 0x00ff00, 1);
+
+    var cy = 0;
+    while (cy < 8) {
+        gfx.moveTo(0, sy + 32 * cy);
+        gfx.lineTo(320, sy + 32 * cy);
+        cy += 1;
+    }
+
+    var cx = 0;
+    while (cx < 11) {
+        gfx.moveTo(sx + 32 * cx, 0);
+        gfx.lineTo(sx + 32 * cx, 240);
+        cx += 1;
+    }
+
+};
+
 var drawLines = function (game) {
 
     var launch = game.data.launch,
-    cannon = launch.cannon;
+    cannon = launch.cannon,
     gfx = launch.gfx;
 
     gfx.clear();
@@ -52,6 +81,7 @@ var createLaunchLines = function (game, cannon) {
     launch.pad = game.add.graphics();
     launch.angle = 0;
     launch.distance = 0;
+    launch.active = false;
 
     var cannon = game.add.sprite(10, game.world.height - 32 - 10, 'sheet-cannon', 0);
     cannon.inputEnabled = true;
@@ -134,6 +164,18 @@ game.state.add('ball-bounce', {
 
         createLaunchLines(game);
         drawLines(game);
+
+    },
+
+    update: function () {
+
+        var launch = game.data.launch;
+
+        if (launch.active) {
+
+            drawGridLines(game);
+
+        }
 
     }
 
