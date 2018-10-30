@@ -10,15 +10,19 @@ var launchBall = function (game) {
     ball.y = cannon.centerY;
     ball.revive();
 
-    var power = launch.distance / 200 * 200;
+    var power = launch.distance / 200 * 500;
 
     launch.active = true;
     game.camera.follow(ball);
     gfx.clear();
 
+    // velocity
     ball.body.velocity.set(
         Math.cos(launch.angle) * power,
         Math.sin(launch.angle) * power);
+
+    // gravity
+    ball.body.gravity.set(0, 100);
 
 };
 
@@ -32,7 +36,7 @@ var drawGridLines = function () {
     sy = Math.abs(ball.y - game.height) % 32;
 
     gfx.clear();
-    gfx.lineStyle(3, 0x00ff00, 1);
+    gfx.lineStyle(3, 0x00ff00, .4);
 
     var cy = 0;
     while (cy < 8) {
@@ -59,8 +63,6 @@ var drawLines = function (game) {
     gfx.clear();
 
     gfx.lineStyle(3, 0x00ff00, 1);
-    //gfx.beginFill(0xff0000);
-    //gfx.drawRect(0, 0, 200, 200);
 
     // angle line
     gfx.moveTo(cannon.centerX, cannon.centerY);
@@ -83,6 +85,9 @@ var createLaunchLines = function (game, cannon) {
     launch.distance = 0;
     launch.active = false;
 
+    // no bounds for camera
+    game.camera.bounds = null;
+
     var cannon = game.add.sprite(10, game.world.height - 32 - 10, 'sheet-cannon', 0);
     cannon.inputEnabled = true;
     cannon.events.onInputDown.add(function () {
@@ -99,7 +104,14 @@ var createLaunchLines = function (game, cannon) {
     ball.kill();
     // enable physics
     game.physics.enable(ball);
-    //ball.body.collideWorldBounds = true;
+
+    // ball collides with only down bounds
+    ball.body.collideWorldBounds = true;
+	
+	console.log(game.physics.arcade.checkCollision);
+	
+    game.physics.arcade.checkCollision.up = false;
+    game.physics.arcade.checkCollision.right = false;
 
     launch.pad.clear();
     launch.pad.beginFill(0xff0000);
@@ -159,9 +171,6 @@ game.state.add('ball-bounce', {
 
         createBallSheet(game);
         createCannonSheet(game);
-
-        game.camera.bounds = null;
-
         createLaunchLines(game);
         drawLines(game);
 
