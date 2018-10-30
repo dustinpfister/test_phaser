@@ -7,8 +7,16 @@ var drawLines = function (game) {
 
     gfx.clear();
     gfx.lineStyle(3, 0x00ff00, 1);
+
+    // angle line
     gfx.moveTo(launcher.centerX, launcher.centerY);
     gfx.lineTo(launcher.centerX + Math.cos(launch.angle) * 250, launcher.centerY + Math.sin(launch.angle) * 250);
+
+    // distance line
+    var x = launcher.centerX + Math.cos(launch.angle) * launch.distance,
+    y = launcher.centerY + Math.sin(launch.angle) * launch.distance;
+    gfx.moveTo(x, y);
+    gfx.lineTo(x + Math.cos(launch.angle - Math.PI / 2) * 32, y + Math.sin(launch.angle - Math.PI / 2) * 32);
 
 };
 
@@ -22,12 +30,15 @@ var createLaunchLines = function (game, launcher) {
     launch.launcher = launcher;
     launch.gfx = gfx;
     launch.angle = 0;
+    launch.distance = 0;
 
     game.input.onDown.add(function (pt) {
 
-        var angle = launch.launcher.position.angle(pt.position);
+        var angle = launch.launcher.position.angle(pt.position),
+        distance = launch.launcher.position.distance(pt.position);
 
         launch.angle = angle;
+        launch.distance = distance;
 
         drawLines(game);
 
