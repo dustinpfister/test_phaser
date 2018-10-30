@@ -3,13 +3,17 @@ var launchBall = function (game) {
 
     launch = game.data.launch,
     ball = game.data.ball,
+    gfx = launch.gfx,
     cannon = launch.cannon;
 
     ball.x = cannon.centerX;
     ball.y = cannon.centerY;
     ball.revive();
 
-    var power = launch.distance / 200 * 50;
+    var power = launch.distance / 200 * 500;
+
+    game.camera.follow(ball);
+    gfx.clear();
 
     ball.body.velocity.set(
         Math.cos(launch.angle) * power,
@@ -65,7 +69,7 @@ var createLaunchLines = function (game, cannon) {
     ball.kill();
     // enable physics
     game.physics.enable(ball);
-    ball.body.collideWorldBounds = true;
+    //ball.body.collideWorldBounds = true;
 
     launch.pad.clear();
     launch.pad.beginFill(0xff0000);
@@ -125,6 +129,8 @@ game.state.add('ball-bounce', {
 
         createBallSheet(game);
         createCannonSheet(game);
+
+        game.camera.bounds = null;
 
         createLaunchLines(game);
         drawLines(game);
