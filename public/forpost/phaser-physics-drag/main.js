@@ -24,7 +24,10 @@ var drawLines = function (game) {
     gfx = launch.gfx;
 
     gfx.clear();
+
     gfx.lineStyle(3, 0x00ff00, 1);
+    gfx.beginFill(0xff0000);
+    gfx.drawRect(0, 0, 200, 200);
 
     // angle line
     gfx.moveTo(launcher.centerX, launcher.centerY);
@@ -50,8 +53,9 @@ var createLaunchLines = function (game, launcher) {
     launch.angle = 0;
     launch.distance = 0;
 
-    game.input.onDown.add(function (pt) {
-
+    gfx.inputEnabled = true;
+    gfx.events.onInputDown.add(function (gfx, pt) {
+    //game.input.onDown.add(function (pt) {
         var angle = launch.launcher.position.angle(pt.position),
         distance = launch.launcher.position.distance(pt.position);
 
@@ -62,6 +66,8 @@ var createLaunchLines = function (game, launcher) {
         launch.distance = distance;
 
         drawLines(game);
+
+        console.log(launch.angle);
 
     });
 
@@ -113,12 +119,11 @@ game.state.add('ball-bounce', {
 
         cannon.inputEnabled = true;
         cannon.events.onInputDown.add(function () {
-
             launch(game);
-
         });
 
         createLaunchLines(game, cannon);
+        drawLines(game);
 
     }
 
