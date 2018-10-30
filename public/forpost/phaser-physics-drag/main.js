@@ -24,6 +24,9 @@ var launchBall = function (game) {
     // gravity
     ball.body.gravity.set(0, 100);
 
+    // bounce
+    ball.body.bounce.set(0.8, 0.8);
+
 };
 
 var drawGridLines = function () {
@@ -107,10 +110,9 @@ var createLaunchLines = function (game, cannon) {
 
     // ball collides with only down bounds
     ball.body.collideWorldBounds = true;
-	
-	console.log(game.physics.arcade.checkCollision);
-	
+    game.physics.arcade.checkCollision.down = true;
     game.physics.arcade.checkCollision.up = false;
+    game.physics.arcade.checkCollision.left = false;
     game.physics.arcade.checkCollision.right = false;
 
     launch.pad.clear();
