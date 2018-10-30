@@ -1,5 +1,5 @@
 
-var launch = function (game) {
+var launchBall = function (game) {
 
     launch = game.data.launch,
     ball = game.data.ball,
@@ -48,14 +48,22 @@ var createLaunchLines = function (game, cannon) {
 
     var launch = game.data.launch = {};
 
-    launch.cannon = cannon;
-    launch.gfx = gfx;
+    launch.pad = game.add.graphics();
     launch.angle = 0;
     launch.distance = 0;
 
+    var cannon = game.add.sprite(10, game.world.height - 32 - 10, 'sheet-cannon', 0);
+    cannon.inputEnabled = true;
+    cannon.events.onInputDown.add(function () {
+        launchBall(game);
+    });
+    launch.cannon = cannon;
+
+    launch.gfx = gfx;
+
     gfx.inputEnabled = true;
     gfx.events.onInputDown.add(function (gfx, pt) {
-    //game.input.onDown.add(function (pt) {
+        //game.input.onDown.add(function (pt) {
         var angle = launch.cannon.position.angle(pt.position),
         distance = launch.cannon.position.distance(pt.position);
 
@@ -115,14 +123,7 @@ game.state.add('ball-bounce', {
         game.physics.enable(ball);
         ball.body.collideWorldBounds = true;
 
-        var cannon = game.add.sprite(10, game.world.height - 32 - 10, 'sheet-cannon', 0);
-
-        cannon.inputEnabled = true;
-        cannon.events.onInputDown.add(function () {
-            launch(game);
-        });
-
-        createLaunchLines(game, cannon);
+        createLaunchLines(game);
         drawLines(game);
 
     }
