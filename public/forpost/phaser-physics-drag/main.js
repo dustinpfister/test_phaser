@@ -3,10 +3,10 @@ var launch = function (game) {
 
     launch = game.data.launch,
     ball = game.data.ball,
-    launcher = launch.launcher;
+    cannon = launch.cannon;
 
-    ball.x = launcher.centerX;
-    ball.y = launcher.centerY;
+    ball.x = cannon.centerX;
+    ball.y = cannon.centerY;
     ball.revive();
 
     var power = launch.distance / 200 * 50;
@@ -20,7 +20,7 @@ var launch = function (game) {
 var drawLines = function (game) {
 
     var launch = game.data.launch,
-    launcher = launch.launcher;
+    cannon = launch.cannon;
     gfx = launch.gfx;
 
     gfx.clear();
@@ -30,25 +30,25 @@ var drawLines = function (game) {
     gfx.drawRect(0, 0, 200, 200);
 
     // angle line
-    gfx.moveTo(launcher.centerX, launcher.centerY);
-    gfx.lineTo(launcher.centerX + Math.cos(launch.angle) * 200, launcher.centerY + Math.sin(launch.angle) * 200);
+    gfx.moveTo(cannon.centerX, cannon.centerY);
+    gfx.lineTo(cannon.centerX + Math.cos(launch.angle) * 200, cannon.centerY + Math.sin(launch.angle) * 200);
 
     // distance line
-    var x = launcher.centerX + Math.cos(launch.angle) * launch.distance,
-    y = launcher.centerY + Math.sin(launch.angle) * launch.distance;
+    var x = cannon.centerX + Math.cos(launch.angle) * launch.distance,
+    y = cannon.centerY + Math.sin(launch.angle) * launch.distance;
     gfx.moveTo(x, y);
     gfx.lineTo(x + Math.cos(launch.angle - Math.PI / 2) * 32, y + Math.sin(launch.angle - Math.PI / 2) * 32);
 
 };
 
-var createLaunchLines = function (game, launcher) {
+var createLaunchLines = function (game, cannon) {
 
     var gfx = game.add.graphics();
     gfx.fixedToCamera = true;
 
     var launch = game.data.launch = {};
 
-    launch.launcher = launcher;
+    launch.cannon = cannon;
     launch.gfx = gfx;
     launch.angle = 0;
     launch.distance = 0;
@@ -56,8 +56,8 @@ var createLaunchLines = function (game, launcher) {
     gfx.inputEnabled = true;
     gfx.events.onInputDown.add(function (gfx, pt) {
     //game.input.onDown.add(function (pt) {
-        var angle = launch.launcher.position.angle(pt.position),
-        distance = launch.launcher.position.distance(pt.position);
+        var angle = launch.cannon.position.angle(pt.position),
+        distance = launch.cannon.position.distance(pt.position);
 
         launch.angle = angle;
 
