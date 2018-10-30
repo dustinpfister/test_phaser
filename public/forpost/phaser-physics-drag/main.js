@@ -26,8 +26,8 @@ var drawLines = function (game) {
     gfx.clear();
 
     gfx.lineStyle(3, 0x00ff00, 1);
-    gfx.beginFill(0xff0000);
-    gfx.drawRect(0, 0, 200, 200);
+    //gfx.beginFill(0xff0000);
+    //gfx.drawRect(0, 0, 200, 200);
 
     // angle line
     gfx.moveTo(cannon.centerX, cannon.centerY);
@@ -43,9 +43,6 @@ var drawLines = function (game) {
 
 var createLaunchLines = function (game, cannon) {
 
-    var gfx = game.add.graphics();
-    gfx.fixedToCamera = true;
-
     var launch = game.data.launch = {};
 
     launch.pad = game.add.graphics();
@@ -59,10 +56,23 @@ var createLaunchLines = function (game, cannon) {
     });
     launch.cannon = cannon;
 
+    var gfx = game.add.graphics();
+    gfx.fixedToCamera = true;
     launch.gfx = gfx;
 
-    gfx.inputEnabled = true;
-    gfx.events.onInputDown.add(function (gfx, pt) {
+    var ball = game.data.ball = game.add.sprite(0, 0, 'sheet-ball', 0);
+    ball.anchor.set(0.5, 0.5);
+    ball.kill();
+    // enable physics
+    game.physics.enable(ball);
+    ball.body.collideWorldBounds = true;
+
+    launch.pad.clear();
+    launch.pad.beginFill(0xff0000);
+    launch.pad.drawRect(0, 0, 240, 240);
+
+    launch.pad.inputEnabled = true;
+    launch.pad.events.onInputDown.add(function (gfx, pt) {
         //game.input.onDown.add(function (pt) {
         var angle = launch.cannon.position.angle(pt.position),
         distance = launch.cannon.position.distance(pt.position);
@@ -115,13 +125,6 @@ game.state.add('ball-bounce', {
 
         createBallSheet(game);
         createCannonSheet(game);
-
-        var ball = game.data.ball = game.add.sprite(0, 0, 'sheet-ball', 0);
-        ball.anchor.set(0.5, 0.5);
-        ball.kill();
-        // enable physics
-        game.physics.enable(ball);
-        ball.body.collideWorldBounds = true;
 
         createLaunchLines(game);
         drawLines(game);
