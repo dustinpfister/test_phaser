@@ -49,13 +49,13 @@ game.state.add('ball-bounce', {
         var ball = game.data.ball = game.add.sprite(0, 0, 'sheet-ball', 0);
         ball.anchor.set(0.5, 0.5);
         ball.kill();
-
         // enable physics
         game.physics.enable(ball);
-
         ball.body.collideWorldBounds = true;
 
-        createLaunchLines(game);
+        var cannon = game.add.sprite(10, game.world.height - 32 - 10, 'sheet-cannon', 0);
+
+        createLaunchLines(game, cannon);
 
     }
 
