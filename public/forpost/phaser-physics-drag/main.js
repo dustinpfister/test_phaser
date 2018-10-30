@@ -6,8 +6,22 @@ var createLaunchLines = function (game, launcher) {
 
     var launch = game.data.launch = {};
 
-    launch.lanucher = launcher;
+    launch.launcher = launcher;
     launch.angle = 0;
+
+    game.input.onDown.add(function (pt) {
+
+        var angle = launch.launcher.position.angle(pt.position);
+
+        if (angle < 0) {
+            angle = 0;
+        }
+
+        launch.angle = angle;
+
+        drawLines();
+
+    });
 
 };
 
