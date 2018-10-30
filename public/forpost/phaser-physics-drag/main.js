@@ -1,4 +1,17 @@
 
+var drawLines = function (game) {
+
+    var launch = game.data.launch,
+    launcher = launch.launcher;
+    gfx = launch.gfx;
+
+    gfx.clear();
+    gfx.lineStyle(3, 0x00ff00, 1);
+    gfx.moveTo(launcher.centerX, launcher.centerY);
+    gfx.lineTo(launcher.centerX + Math.cos(launch.angle) * 250, launcher.centerY + Math.sin(launch.angle) * 250);
+
+};
+
 var createLaunchLines = function (game, launcher) {
 
     var gfx = game.add.graphics();
@@ -7,19 +20,16 @@ var createLaunchLines = function (game, launcher) {
     var launch = game.data.launch = {};
 
     launch.launcher = launcher;
+    launch.gfx = gfx;
     launch.angle = 0;
 
     game.input.onDown.add(function (pt) {
 
         var angle = launch.launcher.position.angle(pt.position);
 
-        if (angle < 0) {
-            angle = 0;
-        }
-
         launch.angle = angle;
 
-        drawLines();
+        drawLines(game);
 
     });
 
