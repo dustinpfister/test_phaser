@@ -10,7 +10,7 @@ var drawLines = function (game) {
 
     // angle line
     gfx.moveTo(launcher.centerX, launcher.centerY);
-    gfx.lineTo(launcher.centerX + Math.cos(launch.angle) * 250, launcher.centerY + Math.sin(launch.angle) * 250);
+    gfx.lineTo(launcher.centerX + Math.cos(launch.angle) * 200, launcher.centerY + Math.sin(launch.angle) * 200);
 
     // distance line
     var x = launcher.centerX + Math.cos(launch.angle) * launch.distance,
@@ -38,6 +38,9 @@ var createLaunchLines = function (game, launcher) {
         distance = launch.launcher.position.distance(pt.position);
 
         launch.angle = angle;
+
+        distance = Phaser.Math.clamp(distance, 0, 200);
+
         launch.distance = distance;
 
         drawLines(game);
