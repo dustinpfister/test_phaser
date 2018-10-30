@@ -27,6 +27,9 @@ var launchBall = function (game) {
     // bounce
     ball.body.bounce.set(0.8, 0.8);
 
+    // drag
+    ball.body.drag.set(10, 0);
+
 };
 
 var drawGridLines = function () {
