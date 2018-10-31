@@ -25,10 +25,10 @@ var launchBall = function (game) {
     ball.body.gravity.set(0, 100);
 
     // bounce
-    ball.body.bounce.set(0.8, 0.8);
+    ball.body.bounce.set(.4, .4);
 
     // drag
-    ball.body.drag.set(10, 0);
+    ball.body.drag.set(40, 20);
 
 };
 
