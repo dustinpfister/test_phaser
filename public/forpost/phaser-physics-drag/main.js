@@ -39,7 +39,34 @@ var launchBall = function (game) {
 
 };
 
-var drawGridLines = function () {
+var mkBallSprite = function (game) {
+
+    var ball = game.data.ball = game.add.sprite(0, 0, 'sheet-ball', 0);
+    ball.anchor.set(0.5, 0.5);
+    ball.kill();
+
+    // enable physics
+    game.physics.enable(ball);
+
+    // ball collides with only down bounds
+    ball.body.collideWorldBounds = true;
+    game.physics.arcade.checkCollision.down = true;
+    game.physics.arcade.checkCollision.up = false;
+    game.physics.arcade.checkCollision.left = false;
+    game.physics.arcade.checkCollision.right = false;
+
+};
+
+var mkGFX = function (game) {
+
+    var launch = game.data.launch;
+    var gfx = game.add.graphics();
+    gfx.fixedToCamera = true;
+    launch.gfx = gfx;
+
+};
+
+var drawGridLines = function (game) {
 
     var launch = game.data.launch,
     ball = game.data.ball,
@@ -86,33 +113,6 @@ var drawLaunchLines = function (game) {
     y = cannon.centerY + Math.sin(launch.angle) * launch.distance;
     gfx.moveTo(x, y);
     gfx.lineTo(x + Math.cos(launch.angle - Math.PI / 2) * 32, y + Math.sin(launch.angle - Math.PI / 2) * 32);
-
-};
-
-var mkBallSprite = function (game) {
-
-    var ball = game.data.ball = game.add.sprite(0, 0, 'sheet-ball', 0);
-    ball.anchor.set(0.5, 0.5);
-    ball.kill();
-
-    // enable physics
-    game.physics.enable(ball);
-
-    // ball collides with only down bounds
-    ball.body.collideWorldBounds = true;
-    game.physics.arcade.checkCollision.down = true;
-    game.physics.arcade.checkCollision.up = false;
-    game.physics.arcade.checkCollision.left = false;
-    game.physics.arcade.checkCollision.right = false;
-
-};
-
-var mkGFX = function (game) {
-
-    var launch = game.data.launch
-        var gfx = game.add.graphics();
-    gfx.fixedToCamera = true;
-    launch.gfx = gfx;
 
 };
 
