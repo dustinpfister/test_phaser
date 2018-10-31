@@ -107,6 +107,15 @@ var mkBallSprite = function (game) {
 
 };
 
+var mkGFX = function (game) {
+
+    var launch = game.data.launch
+        var gfx = game.add.graphics();
+    gfx.fixedToCamera = true;
+    launch.gfx = gfx;
+
+};
+
 var createLaunchLines = function (game, cannon) {
 
     var launch = game.data.launch = {};
@@ -127,9 +136,7 @@ var createLaunchLines = function (game, cannon) {
     });
     launch.cannon = cannon;
 
-    var gfx = game.add.graphics();
-    gfx.fixedToCamera = true;
-    launch.gfx = gfx;
+    mkGFX(game);
 
     mkBallSprite(game);
 
