@@ -89,6 +89,24 @@ var drawLaunchLines = function (game) {
 
 };
 
+var mkBallSprite = function (game) {
+
+    var ball = game.data.ball = game.add.sprite(0, 0, 'sheet-ball', 0);
+    ball.anchor.set(0.5, 0.5);
+    ball.kill();
+
+    // enable physics
+    game.physics.enable(ball);
+
+    // ball collides with only down bounds
+    ball.body.collideWorldBounds = true;
+    game.physics.arcade.checkCollision.down = true;
+    game.physics.arcade.checkCollision.up = false;
+    game.physics.arcade.checkCollision.left = false;
+    game.physics.arcade.checkCollision.right = false;
+
+};
+
 var createLaunchLines = function (game, cannon) {
 
     var launch = game.data.launch = {};
@@ -113,18 +131,7 @@ var createLaunchLines = function (game, cannon) {
     gfx.fixedToCamera = true;
     launch.gfx = gfx;
 
-    var ball = game.data.ball = game.add.sprite(0, 0, 'sheet-ball', 0);
-    ball.anchor.set(0.5, 0.5);
-    ball.kill();
-    // enable physics
-    game.physics.enable(ball);
-
-    // ball collides with only down bounds
-    ball.body.collideWorldBounds = true;
-    game.physics.arcade.checkCollision.down = true;
-    game.physics.arcade.checkCollision.up = false;
-    game.physics.arcade.checkCollision.left = false;
-    game.physics.arcade.checkCollision.right = false;
+    mkBallSprite(game);
 
     launch.pad.clear();
     launch.pad.beginFill(0xff0000);
