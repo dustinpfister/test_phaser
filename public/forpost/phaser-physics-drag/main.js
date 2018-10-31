@@ -1,34 +1,41 @@
 
 var launchBall = function (game) {
 
-    launch = game.data.launch,
+    var launch = game.data.launch,
     ball = game.data.ball,
     gfx = launch.gfx,
-    cannon = launch.cannon;
+    cannon = launch.cannon,
+    power;
 
-    ball.x = cannon.centerX;
-    ball.y = cannon.centerY;
-    ball.revive();
+    if (!launch.active) {
 
-    var power = launch.distance / 200 * 500;
+        // set active
+        launch.active = true;
 
-    launch.active = true;
-    game.camera.follow(ball);
-    gfx.clear();
+        ball.x = cannon.centerX;
+        ball.y = cannon.centerY;
+        ball.revive();
 
-    // velocity
-    ball.body.velocity.set(
-        Math.cos(launch.angle) * power,
-        Math.sin(launch.angle) * power);
+        // have camera follow the ball
+        game.camera.follow(ball);
 
-    // gravity
-    ball.body.gravity.set(0, 100);
+        power = launch.distance / 200 * launch.maxPower;
 
-    // bounce
-    ball.body.bounce.set(.4, .4);
+        // velocity
+        ball.body.velocity.set(
+            Math.cos(launch.angle) * power,
+            Math.sin(launch.angle) * power);
 
-    // drag
-    ball.body.drag.set(40, 20);
+        // gravity
+        ball.body.gravity.set(0, 100);
+
+        // bounce
+        ball.body.bounce.set(.4, .4);
+
+        // drag
+        ball.body.drag.set(40, 20);
+
+    }
 
 };
 
@@ -90,6 +97,7 @@ var createLaunchLines = function (game, cannon) {
     launch.angle = 0;
     launch.distance = 0;
     launch.active = false;
+    launch.maxPower = 500;
 
     // no bounds for camera
     game.camera.bounds = null;
