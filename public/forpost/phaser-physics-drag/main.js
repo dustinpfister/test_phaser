@@ -67,7 +67,7 @@ var drawGridLines = function () {
 
 };
 
-var drawLines = function (game) {
+var drawLaunchLines = function (game) {
 
     var launch = game.data.launch,
     cannon = launch.cannon,
@@ -142,7 +142,7 @@ var createLaunchLines = function (game, cannon) {
 
         launch.distance = distance;
 
-        drawLines(game);
+        drawLaunchLines(game);
 
         console.log(launch.angle);
 
@@ -185,7 +185,7 @@ game.state.add('ball-bounce', {
         createBallSheet(game);
         createCannonSheet(game);
         createLaunchLines(game);
-        drawLines(game);
+        drawLaunchLines(game);
 
     },
 
