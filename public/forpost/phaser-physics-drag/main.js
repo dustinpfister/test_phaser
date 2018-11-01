@@ -163,7 +163,7 @@ var drawLaunchLines = function (game) {
 
 };
 
-var createLaunchLines = function (game, cannon) {
+var createLauncher = function (game, cannon) {
 
     var launch = game.data.launch = {};
 
@@ -240,7 +240,7 @@ game.state.add('ball-bounce', {
 
         createBallSheet(game);
         createCannonSheet(game);
-        createLaunchLines(game);
+        createLauncher(game);
         drawLaunchLines(game);
 
         // create display text
