@@ -39,6 +39,20 @@ var launchBall = function (game) {
 
 };
 
+var mkCannonSprite = function (game) {
+
+    var launch = game.data.launch,
+    cannon = game.add.sprite(10, game.world.height - 32 - 10, 'sheet-cannon', 0);
+
+    // enable input for the cannon sprite
+    cannon.inputEnabled = true;
+    cannon.events.onInputDown.add(function () {
+        launchBall(game);
+    });
+    launch.cannon = cannon;
+
+};
+
 var mkBallSprite = function (game) {
 
     var ball = game.data.ball = game.add.sprite(0, 0, 'sheet-ball', 0);
@@ -129,12 +143,7 @@ var createLaunchLines = function (game, cannon) {
     // no bounds for camera
     game.camera.bounds = null;
 
-    var cannon = game.add.sprite(10, game.world.height - 32 - 10, 'sheet-cannon', 0);
-    cannon.inputEnabled = true;
-    cannon.events.onInputDown.add(function () {
-        launchBall(game);
-    });
-    launch.cannon = cannon;
+    mkCannonSprite(game);
 
     mkGFX(game);
 
