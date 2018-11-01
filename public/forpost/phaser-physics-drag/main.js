@@ -210,17 +210,55 @@ game.state.add('ball-bounce', {
         createLaunchLines(game);
         drawLaunchLines(game);
 
+        var disp = game.data.disp = game.add.text(0, 0, '', {
+                fill: 'white',
+                font: '10px courier'
+            });
+        disp.fixedToCamera = true;
+
     },
 
     update: function () {
 
-        var launch = game.data.launch;
+        var launch = game.data.launch,
+        ball = game.data.ball,
+        disp = game.data.disp;
 
         if (launch.active) {
 
             drawGridLines(game);
 
         }
+
+        var angle = ball.body.angle / Math.PI * 180,
+        speed = ball.body.speed,
+        dragPer = 0.75 + 0.25 * (speed / 250);
+
+        if (dragPer > 1) {
+            dragPer = 1;
+        }
+
+        var drag = dragPer * 40;
+
+        ball.body.drag.set(
+            Math.cos(angle) * drag,
+            Math.sin(angle) * drag);
+
+        if (ball.body.onFloor()) {
+
+            ball.body.drag.set(40,0);
+
+        }
+
+        //disp.text = 'drag: ' + drag.toFixed(2) + ', dragPer: ' + dragPer.toFixed(2) + ', speed: ' + speed.toFixed(2);
+
+        //disp.text = 'angle: ' + angle + ', drag: ' + ball.body.drag.x.toFixed(2) + ',' + ball.body.drag.y.toFixed(2);
+
+        //disp.text = ball.body.onFloor();
+
+        //disp.text = 'speed: ' + ball.body.speed;
+
+        disp.text = 'velocity: ' + ball.body.velocity.x
 
     }
 
