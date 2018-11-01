@@ -72,6 +72,34 @@ var launchBall = function (game) {
 
 };
 
+var mkLaunchPad = function (game) {
+
+    var launch = game.data.launch;
+
+    launch.pad = game.add.graphics();
+    launch.pad.clear();
+    launch.pad.beginFill(0xff0000, .2);
+    launch.pad.drawRect(0, 0, 240, 240);
+    launch.pad.inputEnabled = true;
+    launch.pad.events.onInputDown.add(function (gfx, pt) {
+        //game.input.onDown.add(function (pt) {
+        var angle = launch.cannon.position.angle(pt.position),
+        distance = launch.cannon.position.distance(pt.position);
+
+        launch.angle = angle;
+
+        distance = Phaser.Math.clamp(distance, 0, 200);
+
+        launch.distance = distance;
+
+        drawLaunchLines(game);
+
+        console.log(launch.angle);
+
+    });
+
+};
+
 var mkCannonSprite = function (game) {
 
     var launch = game.data.launch,
@@ -167,7 +195,8 @@ var createLauncher = function (game, cannon) {
 
     var launch = game.data.launch = {};
 
-    launch.pad = game.add.graphics();
+    mkLaunchPad(game);
+
     launch.angle = 0;
     launch.distance = 0;
     launch.active = false;
@@ -181,28 +210,6 @@ var createLauncher = function (game, cannon) {
     mkGFX(game);
 
     mkBallSprite(game);
-
-    launch.pad.clear();
-    launch.pad.beginFill(0xff0000);
-    launch.pad.drawRect(0, 0, 240, 240);
-
-    launch.pad.inputEnabled = true;
-    launch.pad.events.onInputDown.add(function (gfx, pt) {
-        //game.input.onDown.add(function (pt) {
-        var angle = launch.cannon.position.angle(pt.position),
-        distance = launch.cannon.position.distance(pt.position);
-
-        launch.angle = angle;
-
-        distance = Phaser.Math.clamp(distance, 0, 200);
-
-        launch.distance = distance;
-
-        drawLaunchLines(game);
-
-        console.log(launch.angle);
-
-    });
 
 };
 
