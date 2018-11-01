@@ -5,24 +5,27 @@ var updateDrag = function (game) {
     disp = game.data.disp,
     angle = ball.body.angle / Math.PI * 180,
     speed = ball.body.speed,
+    drag,
+
+    // drag percent formula
     dragPer = .5 + .5 * (speed / 250);
 
+    // cap dragPer
     if (dragPer > 1) {
         dragPer = 1;
     }
 
-    var drag = dragPer * 40;
-
+    // set drag
+    drag = dragPer * 40;
     ball.body.drag.set(
         Math.cos(angle) * drag,
         Math.sin(angle) * drag);
-
+    // seting drag differently if on the floor
     if (ball.body.onFloor()) {
-
         ball.body.drag.set(drag, 0);
-
     }
 
+    // updating display text
     disp.text = 'drag: ' + drag.toFixed(2) + ', velocityX: ' + ball.body.velocity.x.toFixed(2);
 
 };
@@ -35,18 +38,23 @@ var launchBall = function (game) {
     cannon = launch.cannon,
     power;
 
+    // only do something if launch is not active
     if (!launch.active) {
 
         // set active
         launch.active = true;
 
+        // set ball to position of the cannon
         ball.x = cannon.centerX;
         ball.y = cannon.centerY;
+
+        // revive the ball
         ball.revive();
 
         // have camera follow the ball
         game.camera.follow(ball);
 
+        // launch power used to set velocity
         power = launch.distance / 200 * launch.maxPower;
 
         // velocity
@@ -59,9 +67,6 @@ var launchBall = function (game) {
 
         // bounce
         ball.body.bounce.set(.4, .4);
-
-        // drag
-        ball.body.drag.set(40, 20);
 
     }
 
@@ -238,6 +243,7 @@ game.state.add('ball-bounce', {
         createLaunchLines(game);
         drawLaunchLines(game);
 
+        // create display text
         var disp = game.data.disp = game.add.text(0, 0, '', {
                 fill: 'white',
                 font: '10px courier'
