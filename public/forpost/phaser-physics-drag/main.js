@@ -1,4 +1,32 @@
 
+var updateDrag = function (game) {
+
+    var ball = game.data.ball,
+    disp = game.data.disp,
+    angle = ball.body.angle / Math.PI * 180,
+    speed = ball.body.speed,
+    dragPer = .5 + .5 * (speed / 250);
+
+    if (dragPer > 1) {
+        dragPer = 1;
+    }
+
+    var drag = dragPer * 40;
+
+    ball.body.drag.set(
+        Math.cos(angle) * drag,
+        Math.sin(angle) * drag);
+
+    if (ball.body.onFloor()) {
+
+        ball.body.drag.set(drag, 0);
+
+    }
+
+    disp.text = 'drag: ' + drag.toFixed(2) + ', velocityX: ' + ball.body.velocity.x.toFixed(2);
+
+};
+
 var launchBall = function (game) {
 
     var launch = game.data.launch,
@@ -220,9 +248,7 @@ game.state.add('ball-bounce', {
 
     update: function () {
 
-        var launch = game.data.launch,
-        ball = game.data.ball,
-        disp = game.data.disp;
+        var launch = game.data.launch;
 
         if (launch.active) {
 
@@ -230,27 +256,7 @@ game.state.add('ball-bounce', {
 
         }
 
-        var angle = ball.body.angle / Math.PI * 180,
-        speed = ball.body.speed,
-        dragPer = .2 + .8 * (speed / 250);
-
-        if (dragPer > 1) {
-            dragPer = 1;
-        }
-
-        var drag = dragPer * 40;
-
-        ball.body.drag.set(
-            Math.cos(angle) * drag,
-            Math.sin(angle) * drag);
-
-        if (ball.body.onFloor()) {
-
-            ball.body.drag.set(drag, 0);
-
-        }
-
-        disp.text = 'drag: ' + drag + ', velocityX: ' + ball.body.velocity.x.toFixed(2);
+        updateDrag(game);
 
     }
 
