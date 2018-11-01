@@ -232,7 +232,7 @@ game.state.add('ball-bounce', {
 
         var angle = ball.body.angle / Math.PI * 180,
         speed = ball.body.speed,
-        dragPer = 0.75 + 0.25 * (speed / 250);
+        dragPer = .2 + .8 * (speed / 250);
 
         if (dragPer > 1) {
             dragPer = 1;
@@ -246,19 +246,11 @@ game.state.add('ball-bounce', {
 
         if (ball.body.onFloor()) {
 
-            ball.body.drag.set(40,0);
+            ball.body.drag.set(drag, 0);
 
         }
 
-        //disp.text = 'drag: ' + drag.toFixed(2) + ', dragPer: ' + dragPer.toFixed(2) + ', speed: ' + speed.toFixed(2);
-
-        //disp.text = 'angle: ' + angle + ', drag: ' + ball.body.drag.x.toFixed(2) + ',' + ball.body.drag.y.toFixed(2);
-
-        //disp.text = ball.body.onFloor();
-
-        //disp.text = 'speed: ' + ball.body.speed;
-
-        disp.text = 'velocity: ' + ball.body.velocity.x
+        disp.text = 'drag: ' + drag + ', velocityX: ' + ball.body.velocity.x.toFixed(2);
 
     }
 
