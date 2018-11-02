@@ -62,12 +62,6 @@ var launchBall = function (game) {
             Math.cos(launch.angle) * power,
             Math.sin(launch.angle) * power);
 
-        // gravity
-        ball.body.gravity.set(0, 100);
-
-        // bounce
-        ball.body.bounce.set(.4, .4);
-
     }
 
 };
@@ -129,6 +123,12 @@ var mkBallSprite = function (game) {
     game.physics.arcade.checkCollision.up = false;
     game.physics.arcade.checkCollision.left = false;
     game.physics.arcade.checkCollision.right = false;
+
+    // gravity
+    ball.body.gravity.set(0, 100);
+
+    // bounce
+    ball.body.bounce.set(.4, .4);
 
 };
 
