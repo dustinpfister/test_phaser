@@ -20,7 +20,7 @@ var updateDrag = function (game) {
     ball.body.drag.set(
         Math.cos(angle) * drag,
         Math.sin(angle) * drag);
-    // seting drag differently if on the floor
+    // setting drag differently if on the floor
     if (ball.body.onFloor()) {
         ball.body.drag.set(drag, 0);
     }
@@ -119,10 +119,6 @@ var mkBallSprite = function (game) {
 
     // ball collides with only down bounds
     ball.body.collideWorldBounds = true;
-    game.physics.arcade.checkCollision.down = true;
-    game.physics.arcade.checkCollision.up = false;
-    game.physics.arcade.checkCollision.left = false;
-    game.physics.arcade.checkCollision.right = false;
 
     // gravity
     ball.body.gravity.set(0, 100);
@@ -202,9 +198,6 @@ var createLauncher = function (game, cannon) {
     launch.active = false;
     launch.maxPower = 500;
 
-    // no bounds for camera
-    game.camera.bounds = null;
-
     mkCannonSprite(game);
 
     mkGFX(game);
@@ -249,6 +242,15 @@ game.state.add('ball-bounce', {
         createCannonSheet(game);
         createLauncher(game);
         drawLaunchLines(game);
+
+        // no bounds for camera
+        game.camera.bounds = null;
+
+        // only have collision for the down boundary of the game world
+        game.physics.arcade.checkCollision.down = true;
+        game.physics.arcade.checkCollision.up = false;
+        game.physics.arcade.checkCollision.left = false;
+        game.physics.arcade.checkCollision.right = false;
 
         // create display text
         var disp = game.data.disp = game.add.text(0, 0, '', {
