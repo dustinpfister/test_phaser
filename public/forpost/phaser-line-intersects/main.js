@@ -23,7 +23,11 @@ game.state.add('rect', {
         gfx.beginFill(0xff0000);
         gfx.drawRect(0, 0, 32, 32);
 
-        console.log(gfx.x, gfx.y, gfx.right, gfx.bottom);  // 32 32 64 64
+        console.log(gfx.x, gfx.y, gfx.right, gfx.bottom); // 32 32 64 64
+
+        var line = new Phaser.Line(128, 96, 0, 0);
+
+        console.log(Phaser.Line.intersectsRectangle(line, gfx)); // true
 
     }
 
