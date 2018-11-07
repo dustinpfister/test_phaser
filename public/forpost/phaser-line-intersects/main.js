@@ -1,6 +1,6 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-game.state.add('basic', {
+game.state.add('line', {
 
     create: function () {
 
@@ -15,4 +15,18 @@ game.state.add('basic', {
 
 });
 
-game.state.start('basic');
+game.state.add('rect', {
+
+    create: function () {
+
+        var gfx = game.add.graphics(32, 32);
+        gfx.beginFill(0xff0000);
+        gfx.drawRect(0, 0, 32, 32);
+
+        console.log(gfx.x, gfx.y, gfx.right, gfx.bottom);  // 32 32 64 64
+
+    }
+
+});
+
+game.state.start('rect');
