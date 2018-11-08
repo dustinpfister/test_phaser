@@ -1,10 +1,10 @@
 
 var mkImmovable = function (game) {
 
-    var imm = game.data.immovable = game.add.sprite(game.world.centerX, game.world.centerY, 'blocks');
+    var imm = game.data.immovable = game.add.sprite(game.world.centerX - 16, game.world.centerY - 16, 'blocks');
 
+    // enable physics and set immovable
     game.physics.enable(imm);
-
     imm.body.immovable = true;
 
 };
@@ -14,7 +14,7 @@ var mkGroup = function (game) {
     var group = game.data.group = game.add.group();
 
     var i = 0,
-    len = 10;
+    len = 5;
     while (i < len) {
 
         var radian = Math.PI * 2 / len * i,
@@ -22,13 +22,12 @@ var mkGroup = function (game) {
         gfx = game.make.sprite(
                 game.world.centerX + Math.cos(radian) * dist,
                 game.world.centerY + Math.sin(radian) * dist, 'blocks');
-
         game.physics.enable(gfx);
-        gfx.body.velocity.set(50 + Math.random() * 50, 50 + Math.random() * 50);
+        gfx.body.velocity.set(
 
-        //gfx.beginFill(0x00ff00);
-        //gfx.drawRect(0, 0, 16, 16);
-
+            Math.cos(radian) * -100,
+            Math.sin(radian) * -100);
+        gfx.body.bounce.set(1, 1);
         group.add(gfx);
 
         i += 1;
@@ -61,7 +60,7 @@ game.state.add('demo', {
             game.physics.arcade.collide(gfx, game.data.group);
             game.physics.arcade.collide(gfx, game.data.immovable);
 
-        })
+        });
 
     }
 
