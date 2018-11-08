@@ -1,10 +1,10 @@
 
 var mkImmovable = function (game) {
 
-    var gfx = game.data.immovable = game.add.graphics(game.world.centerX, game.world.centerY);
+    var immovable = game.data.immovable = game.add.sprite(game.world.centerX, game.world.centerY,'blocks');
 
-    gfx.beginFill(0x00ff00);
-    gfx.drawRect(-32, -32, 64, 64);
+    game.physics.enable(immovable);
+
 
 };
 
@@ -18,15 +18,15 @@ var mkGroup = function (game) {
 
         var radian = Math.PI * 2 / len * i,
         dist = Math.random() * 30 + 70,
-        gfx = game.make.graphics(
+        gfx = game.make.sprite(
                 game.world.centerX + Math.cos(radian) * dist,
-                game.world.centerY + Math.sin(radian) * dist);
+                game.world.centerY + Math.sin(radian) * dist,'blocks');
 
         game.physics.enable(gfx);
         gfx.body.velocity.set(50 + Math.random() * 50, 50 + Math.random() * 50);
 
-        gfx.beginFill(0x00ff00);
-        gfx.drawRect(-8, -8, 16, 16);
+        //gfx.beginFill(0x00ff00);
+        //gfx.drawRect(0, 0, 16, 16);
 
         group.add(gfx);
 
@@ -56,6 +56,9 @@ game.state.add('demo', {
 
             gfx.x = Phaser.Math.wrap(gfx.x, -8, game.world.width + 8);
             gfx.y = Phaser.Math.wrap(gfx.y, -8, game.world.height + 8);
+
+            game.physics.arcade.collide(gfx, game.data.group);
+            game.physics.arcade.collide(gfx, game.data.immovable);
 
         })
 
