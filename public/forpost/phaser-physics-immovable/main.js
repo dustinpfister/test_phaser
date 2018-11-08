@@ -14,21 +14,23 @@ var mkImmovable = function (game) {
 var mkGroup = function (game) {
 
     var group = game.data.group = game.add.group(),
+    sprite,
     radian,
+    dist,
     i = 0,
     len = 5;
     while (i < len) {
-        radian = Math.PI * 2 / len * i,
-        dist = Math.random() * 30 + 70,
-        gfx = game.make.sprite(
+        radian = Math.PI * 2 / len * i;
+        dist = Math.random() * 30 + 70;
+        sprite = game.make.sprite(
                 game.world.centerX + Math.cos(radian) * dist,
                 game.world.centerY + Math.sin(radian) * dist, 'blocks', 1);
-        game.physics.enable(gfx);
-        gfx.body.velocity.set(
+        game.physics.enable(sprite);
+        sprite.body.velocity.set(
             Math.cos(radian) * -100,
             Math.sin(radian) * -100);
-        gfx.body.bounce.set(1, 1);
-        group.add(gfx);
+        sprite.body.bounce.set(1, 1);
+        group.add(sprite);
         i += 1;
     }
 
