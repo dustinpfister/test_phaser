@@ -1,7 +1,7 @@
 
 var mkImmovable = function (game) {
 
-    var imm = game.data.immovable = game.add.sprite(game.world.centerX - 32, game.world.centerY - 32, 'blocks');
+    var imm = game.data.immovable = game.add.sprite(game.world.centerX - 32, game.world.centerY - 32, 'blocks', 0);
     imm.width = 64;
     imm.height = 64;
 
@@ -22,7 +22,7 @@ var mkGroup = function (game) {
         dist = Math.random() * 30 + 70,
         gfx = game.make.sprite(
                 game.world.centerX + Math.cos(radian) * dist,
-                game.world.centerY + Math.sin(radian) * dist, 'blocks');
+                game.world.centerY + Math.sin(radian) * dist, 'blocks', 1);
         game.physics.enable(gfx);
         gfx.body.velocity.set(
             Math.cos(radian) * -100,
@@ -34,6 +34,26 @@ var mkGroup = function (game) {
 
 };
 
+// just make a simple block sheet
+var mkBlockSheet = function (game) {
+
+    var canvas = document.createElement('canvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = 64;
+    canvas.height = 32;
+
+    ctx.strokeStyle = '#ffffff';
+    ctx.fillStyle = '#af0000';
+    ctx.fillRect(0, 0, 32, 32);
+    ctx.strokeRect(0, 0, 32, 32);
+
+    ctx.strokeStyle = '#ff0000';
+    ctx.strokeRect(32.5, 0, 31, 32);
+
+    game.cache.addSpriteSheet('blocks', null, canvas, 32, 32, 2, 0, 0);
+
+};
+
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
 game.state.add('demo', {
@@ -42,8 +62,8 @@ game.state.add('demo', {
 
         game.data = {};
 
+        mkBlockSheet(game);
         mkImmovable(game);
-
         mkGroup(game);
 
     },
