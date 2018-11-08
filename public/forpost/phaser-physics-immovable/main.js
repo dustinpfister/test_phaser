@@ -1,7 +1,9 @@
 
 var mkImmovable = function (game) {
 
-    var imm = game.data.immovable = game.add.sprite(game.world.centerX - 16, game.world.centerY - 16, 'blocks');
+    var imm = game.data.immovable = game.add.sprite(game.world.centerX - 32, game.world.centerY - 32, 'blocks');
+    imm.width = 64;
+    imm.height = 64;
 
     // enable physics and set immovable
     game.physics.enable(imm);
@@ -11,27 +13,23 @@ var mkImmovable = function (game) {
 
 var mkGroup = function (game) {
 
-    var group = game.data.group = game.add.group();
-
-    var i = 0,
+    var group = game.data.group = game.add.group(),
+    radian,
+    i = 0,
     len = 5;
     while (i < len) {
-
-        var radian = Math.PI * 2 / len * i,
+        radian = Math.PI * 2 / len * i,
         dist = Math.random() * 30 + 70,
         gfx = game.make.sprite(
                 game.world.centerX + Math.cos(radian) * dist,
                 game.world.centerY + Math.sin(radian) * dist, 'blocks');
         game.physics.enable(gfx);
         gfx.body.velocity.set(
-
             Math.cos(radian) * -100,
             Math.sin(radian) * -100);
         gfx.body.bounce.set(1, 1);
         group.add(gfx);
-
         i += 1;
-
     }
 
 };
