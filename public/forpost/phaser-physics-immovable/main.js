@@ -23,7 +23,7 @@ var mkGroup = function (game) {
                 game.world.centerY + Math.sin(radian) * dist);
 
         game.physics.enable(gfx);
-        gfx.body.velocity.set(10, 10);
+        gfx.body.velocity.set(50 + Math.random() * 50, 50 + Math.random() * 50);
 
         gfx.beginFill(0x00ff00);
         gfx.drawRect(-8, -8, 16, 16);
@@ -50,7 +50,16 @@ game.state.add('demo', {
 
     },
 
-    update: function () {}
+    update: function () {
+
+        game.data.group.forEach(function (gfx) {
+
+            gfx.x = Phaser.Math.wrap(gfx.x, -8, game.world.width + 8);
+            gfx.y = Phaser.Math.wrap(gfx.y, -8, game.world.height + 8);
+
+        })
+
+    }
 
 });
 
