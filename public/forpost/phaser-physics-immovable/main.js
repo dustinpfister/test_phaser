@@ -1,10 +1,11 @@
 
 var mkImmovable = function (game) {
 
-    var immovable = game.data.immovable = game.add.sprite(game.world.centerX, game.world.centerY,'blocks');
+    var imm = game.data.immovable = game.add.sprite(game.world.centerX, game.world.centerY, 'blocks');
 
-    game.physics.enable(immovable);
+    game.physics.enable(imm);
 
+    imm.body.immovable = true;
 
 };
 
@@ -20,7 +21,7 @@ var mkGroup = function (game) {
         dist = Math.random() * 30 + 70,
         gfx = game.make.sprite(
                 game.world.centerX + Math.cos(radian) * dist,
-                game.world.centerY + Math.sin(radian) * dist,'blocks');
+                game.world.centerY + Math.sin(radian) * dist, 'blocks');
 
         game.physics.enable(gfx);
         gfx.body.velocity.set(50 + Math.random() * 50, 50 + Math.random() * 50);
