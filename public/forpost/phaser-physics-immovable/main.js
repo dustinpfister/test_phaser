@@ -1,7 +1,7 @@
 
 var mkImmovable = function (game) {
 
-    var gfx = game.add.graphics(game.world.centerX, game.world.centerY);
+    var gfx = game.data.immovable = game.add.graphics(game.world.centerX, game.world.centerY);
 
     gfx.beginFill(0x00ff00);
     gfx.drawRect(-32, -32, 64, 64);
@@ -10,18 +10,20 @@ var mkImmovable = function (game) {
 
 var mkGroup = function (game) {
 
-    var group = game.add.group();
+    var group = game.data.group = game.add.group();
 
     var i = 0,
     len = 10;
     while (i < len) {
 
         var radian = Math.PI * 2 / len * i,
-        dist = Math.random() * 30 + 70;
-
-        var gfx = game.make.graphics(
+        dist = Math.random() * 30 + 70,
+        gfx = game.make.graphics(
                 game.world.centerX + Math.cos(radian) * dist,
                 game.world.centerY + Math.sin(radian) * dist);
+
+        game.physics.enable(gfx);
+        gfx.body.velocity.set(10, 10);
 
         gfx.beginFill(0x00ff00);
         gfx.drawRect(-8, -8, 16, 16);
