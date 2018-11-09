@@ -2,8 +2,10 @@ var createBall = function (game) {
 
     game.data = game.data || {};
 
-    var ball = game.data.ball = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet-ball', 0);
+    var ball = game.data.ball = game.add.sprite(game.world.centerX, 0, 'sheet-ball', 0);
     ball.anchor.set(0.5, 0.5);
+
+    ball.data.attack = 1;
 
     // enable physics
     game.physics.enable(ball);
@@ -11,16 +13,11 @@ var createBall = function (game) {
     // set some values for gravity, bounce, and drag
     ball.body.gravity.set(0, 100);
     ball.body.bounce.set(1, 1);
-    //ball.body.drag.set(10, 10);
     ball.body.collideWorldBounds = true;
 
     ball.body.onCollide = new Phaser.Signal();
     ball.body.onCollide.add(function (ball, block) {
-
-        block.damage(1);
-
-        console.log(block.health);
-
+        block.damage(ball.data.attack);
     });
 
 };
