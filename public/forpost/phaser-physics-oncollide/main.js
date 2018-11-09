@@ -77,11 +77,21 @@ game.state.add('ball-bounce', {
 
     update: function () {
 
-        var data = game.data;
+        var data = game.data,
+        block = data.block,
+        ball = data.ball;
 
-        if (!block.alive) {}
+        if (!block.alive) {
 
-        game.physics.arcade.collide(data.ball, data.block);
+            if (ball.y <= 140) {
+
+                block.revive(3);
+
+            }
+
+        }
+
+        game.physics.arcade.collide(ball, block);
 
     }
 
