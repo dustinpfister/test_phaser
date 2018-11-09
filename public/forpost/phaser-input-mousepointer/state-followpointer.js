@@ -4,9 +4,16 @@ var followPointer = function (game, sprite) {
     var pt = game.input.mousePointer,
 
     // angle to pointer
-    angle = sprite.position.angle(pt);
+    angle = sprite.position.angle(pt),
 
-    sprite.body.velocity.set(Math.cos(angle) * 10, Math.sin(angle) * 10);
+    distance = sprite.position.distance(pt),
+
+    power = distance / 150;
+
+    power = power > 1 ? 1 : power;
+
+    // set velocity of the sprite
+    sprite.body.velocity.set(Math.cos(angle) * 200 * power, Math.sin(angle) * 200 * power);
 
 };
 
