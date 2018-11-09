@@ -11,25 +11,18 @@ var followPointer = function (game, sprite) {
     power;
 
     if (pt.withinGame) {
-
-        // angle to pointer
+        // if the mouse is in the canvas go there
         angle = sprite.position.angle(pt);
-
         distance = sprite.position.distance(pt);
-
     } else {
-
+        // else go home
         angle = sprite.position.angle(home);
-
         distance = sprite.position.distance(home);
-
     }
 
-    power = distance / 150;
-
-    power = power > 1 ? 1 : power;
-
     // set velocity of the sprite
+    power = distance / 150;
+    power = power > 1 ? 1 : power;
     sprite.body.velocity.set(Math.cos(angle) * 200 * power, Math.sin(angle) * 200 * power);
 
 };
@@ -60,18 +53,11 @@ game.state.add('follow-pointer', {
         sprite.anchor.set(0.5, 0.5);
         game.physics.enable(sprite);
 
-        game.data.tx = game.add.text(10, 10, 0, {
-                fill: 'white',
-                font: '10px courier'
-            });
-
     },
     update: function () {
 
         var pt = game.input.mousePointer,
         sprite = game.data.sprite;
-
-        game.data.tx.text = sprite.position.angle(pt) / Math.PI * 180;
 
         followPointer(game, sprite);
 
