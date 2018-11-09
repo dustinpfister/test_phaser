@@ -2,11 +2,28 @@ var followPointer = function (game, sprite) {
 
     // the mouse pointer
     var pt = game.input.mousePointer,
+    home = {
+        x: game.world.centerX,
+        y: game.world.centerY
+    },
+    angle,
+    distance,
+    power;
 
-    // angle to pointer
-    angle = sprite.position.angle(pt),
+    if (pt.withinGame) {
 
-    distance = sprite.position.distance(pt),
+        // angle to pointer
+        angle = sprite.position.angle(pt);
+
+        distance = sprite.position.distance(pt);
+
+    } else {
+
+        angle = sprite.position.angle(home);
+
+        distance = sprite.position.distance(home);
+
+    }
 
     power = distance / 150;
 
