@@ -1,1 +1,1 @@
-game.state.start('mouse-down');
+game.state.start('follow-pointer');
