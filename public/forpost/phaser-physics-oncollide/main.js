@@ -68,6 +68,14 @@ game.state.add('ball-bounce', {
         createBall(game);
         createBlocks(game);
 
+    },
+
+    update: function () {
+
+        var data = game.data;
+
+        game.physics.arcade.collide(data.ball, data.block);
+
     }
 
 });
