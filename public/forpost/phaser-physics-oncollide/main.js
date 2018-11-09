@@ -1,7 +1,5 @@
 var createBall = function (game) {
 
-    game.data = game.data || {};
-
     var ball = game.data.ball = game.add.sprite(game.world.centerX, 0, 'sheet-ball', 0);
     ball.anchor.set(0.5, 0.5);
 
@@ -64,11 +62,18 @@ game.state.add('ball-bounce', {
 
     create: function () {
 
+        game.data = {};
+
         createBallSheet(game);
         createBlockSheet(game);
 
         createBall(game);
         createBlock(game);
+
+        game.data.tx = game.add.text(10, 10, '', {
+                fill: 'white',
+                font: '10px courier'
+            });
 
     },
 
@@ -89,6 +94,8 @@ game.state.add('ball-bounce', {
         }
 
         game.physics.arcade.collide(ball, block);
+
+        game.data.tx.text = 'block health: ' + block.health;
 
     }
 
