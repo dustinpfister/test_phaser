@@ -72,13 +72,13 @@ game.state.add('demo', {
 
     update: function () {
 
-        game.data.group.forEach(function (gfx) {
+        game.data.group.forEach(function (sprite) {
 
-            gfx.x = Phaser.Math.wrap(gfx.x, -8, game.world.width + 8);
-            gfx.y = Phaser.Math.wrap(gfx.y, -8, game.world.height + 8);
+            sprite.x = Phaser.Math.wrap(sprite.x, -8, game.world.width + 8);
+            sprite.y = Phaser.Math.wrap(sprite.y, -8, game.world.height + 8);
 
-            game.physics.arcade.collide(gfx, game.data.group);
-            game.physics.arcade.collide(gfx, game.data.immovable);
+            game.physics.arcade.collide(sprite, game.data.group);
+            game.physics.arcade.collide(sprite, game.data.immovable);
 
         });
 
