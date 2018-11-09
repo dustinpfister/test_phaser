@@ -10,20 +10,36 @@ var followPointer = function (game, sprite) {
 
 };
 
+var createBallSheet = function (game) {
+    var canvas = document.createElement('canvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = 32;
+    canvas.height = 32;
+    ctx.strokeStyle = 'white';
+    ctx.fillStyle = '#8f0000';
+    ctx.beginPath();
+    ctx.arc(16.5, 16.5, 15, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    game.cache.addSpriteSheet('sheet-ball', null, canvas, 32, 32, 1, 0, 0);
+};
+
 game.state.add('follow-pointer', {
 
     create: function () {
 
-        var data = game.data = {},
-        sprite = game.data.sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet-ball'),
-        tx = game.data.tx = game.add.text(10, 10, 0, {
+        var data = game.data = {};
+
+        createBallSheet(game);
+
+        var sprite = game.data.sprite = game.add.sprite(game.world.centerX, game.world.centerY, 'sheet-ball');
+        sprite.anchor.set(0.5, 0.5);
+        game.physics.enable(sprite);
+
+        game.data.tx = game.add.text(10, 10, 0, {
                 fill: 'white',
                 font: '10px courier'
             });
-
-        sprite.anchor.set(0.5, 0.5);
-
-        game.physics.enable(sprite);
 
     },
     update: function () {
