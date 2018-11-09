@@ -23,6 +23,15 @@ var createBall = function (game) {
 
 };
 
+var createBlocks = function (game) {
+
+    var block = game.data.block = game.add.sprite(game.world.centerX, game.world.height - 32, 'sheet-block', 0);
+    block.anchor.set(0.5, 0.5);
+
+    game.physics.enable(block);
+
+};
+
 var createBallSheet = function (game) {
     var canvas = document.createElement('canvas');
     ctx = canvas.getContext('2d');
@@ -40,11 +49,11 @@ var createBallSheet = function (game) {
 var createBlockSheet = function (game) {
     var canvas = document.createElement('canvas');
     ctx = canvas.getContext('2d');
-    canvas.width = 32;
+    canvas.width = 64;
     canvas.height = 16;
     ctx.fillStyle = '#8fef00';
-    ctx.fillRect(0, 0, 32, 32);
-    game.cache.addSpriteSheet('sheet-block', null, canvas, 32, 16, 1, 0, 0);
+    ctx.fillRect(0, 0, 64, 16);
+    game.cache.addSpriteSheet('sheet-block', null, canvas, 64, 16, 1, 0, 0);
 };
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
@@ -57,6 +66,7 @@ game.state.add('ball-bounce', {
         createBlockSheet(game);
 
         createBall(game);
+        createBlocks(game);
 
     }
 
