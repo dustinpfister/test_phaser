@@ -27,7 +27,9 @@ var Plugin_enemies = function (game, opt) {
                 }
             }
 
-        })
+        });
+
+        console.log(spawnTiles);
 
     };
 
