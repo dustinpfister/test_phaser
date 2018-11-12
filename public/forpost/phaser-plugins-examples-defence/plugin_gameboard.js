@@ -30,17 +30,17 @@ var Plugin_gameboard = function (game, opt) {
 
         // default all index values to 0
         map.forEach(function (tile) {
-            tile.index = 0;
+            if (tile.properties) {
+                tile.index = 0;
+            }
         }, this, 0, 0, opt.width, opt.height);
 
         // spawn tiles
         map.forEach(function (tile) {
-
             if (tile.properties) {
                 tile.index = 1;
                 tile.properties.spawn = true;
             }
-
         }, this, 0, 0, 1, opt.height);
 
     };

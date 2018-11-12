@@ -38,11 +38,24 @@ var Plugin_enemies = function (game, opt) {
 
         // create or append game.data
         game.data = game.data || {};
-
+		
+		
         map = opt.map;
         layer = map.layers[map.getLayer('layer-gameboard')];
 
         setSpawnTiles(map);
+		
+		
+		// create enemies group
+		
+		var enemies = game.data.enemies = game.add.group();
+        
+		var i = 10;
+		while(i--){
+			
+			
+			
+		}
 
         //var enemy = game.add.sprite(32, 0, 'sheet-enemies', 0);
 
