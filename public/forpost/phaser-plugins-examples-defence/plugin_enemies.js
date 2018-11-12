@@ -48,7 +48,9 @@ var Plugin_enemies = function (game, opt) {
 
             var tile = spawnTiles[Math.floor(Math.random() * spawnTiles.length)];
 
-            console.log(tile);
+            enemy.revive(10);
+            enemy.x = layer.x + tile.x * 32;
+            enemy.y = layer.y + tile.y * 32;
 
         }
     };
@@ -60,7 +62,7 @@ var Plugin_enemies = function (game, opt) {
         game.data = game.data || {};
 
         map = opt.map;
-        layer = map.layers[map.getLayer('layer-gameboard')];
+        layer = game.world.getByName('layer-gameboard');
 
         setSpawnTiles(map);
 

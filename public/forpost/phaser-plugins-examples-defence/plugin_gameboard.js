@@ -6,8 +6,8 @@ var Plugin_gameboard = function (game, opt) {
     opt.sheetKey = opt.sheetKey || 'sheet-gameboard';
     opt.width = opt.width || 8;
     opt.height = opt.height || 6;
-    opt.xOffset = opt.xOffset || 10;
-    opt.yOffset = opt.yOffset || 10;
+    opt.xOffset = opt.xOffset || 16;
+    opt.yOffset = opt.yOffset || 16;
 
     // The plugin Object
     var plug = new Phaser.Plugin(game, game.plugins);
@@ -27,6 +27,9 @@ var Plugin_gameboard = function (game, opt) {
         layer.fixedToCamera = false;
         layer.x = opt.xOffset;
         layer.y = opt.yOffset;
+
+		console.log(game.world.getByName('layer-gameboard'));
+        //console.log(map.layers[map.getLayer('layer-gameboard')]);
 
         // default all index values to 0
         map.forEach(function (tile) {
