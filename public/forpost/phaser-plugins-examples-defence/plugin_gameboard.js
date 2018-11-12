@@ -18,12 +18,13 @@ var Plugin_gameboard = function (game, opt) {
         // create or append game.data
         game.data = game.data || {};
 
+        game.data.playerHealth = 100;
+
         // adds map property to game object
         var map = game.data.map = game.add.tilemap(null, 32, 32, opt.width, opt.height);
         map.addTilesetImage(opt.sheetKey);
 
         var layer = map.create('layer-gameboard', opt.width, opt.height, 32, 32);
-
 
         // default all index values to 0
         map.forEach(function (tile) {
@@ -39,6 +40,18 @@ var Plugin_gameboard = function (game, opt) {
                 tile.properties.spawn = true;
             }
         }, this, 0, 0, 1, opt.height);
+
+        game.data.disp = game.add.text(10, game.world.height - 20, 'hello', {
+                fill: 'white',
+                font: '15px courier'
+            });
+
+    };
+
+    // call once
+    plug.update = function (opt) {
+
+        game.data.disp.text = 'health: ' + game.data.playerHealth;
 
     };
 

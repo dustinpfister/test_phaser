@@ -86,13 +86,10 @@ var Plugin_enemies = function (game, opt) {
             enemy.x += game.time.elapsed / 1000 * 32;
 
             if (layer.getTileX(enemy.x) >= map.width) {
-
                 enemy.x = -32;
+                game.data.playerHealth -= 10;
                 enemy.kill();
-
             }
-
-            //console.log(layer.getTileX(enemy.x), map.width);
 
         });
 
