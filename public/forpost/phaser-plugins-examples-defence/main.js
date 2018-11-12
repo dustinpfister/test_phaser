@@ -18,6 +18,7 @@ game.state.add('demo', {
 
         createSheetBuildings(game);
 
+        Plugin_gameboard(game);
         Plugin_buildings(game);
 
     }
