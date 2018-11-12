@@ -24,12 +24,6 @@ var Plugin_gameboard = function (game, opt) {
 
         var layer = map.create('layer-gameboard', opt.width, opt.height, 32, 32);
 
-        layer.fixedToCamera = false;
-        layer.x = opt.xOffset;
-        layer.y = opt.yOffset;
-
-		console.log(game.world.getByName('layer-gameboard'));
-        //console.log(map.layers[map.getLayer('layer-gameboard')]);
 
         // default all index values to 0
         map.forEach(function (tile) {

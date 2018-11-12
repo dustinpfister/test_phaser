@@ -74,7 +74,7 @@ var Plugin_enemies = function (game, opt) {
 
         lastSpawn += game.time.elapsed;
 
-        if (lastSpawn >= 3000) {
+        if (lastSpawn >= 5000) {
 
             lastSpawn = 0;
             spawn(game);
@@ -84,6 +84,15 @@ var Plugin_enemies = function (game, opt) {
         enemies.forEachAlive(function (enemy) {
 
             enemy.x += game.time.elapsed / 1000 * 32;
+
+            if (layer.getTileX(enemy.x) >= map.width) {
+
+                enemy.x = -32;
+                enemy.kill();
+
+            }
+
+            //console.log(layer.getTileX(enemy.x), map.width);
 
         });
 
