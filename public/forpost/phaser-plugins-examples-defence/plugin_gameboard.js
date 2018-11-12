@@ -3,6 +3,8 @@ var Plugin_gameboard = function (game, opt) {
 
     opt = opt || {};
 
+    opt.sheetKey = opt.sheetKey || 'sheet-gameboard';
+
     // The plugin Object
     var plug = new Phaser.Plugin(game, game.plugins);
 
