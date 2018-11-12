@@ -6,6 +6,8 @@ var Plugin_gameboard = function (game, opt) {
     opt.sheetKey = opt.sheetKey || 'sheet-gameboard';
     opt.width = opt.width || 8;
     opt.height = opt.height || 6;
+    opt.xOffset = opt.xOffset || 10;
+    opt.yOffset = opt.yOffset || 10;
 
     // The plugin Object
     var plug = new Phaser.Plugin(game, game.plugins);
@@ -21,6 +23,10 @@ var Plugin_gameboard = function (game, opt) {
         map.addTilesetImage(opt.sheetKey);
 
         var layer = map.create('map-layer', opt.width, opt.height, 32, 32);
+
+        layer.fixedToCamera = false;
+        layer.x = opt.xOffset;
+        layer.y = opt.yOffset;
 
         // default all index values to 0
         map.forEach(function (tile) {
