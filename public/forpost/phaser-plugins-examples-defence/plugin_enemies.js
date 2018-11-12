@@ -42,8 +42,15 @@ var Plugin_enemies = function (game, opt) {
 
         var enemies = game.data.enemies;
 
-        console.log(enemies.getFirstDead());
+        var enemy = enemies.getFirstDead();
 
+        if (enemy) {
+
+            var tile = spawnTiles[Math.floor(Math.random() * spawnTiles.length)];
+
+            console.log(tile);
+
+        }
     };
 
     // call once
