@@ -9,6 +9,7 @@ var Plugin_enemies = function (game, opt) {
     // The plugin Object
     var plug = new Phaser.Plugin(game, game.plugins),
     spawnTiles = [],
+    lastSpawn = 0,
     map,
     layer;
 
@@ -35,7 +36,15 @@ var Plugin_enemies = function (game, opt) {
             enemies.add(enemy);
         }
 
-    }
+    };
+
+    var spawn = function (game) {
+
+        var enemies = game.data.enemies;
+
+        console.log(enemies.getFirstDead());
+
+    };
 
     // call once
     plug.init = function (opt) {
@@ -49,6 +58,19 @@ var Plugin_enemies = function (game, opt) {
         setSpawnTiles(map);
 
         createEnemiesGroup(game);
+
+    };
+
+    plug.update = function (opt) {
+
+        lastSpawn += game.time.elapsed;
+
+        if (lastSpawn >= 3000) {
+
+            lastSpawn = 0;
+            spawn(game);
+
+        }
 
     };
 
