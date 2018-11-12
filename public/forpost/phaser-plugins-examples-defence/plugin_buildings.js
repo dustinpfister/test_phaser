@@ -4,6 +4,7 @@ var Plugin_buildings = function (game, opt) {
     opt = opt || {};
 
     opt.sheetKey = opt.sheetKey || 'sheet-buildings';
+    opt.map = opt.map || game.data.map;
 
     // The plugin Object
     var plug = new Phaser.Plugin(game, game.plugins);

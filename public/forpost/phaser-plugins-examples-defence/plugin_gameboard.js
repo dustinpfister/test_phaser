@@ -22,7 +22,7 @@ var Plugin_gameboard = function (game, opt) {
         var map = game.data.map = game.add.tilemap(null, 32, 32, opt.width, opt.height);
         map.addTilesetImage(opt.sheetKey);
 
-        var layer = map.create('map-layer', opt.width, opt.height, 32, 32);
+        var layer = map.create('layer-gameboard', opt.width, opt.height, 32, 32);
 
         layer.fixedToCamera = false;
         layer.x = opt.xOffset;
