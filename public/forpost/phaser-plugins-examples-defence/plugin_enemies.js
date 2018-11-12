@@ -10,6 +10,7 @@ var Plugin_enemies = function (game, opt) {
     var plug = new Phaser.Plugin(game, game.plugins),
     spawnTiles = [],
     lastSpawn = 0,
+	enemies,
     map,
     layer;
 
@@ -27,7 +28,8 @@ var Plugin_enemies = function (game, opt) {
     var createEnemiesGroup = function (game) {
 
         // create enemies group
-        var enemies = game.data.enemies = game.add.group();
+        enemies = game.data.enemies = game.add.group();
+
         var i = 10,
         enemy;
         while (i--) {
@@ -40,8 +42,6 @@ var Plugin_enemies = function (game, opt) {
 
     var spawn = function (game) {
 
-        var enemies = game.data.enemies;
-
         var enemy = enemies.getFirstDead();
 
         if (enemy) {
@@ -49,7 +49,7 @@ var Plugin_enemies = function (game, opt) {
             var tile = spawnTiles[Math.floor(Math.random() * spawnTiles.length)];
 
             enemy.revive(10);
-            enemy.x = layer.x + tile.x * 32;
+            enemy.x = layer.x + tile.x * 32 -32;
             enemy.y = layer.y + tile.y * 32;
 
         }
@@ -80,6 +80,8 @@ var Plugin_enemies = function (game, opt) {
             spawn(game);
 
         }
+		
+		
 
     };
 
