@@ -32,7 +32,7 @@ var titleLoger = function (text) {
 };
 
 // the main game variable
-var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+var game = new Phaser.Game(500, 40, Phaser.AUTO, 'gamearea');
 
 game.state.add('demo', {
 
@@ -53,7 +53,7 @@ game.state.add('demo', {
 
     update: function () {
 
-        game.data.disp.text = 'money: ' + game.data.money.toFixed(2);
+        game.data.disp.text = 'm: ' + game.data.money.toFixed(2) + ': st: ' + game.data.startTime;
 
     }
 
