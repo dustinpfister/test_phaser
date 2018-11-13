@@ -1,9 +1,34 @@
 
 
+
+var createStateLoop = function (game) {
+
+    var data = game.data;
+
+    data.money = 0;
+    data.moneyPerSecond = 15 / 60 / 60;
+    data.lastTime = new Date();
+
+    var loop = function () {
+
+        setTimeout(loop, 1000);
+
+        var now = new Date();
+        var time = now - data.lastTime;
+        data.money += time / 1000 * data.moneyPerSecond;
+        data.lastTime = now;
+
+        // log money to title element
+        titleLoger('m=' + game.data.money.toFixed(2));
+
+    };
+
+    loop();
+
+};
+
 var titleLoger = function (text) {
-
     document.title = text;
-
 };
 
 // the main game variable
@@ -13,26 +38,11 @@ game.state.add('demo', {
 
     create: function () {
 
-        game.data = {
-            pps: 64
-        };
+        game.data = {};
 
         game.stage.disableVisibilityChange = true;
 
-        var sprite = game.data.sprite = game.add.sprite(0, 0, 'sheet-block');
-        sprite.y = 32;
-        sprite.data.pps = 64;
-
-    },
-
-    update: function () {
-
-        var sprite = game.data.sprite;
-
-        sprite.x += game.time.elapsed / 1000 * sprite.data.pps;
-        sprite.x = Phaser.Math.wrap(sprite.x, -32, game.world.width + 32);
-
-        titleLoger(Math.floor(sprite.x) + ':' + game.time.elapsed);
+        createStateLoop(game);
 
     }
 
