@@ -27,7 +27,7 @@ var createSheetEnemies = function (game) {
     canvas.height = 32;
     ctx.fillStyle = 'red';
     ctx.fillRect(0, 0, 32, 32);
-    game.cache.addSpriteSheet('sheet-enemies', null, canvas,32, 32, 1, 0, 0);
+    game.cache.addSpriteSheet('sheet-enemies', null, canvas, 32, 32, 1, 0, 0);
 };
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
