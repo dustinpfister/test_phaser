@@ -44,6 +44,17 @@ game.state.add('demo', {
 
         createStateLoop(game);
 
+        game.data.disp = game.add.text(10, 10, '', {
+                fill: 'white',
+                font: '10px courier'
+            });
+
+    },
+
+    update: function () {
+
+        game.data.disp.text = 'money: ' + game.data.money.toFixed(2);
+
     }
 
 });
