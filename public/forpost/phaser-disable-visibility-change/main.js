@@ -7,16 +7,16 @@ var createStateLoop = function (game) {
 
     data.money = 0;
     data.moneyPerSecond = 15 / 60 / 60;
-    data.lastTime = new Date();
+    data.startTime = new Date();
 
     var loop = function () {
 
         setTimeout(loop, 1000);
 
-        var now = new Date();
-        var time = now - data.lastTime;
-        data.money += time / 1000 * data.moneyPerSecond;
-        data.lastTime = now;
+        var now = new Date(),
+        time = now - data.startTime;
+
+        data.money = time / 1000 * data.moneyPerSecond;
 
         // log money to title element
         titleLoger('m=' + game.data.money.toFixed(2));
