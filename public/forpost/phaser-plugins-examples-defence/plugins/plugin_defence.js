@@ -3,13 +3,20 @@ var Plugin_defence = function (game, opt) {
 
     opt = opt || {};
 
-    opt.sheetKey = opt.sheetKey || 'sheet-gameboard';
+    opt.sheetKeys = opt.sheetKeys || {
+        gameboard: 'sheet-gameboard'
+    };
     opt.width = opt.width || 8;
     opt.height = opt.height || 6;
     opt.xOffset = opt.xOffset || 16;
     opt.yOffset = opt.yOffset || 16;
 
-    var createTileRows = function (game) {}
+    var createTileRows = function (game) {
+
+        var defence = game.data.defence,
+        rows = defence.rows = game.add.group();
+
+    }
 
     // The plugin Object
     var plug = new Phaser.Plugin(game, game.plugins);
