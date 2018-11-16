@@ -20,6 +20,8 @@ var Plugin_defence = function (game, opt) {
         tile,
         rows = defence.rows = game.add.group();
 
+        defence.onTileClick = new Phaser.Signal();
+
         r = 0;
         while (r < opt.rows) {
 
@@ -29,6 +31,12 @@ var Plugin_defence = function (game, opt) {
             while (c < opt.cols) {
 
                 tile = game.make.sprite(c * 32, 0, opt.sheetKeys.gameBoard, 0);
+                tile.inputEnabled = true;
+                tile.events.onInputDown.add(function (tile) {
+
+                    defence.onTileClick.dispatch(tile)
+
+                });
 
                 row.add(tile);
 

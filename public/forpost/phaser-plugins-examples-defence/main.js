@@ -41,6 +41,12 @@ game.state.add('demo', {
 
         Plugin_defence(game);
 
+        game.data.defence.onTileClick.add(function () {
+
+            console.log('looks good');
+
+        })
+
     }
 
 });
