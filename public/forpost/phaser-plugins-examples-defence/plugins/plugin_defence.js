@@ -64,8 +64,10 @@ var Plugin_defence = function (game, opt) {
 
     var createEnemiesGroup = function (game) {
 
-        // create enemies group
-        enemies = game.data.enemies = game.add.group();
+        var enemies = game.add.group();
+        enemies.name = 'enemies';
+
+        game.data.grid.rows.add(enemies);
 
         var i = 10,
         enemy;
@@ -89,7 +91,7 @@ var Plugin_defence = function (game, opt) {
         var player = game.data.player = {
             playerHealth: 100
         };
-		game.data.grid = {};
+        game.data.grid = {};
 
         game.data.disp = game.add.text(10, game.world.height - 20, 'hello', {
                 fill: 'white',
@@ -97,7 +99,6 @@ var Plugin_defence = function (game, opt) {
             });
 
         createTileGroup(game);
-
         createEnemiesGroup(game);
 
     };
@@ -105,7 +106,13 @@ var Plugin_defence = function (game, opt) {
     // call once
     plug.update = function (opt) {
 
-        var player = game.data.player;
+        var player = game.data.player,
+        enemies = game.data.grid.rows.getByName('enemies');
+
+        // move living enemies
+        enemies.forEachAlive(function (enemy) {
+            enemy.x += game.time.elapsed / 1000 * 32;
+        });
 
         game.data.disp.text = 'health: ' + player.playerHealth;
 
