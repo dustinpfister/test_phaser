@@ -14,10 +14,8 @@ var Plugin_defence = function (game, opt) {
 
     // create a tile
     var createTile = function (c, r, row, rows) {
-
-        var grid = game.data.grid;
-
-        var tile = game.make.sprite(c * 32, 0, opt.sheetKeys.gameBoard, 0);
+        var grid = game.data.grid,
+        tile = game.make.sprite(c * 32, 0, opt.sheetKeys.gameBoard, 0);
         tile.inputEnabled = true;
         tile.data = {
             c: c,
@@ -26,15 +24,10 @@ var Plugin_defence = function (game, opt) {
             rows: rows
         };
         tile.events.onInputDown.add(function (tile) {
-
             var data = tile.data;
-
             grid.onTileClick.dispatch(tile, data.c, data.r, data.row, data.rows);
-
         });
-
         return tile;
-
     };
 
     // create a tile group
@@ -59,42 +52,29 @@ var Plugin_defence = function (game, opt) {
         }
         rows.x = opt.xOffset;
         rows.y = opt.yOffset;
-
     };
 
+    // create the enemies group
     var createEnemiesGroup = function (game) {
-
-        //var enemies = game.add.group();
-        //enemies.name = 'enemies';
-
-        //game.data.grid.rows.add(enemies);
-
-        var enemies = game.data.grid.enemies = game.add.group();
-
-        var i = 10,
+        var enemies = game.data.grid.enemies = game.add.group(),
+        i = 10,
         enemy;
         while (i--) {
             enemy = enemies.create(-32, 0, opt.sheetKeys.enemies, 0);
             enemy.kill();
             enemies.add(enemy);
         }
-
     };
 
+    // spawn an enemy
     var spawnEnemy = function (game) {
-
         var enemies = game.data.grid.enemies,
         enemy = enemies.getFirstDead();
-
         if (enemy) {
-
             enemy.revive(10);
-
             row = game.data.grid.rows.children[Math.floor(Math.random() * opt.rows)];
-
             enemy.x = 0;
             row.add(enemy);
-
         }
     };
 
@@ -129,11 +109,6 @@ var Plugin_defence = function (game, opt) {
 
         var player = game.data.player,
         enemies = game.data.grid.enemies;
-
-        // move living enemies
-        //enemies.forEachAlive(function (enemy) {
-        //    enemy.x += game.time.elapsed / 1000 * 32;
-        //});
 
         game.data.disp.text = 'health: ' + player.playerHealth;
 
