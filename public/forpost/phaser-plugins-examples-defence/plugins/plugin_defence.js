@@ -64,10 +64,12 @@ var Plugin_defence = function (game, opt) {
 
     var createEnemiesGroup = function (game) {
 
-        var enemies = game.add.group();
-        enemies.name = 'enemies';
+        //var enemies = game.add.group();
+        //enemies.name = 'enemies';
 
-        game.data.grid.rows.add(enemies);
+        //game.data.grid.rows.add(enemies);
+
+        var enemies = game.data.grid.enemies = game.add.group();
 
         var i = 10,
         enemy;
@@ -77,6 +79,23 @@ var Plugin_defence = function (game, opt) {
             enemies.add(enemy);
         }
 
+    };
+
+    var spawnEnemy = function (game) {
+
+        var enemies = game.data.grid.enemies,
+        enemy = enemies.getFirstDead();
+
+        if (enemy) {
+
+            enemy.revive(10);
+
+            row = game.data.grid.rows.children[Math.floor(Math.random() * opt.rows)];
+
+            enemy.x = 0;
+            row.add(enemy);
+
+        }
     };
 
     // The plugin Object
@@ -101,18 +120,20 @@ var Plugin_defence = function (game, opt) {
         createTileGroup(game);
         createEnemiesGroup(game);
 
+        spawnEnemy(game);
+
     };
 
     // call once
     plug.update = function (opt) {
 
         var player = game.data.player,
-        enemies = game.data.grid.rows.getByName('enemies');
+        enemies = game.data.grid.enemies;
 
         // move living enemies
-        enemies.forEachAlive(function (enemy) {
-            enemy.x += game.time.elapsed / 1000 * 32;
-        });
+        //enemies.forEachAlive(function (enemy) {
+        //    enemy.x += game.time.elapsed / 1000 * 32;
+        //});
 
         game.data.disp.text = 'health: ' + player.playerHealth;
 
