@@ -11,51 +11,51 @@ var Plugin_defence = function (game, opt) {
     opt.xOffset = opt.xOffset || 16;
     opt.yOffset = opt.yOffset || 16;
 
-    var createTileGroup = function (game) {
+    // create a tile
+    var createTile = function (c, r, row, rows) {
 
+        var defence = game.data.defence;
+
+        var tile = game.make.sprite(c * 32, 0, opt.sheetKeys.gameBoard, 0);
+        tile.inputEnabled = true;
+        tile.data = {
+            c: c,
+            r: r,
+            row: row,
+            rows: rows
+        };
+        tile.events.onInputDown.add(function (tile) {
+
+            var data = tile.data;
+
+            defence.onTileClick.dispatch(tile, data.c, data.r, data.row, data.rows);
+
+        });
+
+        return tile;
+
+    };
+
+    // create a tile group
+    var createTileGroup = function (game) {
         var defence = game.data.defence,
-        r,
+        r = 0,
         c,
         row,
         tile,
         rows = defence.rows = game.add.group();
-
         defence.onTileClick = new Phaser.Signal();
-
-        r = 0;
         while (r < opt.rows) {
-
             row = game.make.group();
             row.y = r * 32;
             c = 0;
             while (c < opt.cols) {
-
-                tile = game.make.sprite(c * 32, 0, opt.sheetKeys.gameBoard, 0);
-                tile.inputEnabled = true;
-                tile.data = {
-                    c: c,
-                    r: r,
-                    row: row,
-                    rows: rows
-                };
-                tile.events.onInputDown.add(function (tile) {
-
-                    var data = tile.data;
-
-                    defence.onTileClick.dispatch(tile, data.c, data.r, data.row, data.rows);
-
-                });
-
-                row.add(tile);
-
+                row.add(createTile(c, r, row, rows));
                 c += 1;
             }
-
             rows.add(row);
-
             r += 1;
         }
-
         rows.x = opt.xOffset;
         rows.y = opt.yOffset;
 
