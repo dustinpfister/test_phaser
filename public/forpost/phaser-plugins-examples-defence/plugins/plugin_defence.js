@@ -4,19 +4,46 @@ var Plugin_defence = function (game, opt) {
     opt = opt || {};
 
     opt.sheetKeys = opt.sheetKeys || {
-        gameboard: 'sheet-gameboard'
+        gameBoard: 'sheet-gameboard'
     };
-    opt.width = opt.width || 8;
-    opt.height = opt.height || 6;
+    opt.cols = opt.cols || 8;
+    opt.rows = opt.rows || 6;
     opt.xOffset = opt.xOffset || 16;
     opt.yOffset = opt.yOffset || 16;
 
-    var createTileRows = function (game) {
+    var createTileGroup = function (game) {
 
         var defence = game.data.defence,
+        r,
+        c,
+        row,
+        tile,
         rows = defence.rows = game.add.group();
 
-    }
+        r = 0;
+        while (r < opt.rows) {
+
+            row = game.make.group();
+            row.y = r * 32;
+            c = 0;
+            while (c < opt.cols) {
+
+                tile = game.make.sprite(c * 32, 0, opt.sheetKeys.gameBoard, 0);
+
+                row.add(tile);
+
+                c += 1;
+            }
+
+            rows.add(row);
+
+            r += 1;
+        }
+
+        rows.x = opt.xOffset;
+        rows.y = opt.yOffset;
+
+    };
 
     // The plugin Object
     var plug = new Phaser.Plugin(game, game.plugins);
@@ -35,6 +62,8 @@ var Plugin_defence = function (game, opt) {
                 fill: 'white',
                 font: '15px courier'
             });
+
+        createTileGroup(game);
 
     };
 
