@@ -4,7 +4,8 @@ var Plugin_defence = function (game, opt) {
     opt = opt || {};
 
     opt.sheetKeys = opt.sheetKeys || {
-        gameBoard: 'sheet-gameboard'
+        gameBoard: 'sheet-gameboard',
+        enemies: 'sheet-enemies'
     };
     opt.cols = opt.cols || 8;
     opt.rows = opt.rows || 6;
@@ -61,6 +62,21 @@ var Plugin_defence = function (game, opt) {
 
     };
 
+    var createEnemiesGroup = function (game) {
+
+        // create enemies group
+        enemies = game.data.enemies = game.add.group();
+
+        var i = 10,
+        enemy;
+        while (i--) {
+            enemy = enemies.create(-32, 0, opt.sheetKeys.enemies, 0);
+            enemy.kill();
+            enemies.add(enemy);
+        }
+
+    };
+
     // The plugin Object
     var plug = new Phaser.Plugin(game, game.plugins);
 
@@ -80,6 +96,8 @@ var Plugin_defence = function (game, opt) {
             });
 
         createTileGroup(game);
+
+        createEnemiesGroup(game);
 
     };
 
