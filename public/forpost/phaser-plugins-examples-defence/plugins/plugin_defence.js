@@ -15,7 +15,7 @@ var Plugin_defence = function (game, opt) {
     // create a tile
     var createTile = function (c, r, row, rows) {
 
-        var defence = game.data.defence;
+        var grid = game.data.grid;
 
         var tile = game.make.sprite(c * 32, 0, opt.sheetKeys.gameBoard, 0);
         tile.inputEnabled = true;
@@ -29,7 +29,7 @@ var Plugin_defence = function (game, opt) {
 
             var data = tile.data;
 
-            defence.onTileClick.dispatch(tile, data.c, data.r, data.row, data.rows);
+            grid.onTileClick.dispatch(tile, data.c, data.r, data.row, data.rows);
 
         });
 
@@ -39,13 +39,13 @@ var Plugin_defence = function (game, opt) {
 
     // create a tile group
     var createTileGroup = function (game) {
-        var defence = game.data.defence,
+        var grid = game.data.grid,
         r = 0,
         c,
         row,
         tile,
-        rows = defence.rows = game.add.group();
-        defence.onTileClick = new Phaser.Signal();
+        rows = grid.rows = game.add.group();
+        grid.onTileClick = new Phaser.Signal();
         while (r < opt.rows) {
             row = game.make.group();
             row.y = r * 32;
@@ -86,9 +86,10 @@ var Plugin_defence = function (game, opt) {
         // create or append game.data
         game.data = game.data || {};
 
-        var defence = game.data.defence = {
+        var player = game.data.player = {
             playerHealth: 100
         };
+		game.data.grid = {};
 
         game.data.disp = game.add.text(10, game.world.height - 20, 'hello', {
                 fill: 'white',
@@ -104,9 +105,9 @@ var Plugin_defence = function (game, opt) {
     // call once
     plug.update = function (opt) {
 
-        var data = game.data.defence;
+        var player = game.data.player;
 
-        game.data.disp.text = 'health: ' + data.playerHealth;
+        game.data.disp.text = 'health: ' + player.playerHealth;
 
     };
 

@@ -41,11 +41,9 @@ game.state.add('demo', {
 
         Plugin_defence(game);
 
-        game.data.defence.onTileClick.add(function (tile, c, r, row, rows) {
-
+        game.data.grid.onTileClick.add(function (tile, c, r, row, rows) {
             console.log(tile, c, r, row, rows);
-
-        })
+        });
 
     }
 
