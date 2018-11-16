@@ -39,7 +39,9 @@ game.state.add('demo', {
         createSheetBuildings(game);
         createSheetEnemies(game);
 
-        Plugin_defence(game);
+        Plugin_gameboard(game);
+        Plugin_buildings(game);
+        Plugin_enemies(game);
 
     }
 
