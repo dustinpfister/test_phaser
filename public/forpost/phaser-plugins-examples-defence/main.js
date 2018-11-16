@@ -41,9 +41,9 @@ game.state.add('demo', {
 
         Plugin_defence(game);
 
-        game.data.defence.onTileClick.add(function () {
+        game.data.defence.onTileClick.add(function (tile, c, r, row, rows) {
 
-            console.log('looks good');
+            console.log(tile, c, r, row, rows);
 
         })
 

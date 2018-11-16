@@ -32,9 +32,17 @@ var Plugin_defence = function (game, opt) {
 
                 tile = game.make.sprite(c * 32, 0, opt.sheetKeys.gameBoard, 0);
                 tile.inputEnabled = true;
+                tile.data = {
+                    c: c,
+                    r: r,
+                    row: row,
+                    rows: rows
+                };
                 tile.events.onInputDown.add(function (tile) {
 
-                    defence.onTileClick.dispatch(tile)
+                    var data = tile.data;
+
+                    defence.onTileClick.dispatch(tile, data.c, data.r, data.row, data.rows);
 
                 });
 
