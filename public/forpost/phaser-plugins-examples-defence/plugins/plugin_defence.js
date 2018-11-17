@@ -38,7 +38,11 @@ var Plugin_defence = function (game, opt) {
         row,
         tile,
         rows = grid.rows = game.add.group();
+
+        // add an onTileClick event that will be called each time
+        // a tile is clicked
         grid.onTileClick = new Phaser.Signal();
+
         while (r < opt.rows) {
             row = game.make.group();
             row.y = r * 32;
@@ -54,6 +58,7 @@ var Plugin_defence = function (game, opt) {
         rows.y = opt.yOffset;
     };
 
+    // what to do for each row on each frame tick
     var updateRows = function () {
 
         var grid = game.data.grid,
@@ -62,17 +67,20 @@ var Plugin_defence = function (game, opt) {
 
         grid.rows.forEach(function (row) {
 
+            // update active enemies for the row
             var activeEnemies = row.filter(function (child) {
                     return child.data.type === 'enemy';
                 });
-
             activeEnemies.list.forEach(function (enemy) {
 
+                // move enemy
                 enemy.x += game.time.elapsed / 1000 * 32;
 
                 // if the enemy reaches end of row
                 if (enemy.x >= opt.cols * 32) {
 
+                    // the player looses health
+                    // and returns to the enemy pool
                     player.health -= 10;
                     enemy.kill();
                     enemies.add(enemy);

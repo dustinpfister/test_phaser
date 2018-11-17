@@ -29,7 +29,7 @@ var createSheetEnemies = function (game) {
     game.cache.addSpriteSheet('sheet-enemies', null, canvas, 32, 32, 1, 0, 0);
 };
 
-var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
+var game = new Phaser.Game(640, 480, Phaser.AUTO, 'gamearea');
 
 game.state.add('demo', {
 
@@ -39,7 +39,12 @@ game.state.add('demo', {
         createSheetBuildings(game);
         createSheetEnemies(game);
 
-        Plugin_defence(game);
+        Plugin_defence(game, {
+
+            xOffset: 32,
+            yOffset: 32
+
+        });
 
         game.data.grid.onTileClick.add(function (tile, c, r, row, rows) {
             console.log(tile, c, r, row, rows);
