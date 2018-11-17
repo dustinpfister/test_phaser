@@ -54,6 +54,32 @@ var Plugin_defence = function (game, opt) {
         rows.y = opt.yOffset;
     };
 
+    var updateRows = function () {
+
+        var grid = game.data.grid;
+
+        grid.rows.forEach(function (row) {
+
+            var enemies = row.filter(function (child) {
+                    return child.data.type === 'enemy';
+                });
+
+            enemies.list.forEach(function (enemy) {
+
+                enemy.x += game.time.elapsed / 1000 * 32;
+
+                if (enemy.x >= opt.cols * 32) {
+
+                   enemy.kill();
+
+                }
+
+            });
+
+        });
+
+    };
+
     // create the enemies group
     var createEnemiesGroup = function (game) {
         var enemies = game.data.grid.enemies = game.add.group(),
@@ -61,6 +87,7 @@ var Plugin_defence = function (game, opt) {
         enemy;
         while (i--) {
             enemy = enemies.create(-32, 0, opt.sheetKeys.enemies, 0);
+            enemy.data.type = 'enemy';
             enemy.kill();
             enemies.add(enemy);
         }
@@ -111,6 +138,8 @@ var Plugin_defence = function (game, opt) {
         enemies = game.data.grid.enemies;
 
         game.data.disp.text = 'health: ' + player.playerHealth;
+
+        updateRows(game);
 
     };
 
