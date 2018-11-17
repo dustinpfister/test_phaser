@@ -74,19 +74,12 @@ var Plugin_defence = function (game, opt) {
         enemies = game.data.grid.enemies,
         player = game.data.player;
 
-        /*
-        var activeEnemies = rows.filter(function (child) {
-        if (child.data) {
-        return child.data.type === 'enemy';
-        }
-        });
-         */
-        updateActiveEnemies(game);
+        //updateActiveEnemies(game);
 
         game.data.activeEnemies.list.forEach(function (enemy) {
 
             // move enemy
-            enemy.x += game.time.elapsed / 1000 * 32;
+            enemy.x += game.time.elapsed / 1000 * 8;
 
             // if the enemy reaches end of row
             if (enemy.x >= opt.cols * 32) {
@@ -96,6 +89,7 @@ var Plugin_defence = function (game, opt) {
                 player.health -= 10;
                 enemy.kill();
                 enemies.add(enemy);
+                updateActiveEnemies(game);
 
             }
 
@@ -119,6 +113,7 @@ var Plugin_defence = function (game, opt) {
 
                 // add the enemy back to the pool
                 enemies.add(enemy);
+                updateActiveEnemies(game);
 
             })
             enemy.kill();
@@ -147,6 +142,7 @@ var Plugin_defence = function (game, opt) {
             enemy.x = 0;
             enemy.y = row.y;
             rows.add(enemy);
+            updateActiveEnemies(game);
         }
     };
 
