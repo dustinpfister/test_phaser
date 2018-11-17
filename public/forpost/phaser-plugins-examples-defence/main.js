@@ -42,7 +42,8 @@ game.state.add('demo', {
         Plugin_defence(game, {
 
             xOffset: 32,
-            yOffset: 32
+            yOffset: 32,
+            spawnRate: 2000
 
         });
 

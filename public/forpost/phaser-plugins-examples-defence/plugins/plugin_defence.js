@@ -11,6 +11,7 @@ var Plugin_defence = function (game, opt) {
     opt.rows = opt.rows || 6;
     opt.xOffset = opt.xOffset || 16;
     opt.yOffset = opt.yOffset || 16;
+    opt.spawnRate = opt.spawnRate || 3000;
 
     // create a tile
     var createTile = function (c, r, row, rows) {
@@ -156,7 +157,7 @@ var Plugin_defence = function (game, opt) {
     var plug = new Phaser.Plugin(game, game.plugins);
 
     // call once
-    plug.init = function (opt) {
+    plug.init = function () {
 
         // create or append game.data
         game.data = game.data || {};
@@ -178,7 +179,7 @@ var Plugin_defence = function (game, opt) {
     };
 
     // call once
-    plug.update = function (opt) {
+    plug.update = function () {
 
         var player = game.data.player,
         grid = game.data.grid,
@@ -189,7 +190,7 @@ var Plugin_defence = function (game, opt) {
 
         grid.lastSpawn += game.time.elapsed;
 
-        if (grid.lastSpawn >= 3000) {
+        if (grid.lastSpawn >= opt.spawnRate) {
 
             grid.lastSpawn = 0;
             spawnEnemy(game);
