@@ -132,7 +132,11 @@ var Plugin_defence = function (game, opt) {
         var player = game.data.player = {
             health: 100
         };
-        game.data.grid = {};
+        game.data.grid = {
+
+            lastSpawn: 0
+
+        };
 
         game.data.disp = game.add.text(10, game.world.height - 20, 'hello', {
                 fill: 'white',
@@ -150,11 +154,21 @@ var Plugin_defence = function (game, opt) {
     plug.update = function (opt) {
 
         var player = game.data.player,
+        grid = game.data.grid,
         enemies = game.data.grid.enemies;
 
         game.data.disp.text = 'health: ' + player.health;
 
         updateRows(game);
+
+        grid.lastSpawn += game.time.elapsed;
+
+        if (grid.lastSpawn >= 3000) {
+
+            grid.lastSpawn = 0;
+            spawnEnemy(game);
+
+        }
 
     };
 
