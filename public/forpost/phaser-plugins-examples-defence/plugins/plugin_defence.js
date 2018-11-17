@@ -68,16 +68,18 @@ var Plugin_defence = function (game, opt) {
 
     };
 
+    // what to do for enemies on each tick
     var updateEnemies = function (game) {
 
         var rows = game.data.grid.rows,
         enemies = game.data.grid.enemies,
         player = game.data.player;
 
+        // for all current active enemies in the grid
         game.data.activeEnemies.list.forEach(function (enemy) {
 
             // move enemy
-            enemy.x += game.time.elapsed / 1000 * 8;
+            enemy.x += game.time.elapsed / 1000 * enemy.data.pps;
 
             // if the enemy reaches end of row
             if (enemy.x >= opt.cols * 32) {
@@ -98,9 +100,15 @@ var Plugin_defence = function (game, opt) {
         i = 10,
         enemy;
         while (i--) {
+
+            // create an enemy
             enemy = enemies.create(-32, 0, opt.sheetKeys.enemies, 0);
-            enemy.data.type = 'enemy'; // use to help with filtering
-            enemy.data.pps = 8 + Math.floor(Math.random() * 8); // 8 - 16 pixels per second
+
+            // type id used to help with filtering
+            enemy.data.type = 'enemy';
+
+            // 8 - 24 pixels per second
+            enemy.data.pps = 8 + Math.floor(Math.random() * 16);
 
             // enemy is input enabled so the player can click on it
             enemy.inputEnabled = true;
