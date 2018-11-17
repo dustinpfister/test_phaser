@@ -74,8 +74,6 @@ var Plugin_defence = function (game, opt) {
         enemies = game.data.grid.enemies,
         player = game.data.player;
 
-        //updateActiveEnemies(game);
-
         game.data.activeEnemies.list.forEach(function (enemy) {
 
             // move enemy
@@ -83,16 +81,13 @@ var Plugin_defence = function (game, opt) {
 
             // if the enemy reaches end of row
             if (enemy.x >= opt.cols * 32) {
-
                 // the player looses health
                 // and returns to the enemy pool
                 player.health -= 10;
                 enemy.kill();
                 enemies.add(enemy);
                 updateActiveEnemies(game);
-
             }
-
         });
 
     };
@@ -104,7 +99,10 @@ var Plugin_defence = function (game, opt) {
         enemy;
         while (i--) {
             enemy = enemies.create(-32, 0, opt.sheetKeys.enemies, 0);
-            enemy.data.type = 'enemy';
+            enemy.data.type = 'enemy'; // use to help with filtering
+            enemy.data.pps = 8 + Math.floor(Math.random() * 8); // 8 - 16 pixels per second
+
+            // enemy is input enabled so the player can click on it
             enemy.inputEnabled = true;
             enemy.events.onInputDown.add(function (enemy) {
 
@@ -115,7 +113,7 @@ var Plugin_defence = function (game, opt) {
                 enemies.add(enemy);
                 updateActiveEnemies(game);
 
-            })
+            });
             enemy.kill();
             enemies.add(enemy);
         }
