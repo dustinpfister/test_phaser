@@ -77,7 +77,7 @@ var Plugin_defence = function (game, opt) {
         player = game.data.player;
 
         // for all current active enemies in the grid
-        game.data.activeEnemies.list.forEach(function (enemy) {
+        game.data.grid.activeEnemies.forEach(function (enemy) {
 
             // move enemy
             enemy.x += game.time.elapsed / 1000 * enemy.data.pps;
@@ -98,7 +98,7 @@ var Plugin_defence = function (game, opt) {
     // create the enemies group
     var createEnemiesGroup = function (game) {
         var enemies = game.data.grid.enemies = game.add.group(),
-        i = 10,
+        i = 3,
         enemy;
         while (i--) {
 
@@ -131,11 +131,11 @@ var Plugin_defence = function (game, opt) {
     // update the list of active enemies in the grid
     var updateActiveEnemies = function (game) {
         var rows = game.data.grid.rows;
-        game.data.activeEnemies = rows.filter(function (child) {
+        game.data.grid.activeEnemies = rows.filter(function (child) {
                 if (child.data) {
                     return child.data.type === 'enemy';
                 }
-            });
+            }).list;
     };
 
     // spawn an enemy
@@ -166,15 +166,12 @@ var Plugin_defence = function (game, opt) {
             health: 100
         };
         game.data.grid = {
-
-            lastSpawn: 0
-
+            lastSpawn: 0,
+            activeEnemies: []
         };
 
         createTileGroup(game);
         createEnemiesGroup(game);
-
-        spawnEnemy(game);
 
     };
 
