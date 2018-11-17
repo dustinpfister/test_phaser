@@ -16,7 +16,11 @@ var Plugin_defence = function (game, opt) {
     // create a tile
     var createTile = function (c, r, row, rows) {
         var grid = game.data.grid,
+
+        // create the tile sprite
         tile = game.make.sprite(c * 32, 0, opt.sheetKeys.gameBoard, 0);
+
+        // input enable the tile
         tile.inputEnabled = true;
         tile.data = {
             c: c,
@@ -24,33 +28,49 @@ var Plugin_defence = function (game, opt) {
             row: row,
             rows: rows
         };
+
+        // fire onTileClick event when clicked
         tile.events.onInputDown.add(function (tile) {
             var data = tile.data;
             grid.onTileClick.dispatch(tile, data.c, data.r, data.row, data.rows);
         });
+
+        // return the tile
         return tile;
+
     };
 
     // create a tile group
     var createTileGroup = function (game) {
+
         var grid = game.data.grid,
         r = 0,
         c,
         row,
         tile,
+
+        // make rows a new group
         rows = grid.rows = game.add.group();
 
         // add an onTileClick event that will be called each time
         // a tile is clicked
         grid.onTileClick = new Phaser.Signal();
+
+        // while r is less than opt.rows
         while (r < opt.rows) {
+
+            // make a new row
             row = game.make.group();
             row.y = r * 32;
             c = 0;
+
+            // create tiles for the row
             while (c < opt.cols) {
                 row.add(createTile(c, r, row, rows));
                 c += 1;
             }
+
+            //add row to rows group
             rows.add(row);
             r += 1;
         }
@@ -58,22 +78,10 @@ var Plugin_defence = function (game, opt) {
         rows.y = opt.yOffset;
     };
 
-    // what to do for each row on each frame tick
-    var updateRows = function () {
-
-        var grid = game.data.grid,
-        player = game.data.player,
-        enemies = game.data.grid.enemies;
-
-        grid.rows.forEach(function (row) {});
-
-    };
-
     // what to do for enemies on each tick
     var updateEnemies = function (game) {
 
-        var rows = game.data.grid.rows,
-        enemies = game.data.grid.enemies,
+        var enemies = game.data.grid.enemies,
         player = game.data.player;
 
         // for all current active enemies in the grid
@@ -123,6 +131,8 @@ var Plugin_defence = function (game, opt) {
                 updateActiveEnemies(game);
 
             });
+
+            // enemies are dead when they are in the enemy pool
             enemy.kill();
             enemies.add(enemy);
         }
@@ -140,29 +150,42 @@ var Plugin_defence = function (game, opt) {
 
     // spawn an enemy
     var spawnEnemy = function (game) {
+
         var enemies = game.data.grid.enemies,
         rows = game.data.grid.rows,
+
+        // get first dead from enemy pool
         enemy = enemies.getFirstDead();
+
+        // if enemies.getFirstDead returns an enemy
         if (enemy) {
+
+            // revive the enemy
             enemy.revive(10);
+
+            //and add it to the rows group
             row = rows.children[Math.floor(Math.random() * opt.rows)];
             enemy.x = 0;
             enemy.y = row.y;
             rows.add(enemy);
+
+            // update active enemies array
             updateActiveEnemies(game);
+
         }
     };
 
     // The plugin Object
     var plug = new Phaser.Plugin(game, game.plugins);
 
-    // call once
+    // called once
     plug.init = function () {
 
         // create or append game.data
         game.data = game.data || {};
 
-        var player = game.data.player = {
+        // set up player and grid objects
+        game.data.player = {
             health: 100
         };
         game.data.grid = {
@@ -170,28 +193,26 @@ var Plugin_defence = function (game, opt) {
             activeEnemies: []
         };
 
+        // create tiles, and enemies
         createTileGroup(game);
         createEnemiesGroup(game);
 
     };
 
-    // call once
+    // called on each frame tick
     plug.update = function () {
 
-        var player = game.data.player,
-        grid = game.data.grid,
-        enemies = game.data.grid.enemies;
+        var grid = game.data.grid,
+        enemies = grid.enemies;
 
-        updateRows(game);
+        // update enemies
         updateEnemies(game);
 
+        // spawn enemies
         grid.lastSpawn += game.time.elapsed;
-
         if (grid.lastSpawn >= opt.spawnRate) {
-
             grid.lastSpawn = 0;
             spawnEnemy(game);
-
         }
 
     };
