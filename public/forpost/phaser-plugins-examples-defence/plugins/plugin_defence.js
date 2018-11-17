@@ -93,6 +93,16 @@ var Plugin_defence = function (game, opt) {
         while (i--) {
             enemy = enemies.create(-32, 0, opt.sheetKeys.enemies, 0);
             enemy.data.type = 'enemy';
+            enemy.inputEnabled = true;
+            enemy.events.onInputDown.add(function (enemy) {
+
+                enemy.kill();
+                enemy.x = -32;
+
+                // add the enemy back to the pool
+                enemies.add(enemy);
+
+            })
             enemy.kill();
             enemies.add(enemy);
         }
