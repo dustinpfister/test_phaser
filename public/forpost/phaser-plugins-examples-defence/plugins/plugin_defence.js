@@ -64,51 +64,26 @@ var Plugin_defence = function (game, opt) {
         player = game.data.player,
         enemies = game.data.grid.enemies;
 
-        grid.rows.forEach(function (row) {
-
-            // update active enemies for the row
-            /*
-            var activeEnemies = row.filter(function (child) {
-            return child.data.type === 'enemy';
-            });
-            activeEnemies.list.forEach(function (enemy) {
-
-            // move enemy
-            enemy.x += game.time.elapsed / 1000 * 32;
-
-            // if the enemy reaches end of row
-            if (enemy.x >= opt.cols * 32) {
-
-            // the player looses health
-            // and returns to the enemy pool
-            player.health -= 10;
-            enemy.kill();
-            enemies.add(enemy);
-
-            }
-
-            });
-             */
-
-        });
+        grid.rows.forEach(function (row) {});
 
     };
 
     var updateEnemies = function (game) {
 
         var rows = game.data.grid.rows,
-		enemies = game.data.grid.enemies,
+        enemies = game.data.grid.enemies,
         player = game.data.player;
 
+        /*
         var activeEnemies = rows.filter(function (child) {
-                if (child.data) {
-                    return child.data.type === 'enemy';
-                }
-            });
+        if (child.data) {
+        return child.data.type === 'enemy';
+        }
+        });
+         */
+        updateActiveEnemies(game);
 
-        //console.log(activeEnemies);
-
-        activeEnemies.list.forEach(function (enemy) {
+        game.data.activeEnemies.list.forEach(function (enemy) {
 
             // move enemy
             enemy.x += game.time.elapsed / 1000 * 32;
@@ -149,6 +124,16 @@ var Plugin_defence = function (game, opt) {
             enemy.kill();
             enemies.add(enemy);
         }
+    };
+
+    // update the list of active enemies in the grid
+    var updateActiveEnemies = function (game) {
+        var rows = game.data.grid.rows;
+        game.data.activeEnemies = rows.filter(function (child) {
+                if (child.data) {
+                    return child.data.type === 'enemy';
+                }
+            });
     };
 
     // spawn an enemy
