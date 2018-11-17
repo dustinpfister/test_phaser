@@ -42,7 +42,6 @@ var Plugin_defence = function (game, opt) {
         // add an onTileClick event that will be called each time
         // a tile is clicked
         grid.onTileClick = new Phaser.Signal();
-
         while (r < opt.rows) {
             row = game.make.group();
             row.y = r * 32;
@@ -68,26 +67,62 @@ var Plugin_defence = function (game, opt) {
         grid.rows.forEach(function (row) {
 
             // update active enemies for the row
+            /*
             var activeEnemies = row.filter(function (child) {
-                    return child.data.type === 'enemy';
-                });
+            return child.data.type === 'enemy';
+            });
             activeEnemies.list.forEach(function (enemy) {
 
-                // move enemy
-                enemy.x += game.time.elapsed / 1000 * 32;
+            // move enemy
+            enemy.x += game.time.elapsed / 1000 * 32;
 
-                // if the enemy reaches end of row
-                if (enemy.x >= opt.cols * 32) {
+            // if the enemy reaches end of row
+            if (enemy.x >= opt.cols * 32) {
 
-                    // the player looses health
-                    // and returns to the enemy pool
-                    player.health -= 10;
-                    enemy.kill();
-                    enemies.add(enemy);
+            // the player looses health
+            // and returns to the enemy pool
+            player.health -= 10;
+            enemy.kill();
+            enemies.add(enemy);
 
-                }
+            }
 
             });
+             */
+
+        });
+
+    };
+
+    var updateEnemies = function (game) {
+
+        var rows = game.data.grid.rows,
+		enemies = game.data.grid.enemies,
+        player = game.data.player;
+
+        var activeEnemies = rows.filter(function (child) {
+                if (child.data) {
+                    return child.data.type === 'enemy';
+                }
+            });
+
+        //console.log(activeEnemies);
+
+        activeEnemies.list.forEach(function (enemy) {
+
+            // move enemy
+            enemy.x += game.time.elapsed / 1000 * 32;
+
+            // if the enemy reaches end of row
+            if (enemy.x >= opt.cols * 32) {
+
+                // the player looses health
+                // and returns to the enemy pool
+                player.health -= 10;
+                enemy.kill();
+                enemies.add(enemy);
+
+            }
 
         });
 
@@ -105,7 +140,7 @@ var Plugin_defence = function (game, opt) {
             enemy.events.onInputDown.add(function (enemy) {
 
                 enemy.kill();
-                enemy.x = -32;
+                enemy.x = -16;
 
                 // add the enemy back to the pool
                 enemies.add(enemy);
@@ -119,12 +154,14 @@ var Plugin_defence = function (game, opt) {
     // spawn an enemy
     var spawnEnemy = function (game) {
         var enemies = game.data.grid.enemies,
+        rows = game.data.grid.rows,
         enemy = enemies.getFirstDead();
         if (enemy) {
             enemy.revive(10);
-            row = game.data.grid.rows.children[Math.floor(Math.random() * opt.rows)];
+            row = rows.children[Math.floor(Math.random() * opt.rows)];
             enemy.x = 0;
-            row.add(enemy);
+            enemy.y = row.y;
+            rows.add(enemy);
         }
     };
 
@@ -146,11 +183,6 @@ var Plugin_defence = function (game, opt) {
 
         };
 
-        game.data.disp = game.add.text(10, game.world.height - 20, 'hello', {
-                fill: 'white',
-                font: '15px courier'
-            });
-
         createTileGroup(game);
         createEnemiesGroup(game);
 
@@ -165,9 +197,8 @@ var Plugin_defence = function (game, opt) {
         grid = game.data.grid,
         enemies = game.data.grid.enemies;
 
-        game.data.disp.text = 'health: ' + player.health;
-
         updateRows(game);
+        updateEnemies(game);
 
         grid.lastSpawn += game.time.elapsed;
 

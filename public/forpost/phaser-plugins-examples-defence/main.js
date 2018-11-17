@@ -50,6 +50,17 @@ game.state.add('demo', {
             console.log(tile, c, r, row, rows);
         });
 
+        game.data.disp = game.add.text(10, game.world.height - 20, 'hello', {
+                fill: 'white',
+                font: '15px courier'
+            });
+
+    },
+
+    update: function () {
+
+        game.data.disp.text = 'health: ' + game.data.player.health;
+
     }
 
 });
