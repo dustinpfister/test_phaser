@@ -28,6 +28,10 @@ game.state.add('res', {
 
         }
 
+        game.cache.addSpriteSheet('sheet', null, gfx.generateTexture().baseTexture.source, 32, 32, 1, 0, 0);
+
+        game.add.sprite(32, 100, 'sheet');
+
     }
 
 });
