@@ -5,9 +5,7 @@ game.state.add('basic', {
     // create method
     create: function () {
 
-        var data = game.data = {};
-
-        var gfx = data.gfx = game.add.graphics(0, 0);
+        var gfx = game.add.graphics(0, 0);
 
         gfx.beginFill(0x00ff00);
         gfx.drawRect(0, 0, 32, 32);
