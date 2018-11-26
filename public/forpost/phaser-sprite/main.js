@@ -17,6 +17,7 @@ var mkBlockSheet = function () {
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+// basic example
 game.state.add('example1', {
 
     create: function () {
@@ -29,4 +30,27 @@ game.state.add('example1', {
 
 });
 
-game.state.start('example1');
+// enabling physics
+game.state.add('example2', {
+
+    create: function () {
+
+        mkBlockSheet(game);
+
+        var sprite = game.add.sprite(32, 32, 'sheet-block');
+
+        // enabling physics
+        game.physics.enable(sprite);
+
+        // set some gravity, and bounce
+        sprite.body.gravity.set(0, 100);
+        sprite.body.bounce.set(1, 1);
+
+        // collide with wourld bounds
+        sprite.body.collideWorldBounds = true;
+
+    }
+
+});
+
+game.state.start('example2');
