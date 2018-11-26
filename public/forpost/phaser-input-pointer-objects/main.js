@@ -1,6 +1,6 @@
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
-game.state.add('basic', {
+game.state.add('position', {
 
     create: function () {
 
@@ -14,4 +14,4 @@ game.state.add('basic', {
 
 });
 
-game.state.start('basic');
+game.state.start('position');
