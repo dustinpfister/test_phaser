@@ -17,13 +17,13 @@ game.state.add('position', {
 game.state.add('example1', {
     create: function () {
 
-        game.input.onDown.add(function (ptObj, ptE) {
+        game.input.onDown.add(function (ptObj, e) {
 
             // pointer object
             console.log(ptObj);
 
-            // pointer event
-            console.log(ptE);
+            // Event
+            console.log(e);
 
         });
 
