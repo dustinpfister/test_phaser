@@ -53,4 +53,32 @@ game.state.add('example2', {
 
 });
 
-game.state.start('example2');
+// data objects
+game.state.add('example3', {
+
+    create: function () {
+
+        mkBlockSheet(game);
+
+        var sprite = game.add.sprite(32, 32, 'sheet-block');
+
+        sprite.name = 'block';
+        sprite.data.pps = 128;
+
+    },
+
+    update: function () {
+
+        var sprite = game.world.getByName('block');
+
+        // move the sprite by per pixel rate
+        sprite.x += game.time.elapsed / 1000 * sprite.data.pps;
+
+        // wrap sprite when it goes out of bounds
+        sprite.x = Phaser.Math.wrap(sprite.x, -32, game.world.width + 32);
+
+    }
+
+});
+
+game.state.start('example3');
