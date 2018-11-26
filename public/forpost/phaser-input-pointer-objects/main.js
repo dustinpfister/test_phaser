@@ -14,4 +14,20 @@ game.state.add('position', {
 
 });
 
-game.state.start('position');
+game.state.add('example1', {
+    create: function () {
+
+        game.input.onDown.add(function (ptObj, ptE) {
+
+            // pointer object
+            console.log(ptObj);
+
+            // pointer event
+            console.log(ptE);
+
+        });
+
+    }
+});
+
+game.state.start('example1');
