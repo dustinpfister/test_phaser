@@ -155,11 +155,13 @@ game.state.add('drag-offet', {
 
 var createBx = function (game, group, x, y) {
 
+    // create graphics
     var gfx = game.make.graphics(x, y);
     gfx.beginFill(0x00ff00);
     gfx.drawRect(0, 0, 32, 32);
     gfx.endFill();
 
+    // create a sprite with the graphics as a texture
     var bx = game.make.sprite(x, y, gfx.generateTexture());
     bx.inputEnabled = true;
     bx.input.draggable = true;
@@ -167,16 +169,23 @@ var createBx = function (game, group, x, y) {
     bx.input.snapX = 32;
     bx.input.snapY = 32;
 
+    // making a name for the sprite
     bx.name = 'bx_' + group.children.length;
 
-    bx.events.onDragStop.add(function (current) {
+    // when the drag ends
+    bx.events.onDragStop.add(function (bx1) {
 
-        group.forEach(function (bx) {
+        // loop all children of the group
+        group.forEach(function (bx2) {
 
-            if (bx.name != current.name && current.overlap(bx)) {
+            // if the name does not equal the name of the sprite that as dropped
+            // and if overlaps a box in the group
+            if (bx2.name != bx1.name && bx1.overlap(bx2)) {
 
-                console.log('yep');
-
+                // then the box was dropped on this one
+                console.log('overlap!');
+                console.log('bx1: ' + bx1.name);
+                console.log('bx2: ' + bx2.name);
             }
 
         })
@@ -196,6 +205,8 @@ game.state.add('drag-and-drop', {
 
         group.add(createBx(game, group, 32, 32));
         group.add(createBx(game, group, 96, 32));
+        group.add(createBx(game, group, 32, 96));
+        group.add(createBx(game, group, 96, 96));
 
     }
 
