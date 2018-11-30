@@ -75,14 +75,17 @@ game.state.add('on-drag-methods', {
         bx.input.snapX = 32;
         bx.input.snapY = 32;
 
-        bx.events.onDragStart.add(function () {});
+        // what to do when the drag starts
+        bx.events.onDragStart.add(function () {
+            console.log('drag start');
+        });
 
+        // what to do when the drag updates
         bx.events.onDragUpdate.add(function (bx) {
             console.log(bx.x / 32, bx.y / 32);
         });
 
-        bx.events.onDragStop.add(function () {});
-
+        // what to do when the drag ends
         bx.events.onDragStop.add(function (bx) {
             // snap back to center
             if (bx.x <= 0 || bx.x >= game.world.width || bx.y <= 0 || bx.y >= game.world.height) {
