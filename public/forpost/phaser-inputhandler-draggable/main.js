@@ -46,11 +46,11 @@ game.state.add('snap', {
 
             // snap back to center
             if (bx.x <= 0 || bx.x >= 480 || bx.y <= 0 || bx.y >= 360) {
-
                 bx.x = 160;
                 bx.y = 120;
-
             }
+
+            bx.x -= 10;
 
         });
 
@@ -58,4 +58,41 @@ game.state.add('snap', {
 
 });
 
-game.state.start('snap');
+game.state.add('on-drag-methods', {
+
+    // create the sprite
+    create: function () {
+
+        var bx = game.add.graphics(32, 32);
+        bx.beginFill(0xff0000);
+        bx.drawRect(0, 0, 32, 32);
+        bx.endFill();
+
+        // enable input, drag, and snap
+        bx.inputEnabled = true;
+        bx.input.draggable = true;
+        bx.input.snapOnDrag = true;
+        bx.input.snapX = 32;
+        bx.input.snapY = 32;
+
+        bx.events.onDragStart.add(function () {});
+
+        bx.events.onDragUpdate.add(function (bx) {
+            console.log(bx.x / 32, bx.y / 32);
+        });
+
+        bx.events.onDragStop.add(function () {});
+
+        bx.events.onDragStop.add(function (bx) {
+            // snap back to center
+            if (bx.x <= 0 || bx.x >= game.world.width || bx.y <= 0 || bx.y >= game.world.height) {
+                bx.x = 0;
+                bx.y = 0;
+            }
+        });
+
+    }
+
+});
+
+game.state.start('on-drag-methods');
