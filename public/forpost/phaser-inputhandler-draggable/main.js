@@ -149,10 +149,35 @@ game.state.add('drag-offet', {
         // setting drag offset
         bx.input.dragOffset.set(64, 64);
 
-        console.log(bx.input)
+    }
+
+});
+
+var createBx = function (game, x, y) {
+
+    var bx = game.add.graphics(x, y);
+    bx.beginFill(0x00ff00);
+    bx.drawRect(0, 0, 32, 32);
+    bx.endFill();
+
+    bx.inputEnabled = true;
+    bx.input.draggable = true;
+
+    return bx;
+
+}
+
+// Offset
+game.state.add('drag-and-drop', {
+
+    create: function () {
+
+        var bx1 = createBx(game, 32, 32);
+
+        var bx2 = createBx(game, 96, 32);
 
     }
 
 });
 
-game.state.start('groups');
+game.state.start('drag-and-drop');
