@@ -153,28 +153,49 @@ game.state.add('drag-offet', {
 
 });
 
-var createBx = function (game, x, y) {
+var createBx = function (game, group, x, y) {
 
-    var bx = game.add.graphics(x, y);
-    bx.beginFill(0x00ff00);
-    bx.drawRect(0, 0, 32, 32);
-    bx.endFill();
+    var gfx = game.make.graphics(x, y);
+    gfx.beginFill(0x00ff00);
+    gfx.drawRect(0, 0, 32, 32);
+    gfx.endFill();
 
+    var bx = game.make.sprite(x, y, gfx.generateTexture());
     bx.inputEnabled = true;
     bx.input.draggable = true;
+    bx.input.snapOnRelease = true;
+    bx.input.snapX = 32;
+    bx.input.snapY = 32;
+
+    bx.name = 'bx_' + group.children.length;
+
+    bx.events.onDragStop.add(function (current) {
+
+        group.forEach(function (bx) {
+
+            if (bx.name != current.name && current.overlap(bx)) {
+
+                console.log('yep');
+
+            }
+
+        })
+
+    });
 
     return bx;
 
-}
+};
 
 // Offset
 game.state.add('drag-and-drop', {
 
     create: function () {
 
-        var bx1 = createBx(game, 32, 32);
+        var group = game.add.group();
 
-        var bx2 = createBx(game, 96, 32);
+        group.add(createBx(game, group, 32, 32));
+        group.add(createBx(game, group, 96, 32));
 
     }
 
