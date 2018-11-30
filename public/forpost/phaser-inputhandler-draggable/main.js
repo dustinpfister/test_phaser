@@ -3,7 +3,6 @@ var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 // BASIC
 game.state.add('basic', {
 
-    // create the sprite
     create: function () {
 
         var bx = game.add.graphics(game.world.centerX, game.world.centerY);
@@ -22,7 +21,6 @@ game.state.add('basic', {
 // SNAP EXAMPLE
 game.state.add('snap', {
 
-    // create the sprite
     create: function () {
 
         var bx = game.add.graphics(game.world.centerX, game.world.centerY);
@@ -58,9 +56,9 @@ game.state.add('snap', {
 
 });
 
+// ON DRAG METHODS
 game.state.add('on-drag-methods', {
 
-    // create the sprite
     create: function () {
 
         var bx = game.add.graphics(32, 32);
@@ -98,4 +96,28 @@ game.state.add('on-drag-methods', {
 
 });
 
-game.state.start('on-drag-methods');
+game.state.add('drag-offet', {
+
+    create: function () {
+
+        var bx = game.add.graphics(0, 0);
+        bx.beginFill(0xff0000);
+        bx.drawRect(0, 0, 32, 32);
+        bx.endFill();
+
+        // enable input, drag, and snap
+        bx.inputEnabled = true;
+        bx.input.draggable = true;
+        bx.input.snapOnDrag = true;
+        bx.input.snapX = 32;
+        bx.input.snapY = 32;
+
+        bx.input.dragOffset.set(32, 32);
+
+        console.log(bx.input)
+
+    }
+
+});
+
+game.state.start('drag-offet');
