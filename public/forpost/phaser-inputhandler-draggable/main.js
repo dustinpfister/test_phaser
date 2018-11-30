@@ -113,18 +113,16 @@ game.state.add('groups', {
         // enable input, drag, and snap
         bx.inputEnabled = true;
         bx.input.draggable = true;
-        bx.input.snapOnDrag = true;
+        bx.input.snapOnRelease = true;
         bx.input.snapX = 32;
         bx.input.snapY = 32;
 
         // what to do when the drag ends
         bx.events.onDragUpdate.add(function (bx) {
-
             if (bx.x < 0 || bx.x > 32 * 3 || bx.y < 0 || bx.y > 32 * 3) {
                 bx.x = 0;
                 bx.y = 0;
             }
-
         });
 
         // adding to the group
@@ -139,19 +137,17 @@ game.state.add('drag-offet', {
 
     create: function () {
 
-        var bx = game.add.graphics(0, 0);
+        var bx = game.add.graphics(64, 64);
         bx.beginFill(0xff0000);
-        bx.drawRect(0, 0, 32, 32);
+        bx.drawRect(0, 0, 64, 64);
         bx.endFill();
 
         // enable input, drag, and snap
         bx.inputEnabled = true;
         bx.input.draggable = true;
-        bx.input.snapOnDrag = true;
-        bx.input.snapX = 32;
-        bx.input.snapY = 32;
 
-        bx.input.dragOffset.set(32, 32);
+        // setting drag offset
+        bx.input.dragOffset.set(64, 64);
 
         console.log(bx.input)
 
