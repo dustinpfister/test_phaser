@@ -96,6 +96,45 @@ game.state.add('on-drag-methods', {
 
 });
 
+// Groups
+game.state.add('groups', {
+
+    create: function () {
+
+        var group = game.add.group();
+        group.x = 32;
+        group.y = 32;
+
+        var bx = game.make.graphics(0, 0);
+        bx.beginFill(0xff0000);
+        bx.drawRect(0, 0, 32, 32);
+        bx.endFill();
+
+        // enable input, drag, and snap
+        bx.inputEnabled = true;
+        bx.input.draggable = true;
+        bx.input.snapOnDrag = true;
+        bx.input.snapX = 32;
+        bx.input.snapY = 32;
+
+        // what to do when the drag ends
+        bx.events.onDragUpdate.add(function (bx) {
+
+            if (bx.x < 0 || bx.x > 32 * 3 || bx.y < 0 || bx.y > 32 * 3) {
+                bx.x = 0;
+                bx.y = 0;
+            }
+
+        });
+
+        // adding to the group
+        group.add(bx);
+
+    }
+
+});
+
+// Offset
 game.state.add('drag-offet', {
 
     create: function () {
@@ -120,4 +159,4 @@ game.state.add('drag-offet', {
 
 });
 
-game.state.start('drag-offet');
+game.state.start('groups');
