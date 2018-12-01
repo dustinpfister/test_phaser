@@ -25,31 +25,17 @@ game.state.add('mask-demo', {
 
     create: function () {
 
-        var texture = game.make.graphics();
+        var texture = game.make.graphics(0,0);
         texture.beginFill(0xff0000);
-        texture.drawRect(0, 0, 320, 240);
+        texture.drawRect(0, 0, 32, 32);
         texture.endFill();
 
         var mask = game.make.graphics(0, 0);
         mask.beginFill(0xffffff);
-        //mask.drawRect(0, 0, 16, 16);
-        mask.drawCircle(16, 16, 16);
-        //mask.endFill();
+        mask.drawCircle(16, 16, 32);
 
         //Here we add a Sprite to the display list
         sprite = game.add.sprite(0, 0, texture.generateTexture());
-        sprite.scale.set(2);
-
-        //A mask is a Graphics object
-        mask = game.add.graphics(0, 0);
-
-        //Shapes drawn to the Graphics object must be filled.
-        mask.beginFill(0xffffff);
-
-        //Here we'll draw a circle
-        mask.drawCircle(16, 16, 16);
-
-        //And apply it to the Sprite
         sprite.mask = mask;
 
     }
