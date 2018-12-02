@@ -36,10 +36,17 @@ game.state.add('demo', {
 
         createBallSheet(game);
 
-        game.data.ball1 = createBall(game, game.world.centerX, game.world.centerY);
+        // placing a ball at the center
+        var ball1 = game.data.ball1 = createBall(game, game.world.centerX, game.world.centerY);
 
-        var ball2 = game.data.ball2 = createBall(game, 32, 32);
-        ball2.body.velocity.set(120, 100);
+        // placing ball2
+        var angle = 1,
+        distance = 100,
+        ball2 = game.data.ball2 = createBall(game, ball1.x + Math.cos(angle) * distance, ball1.y + Math.sin(angle) * distance);
+
+        // set velocity in direction of ball1
+        angle = ball2.position.angle(ball1);
+        ball2.body.velocity.set(Math.cos(angle) * 100, Math.sin(angle) * 100);
 
     },
 
