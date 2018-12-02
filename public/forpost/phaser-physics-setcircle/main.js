@@ -40,7 +40,7 @@ game.state.add('demo', {
         var ball1 = game.data.ball1 = createBall(game, game.world.centerX, game.world.centerY);
 
         // placing ball2
-        var angle = 1,
+        var angle = Math.PI / 180 * 45,
         distance = 100,
         ball2 = game.data.ball2 = createBall(game, ball1.x + Math.cos(angle) * distance, ball1.y + Math.sin(angle) * distance);
 
