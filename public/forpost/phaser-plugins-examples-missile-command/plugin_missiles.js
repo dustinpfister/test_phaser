@@ -1,5 +1,14 @@
+/*
+
+ * Adds a Missile Class
+ * Adds a Missile Group Class
+
+ */
 
 var Plugin_missiles = function (game, opt) {
+
+    // create or use game.data
+    var data = game.data = game.data || {};
 
     var createMissileSheet = function (game) {
         var canvas = document.createElement('canvas'),
@@ -12,15 +21,15 @@ var Plugin_missiles = function (game, opt) {
     };
 
     // MISSILE CLASS
-    var Missile = function (sprite) {
+    data.Missile = function (sprite) {
 
         this.sprite = sprite;
         this.set('a', 0, 0, 300, 220);
 
     };
 
-    // set a missle to player 'p' or ai 'a', and start and target positions
-    Missile.prototype.set = function (faction, sx, sy, tx, ty) {
+    // set a missile to player 'p' or ai 'a', and start and target positions
+    data.Missile.prototype.set = function (faction, sx, sy, tx, ty) {
 
         var sprite = this.sprite;
 
@@ -48,13 +57,13 @@ var Plugin_missiles = function (game, opt) {
         sprite.anchor.set(0.5, 0.5);
 
         // a set missile starts out killed
-        // Missle.launch must be called to revive
+        // Missile.launch must be called to revive
         sprite.kill();
 
     };
 
     // launch a set missile
-    Missile.prototype.launch = function () {
+    data.Missile.prototype.launch = function () {
 
         this.launched = true;
         this.explode = false;
@@ -64,7 +73,7 @@ var Plugin_missiles = function (game, opt) {
 
     };
 
-    Missile.prototype.update = function () {
+    data.Missile.prototype.update = function () {
 
         var sprite = this.sprite,
         per;
@@ -104,13 +113,11 @@ var Plugin_missiles = function (game, opt) {
 
         data.missiles.group = game.add.group();
         while (i < len) {
-            sprite = game.make.sprite(0, 0, 'sheet-missile');
-            sprite.data = new Missile(sprite);
+            sprite = game.make.sprite(0, 0, '_missing'); //'sheet-missile');
+            sprite.data = new data.Missile(sprite);
             data.missiles.group.add(sprite);
             i += 1;
         }
-
-        //data.missiles.children[0].data.launch();
 
     };
 
@@ -120,9 +127,6 @@ var Plugin_missiles = function (game, opt) {
     // call once
     plug.init = function (opt) {
 
-        // create or append game.data
-        game.data = game.data || {};
-
         game.data.missiles = {
 
             getExploded: function (faction) {
@@ -131,7 +135,7 @@ var Plugin_missiles = function (game, opt) {
 
                 var missiles = game.data.missiles.group;
 
-               return missiles.filter(function (missile) {
+                return missiles.filter(function (missile) {
 
                     if (faction === '*') {
 

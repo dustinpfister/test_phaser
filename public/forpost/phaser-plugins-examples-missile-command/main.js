@@ -1,6 +1,7 @@
 
 var game = new Phaser.Game(320, 240, Phaser.AUTO, 'gamearea');
 
+
 game.state.add('demo', {
 
     create: function () {
@@ -16,8 +17,6 @@ game.state.add('demo', {
                 fill: 'white',
                 font: '15px courier'
             });
-
-        console.log(game.data.missiles.getExploded('*'));
 
     },
 
@@ -39,3 +38,4 @@ game.state.add('demo', {
 });
 
 game.state.start('demo');
+
