@@ -5,13 +5,15 @@
 
  */
 
-var Plugin_missiles = function (game, opt) {
+var Plugin_missile = function (game, opt) {
 
     // create or use game.data
     var data = game.data = game.data || {};
 
-    // create a missile sheet
-    var createMissileSheet = function (game) {
+    opt = opt || {};
+
+    // sprite sheet
+    if (!opt.sheetKey) {
         var canvas = document.createElement('canvas'),
         ctx = canvas.getContext('2d');
         canvas.width = 8;
@@ -19,18 +21,28 @@ var Plugin_missiles = function (game, opt) {
         ctx.fillStyle = 'white';
         ctx.fillRect(0, 0, 8, 8);
         game.cache.addSpriteSheet('sheet-missile', null, canvas, 8, 8, 1, 0, 0);
-    };
+    }
+    opt.sheetKey = opt.sheetKey || 'sheet-missile';
 
     // MISSILE CLASS
-    data.Missile = function (sprite) {
-        this.sprite = sprite;
-        this.set('a', 0, 0, 300, 220);
+    data.Missile = function (sx, sy, tx, ty, group) {
+
+
+        group = group || game.world;
+
+        var sprite = this.sprite = game.make.sprite(sx, sy, opt.sheetKey);
+        sprite.anchor.set(0.5, 0.5);
+
+        // add sprite to the group
+        group.add(sprite);
+
+        this.set('a', sx, sy, tx, ty);
     };
 
     // set a missile to player 'p' or ai 'a', and start and target positions
     data.Missile.prototype.set = function (faction, sx, sy, tx, ty) {
 
-        var sprite = this.sprite;
+        //var sprite = this.sprite;
 
         this.faction = faction || 'a';
 
@@ -51,13 +63,13 @@ var Plugin_missiles = function (game, opt) {
         this.blastTime = 0;
         this.blastTimeTotal = 3000;
 
-        sprite.x = this.pointStart.x;
-        sprite.y = this.pointTarget.y;
-        sprite.anchor.set(0.5, 0.5);
+        //sprite.x = this.pointStart.x;
+        //sprite.y = this.pointTarget.y;
+        //sprite.anchor.set(0.5, 0.5);
 
         // a set missile starts out killed
         // Missile.launch must be called to revive
-        sprite.kill();
+        //sprite.kill();
 
     };
 
