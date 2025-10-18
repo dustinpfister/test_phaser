@@ -1,3 +1,18 @@
+
+const rom_str = 'class Rom extends Phaser.Scene { constructor (config) { super(config); this.key = \'Rom\'; } create () { console.log(\'yes this is ROM!\');}};export{Rom};';
+
+
+const LoadRomString = (rom_str='') => {
+    const dataUrl = `data:text/javascript,${encodeURIComponent(rom_str)}`;
+    return import(dataUrl)
+    .then((module)=>{
+        if(!module.Rom){
+            return Promise.reject('No Rom export found in given rom string.');
+        }
+        return module.Rom;
+    });
+};
+
 class Boot extends Phaser.Scene {
     constructor (config) {
         super(config);
@@ -9,7 +24,12 @@ class Boot extends Phaser.Scene {
         const scenePlugin = scene.scene;
         const sceneManager = scenePlugin.manager;
         
-        console.log('so far so good with this new rom_load project!');
+        LoadRomString(rom_str)
+        .then((Rom)=>{
+            console.log('okay so we have a rom now');
+            console.log(Rom)
+        
+        })
         
     }
 };
